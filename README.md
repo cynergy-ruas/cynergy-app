@@ -1,4 +1,4 @@
-# cynergy_app
+# cynergy-app
 
 A new Flutter project.
 
