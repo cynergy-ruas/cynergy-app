@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'pages/root/root_page.dart';
 import 'auth/login_auth.dart';
+import 'pages/qrPage/qrCore.dart';
 
 void main() => runApp(MyApp());
 

@@ -25,7 +25,7 @@
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize">
-            <activity android:name="com.apptreesoftware.barcodescan.BarcodeScannerActivity"/>
+            
             <!-- This keeps the window background of the activity showing
                  until Flutter renders its first frame. It can be removed if
                  there is no splash screen (such as the default splash screen
@@ -38,5 +38,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name="com.apptreesoftware.barcodescan.BarcodeScannerActivity"/>
     </application>
 </manifest>
