@@ -9,7 +9,8 @@ class MyApp extends StatelessWidget{
   Widget build(BuildContext context){
     return new MaterialApp(
       title: "Cynergy",
-      home: new RootPage(auth: Auth())
+      home: new RootPage(auth: Auth()),
+      debugShowCheckedModeBanner:false
     );
   }
 }
