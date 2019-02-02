@@ -1,8 +1,14 @@
 import "package:flutter/material.dart";
+import "package:firebase_auth/firebase_auth.dart";
 
 class LoginPage extends StatefulWidget{
   @override
   State<StatefulWidget> createState() => new _LoginPageState();
+}
+
+enum FormType{
+  login,
+  register
 }
 
 class _LoginPageState extends State<LoginPage>{
@@ -11,16 +17,47 @@ class _LoginPageState extends State<LoginPage>{
 
   String _email;
   String _password;
+  FormType _formType = FormType.login;
 
-  void validateAndSave(){
+  bool validateAndSave(){
     final form = formKey.currentState;
 
     if(form.validate()){
       form.save();
-      print("email: $_email, password: $_password");
-    } else {
-      print("Form is not valid");
+      return true;
     }
+    return false;
+  }
+
+  void validateAndSumbit() async{
+    if(validateAndSave()){
+      try{
+        if (_formType == FormType.login) {
+          FirebaseUser user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
+          print("Signed in: ${user.uid}");
+        }else{
+          FirebaseUser user = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
+          print("Registed user: ${user.uid}");
+        }
+      }
+      catch(e){
+        print("Error: $e");
+      }
+    }
+  }
+
+  void moveToRegister(){
+    formKey.currentState.reset();
+    setState(() {
+      _formType = FormType.register;
+    });
+  }
+
+  void moveToLogin(){
+    formKey.currentState.reset();
+    setState(() {
+      _formType = FormType.login;
+    });
   }
 
   @override
@@ -35,26 +72,51 @@ class _LoginPageState extends State<LoginPage>{
           key: formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              new TextFormField(
-                decoration: new InputDecoration(labelText: "email"),
-                validator: (value) => value.isEmpty ? "Email cannot be empty" : null,
-                onSaved: (value) => _email = value,
-              ),
-              new TextFormField(
-                decoration: new InputDecoration(labelText: "password"),
-                obscureText: true,
-                validator: (value) => value.isEmpty ? "Password cannot be empty" : null,
-                onSaved: (value) => _password = value
-              ),
-              new RaisedButton(
-                child: new Text("login", style: new TextStyle(fontSize: 20.0),),
-                onPressed: validateAndSave,
-              )
-            ],
+            children: buildInputs() + buildSubmitButtons()
           ),
         )
       )
     );
+  }
+
+  List<Widget> buildInputs(){
+    return [
+      new TextFormField(
+        decoration: new InputDecoration(labelText: "email"),
+        validator: (value) => value.isEmpty ? "Email cannot be empty" : null,
+        onSaved: (value) => _email = value,
+      ),
+      new TextFormField(
+        decoration: new InputDecoration(labelText: "password"),
+        obscureText: true,
+        validator: (value) => value.isEmpty ? "Password cannot be empty" : null,
+        onSaved: (value) => _password = value
+      ),
+    ];
+  }
+
+  List<Widget> buildSubmitButtons(){
+    if (_formType == FormType.login){
+      return [
+        new RaisedButton(
+          child: new Text("login", style: new TextStyle(fontSize: 20.0),),
+          onPressed: validateAndSumbit,
+        ),
+        new FlatButton(
+          child: new Text("create an account", style: new TextStyle(fontSize: 20.0),),
+          onPressed: moveToRegister,                
+        )
+      ];
+    }
+    return [
+      new RaisedButton(
+        child: new Text("register", style: new TextStyle(fontSize: 20.0),),
+        onPressed: validateAndSumbit,
+      ),
+      new FlatButton(
+        child: new Text("Already have an account? login", style: new TextStyle(fontSize: 20.0),),
+        onPressed: moveToLogin,                
+      )
+    ];
   }
 }
