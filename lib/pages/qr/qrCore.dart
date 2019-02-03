@@ -10,9 +10,14 @@ class QrCore extends StatefulWidget{
 _QrCoreState createState() => new _QrCoreState();
 } 
 
+
+
+
 class _QrCoreState extends State<QrCore> {
    final navbarColor=const Color(0xFF1c2331);
   final titleColor=Color.fromARGB(255,222,63,15);
+  final GlobalKey<ScaffoldState> mScaffoldState = new GlobalKey<ScaffoldState>();
+   
  String _reader='';
   Permission permission= Permission.Camera;
   @override
@@ -20,6 +25,7 @@ class _QrCoreState extends State<QrCore> {
     return MaterialApp(
       color: Color.fromARGB(255,3, 14, 29),
       home:new Scaffold(
+        key: mScaffoldState,
         backgroundColor: navbarColor,
         appBar: new AppBar(title: new Text("Scanner",style: TextStyle(color: titleColor),),       
         backgroundColor: navbarColor),
@@ -65,12 +71,12 @@ class _QrCoreState extends State<QrCore> {
       setState(() => this._reader=reader);
     } on PlatformException catch(e) {
      if(e.code==BarcodeScanner.CameraAccessDenied) {requestPermission();}
-     else{setState(()=> _reader = "unknown exception $e");}
-  }on FormatException{
-      setState(() => new SnackBar
-    (backgroundColor: Colors.red,content: new Text("Entered back before scanning $_reader"),)   );                        //_reader = "");
-    } catch (e) {
-      setState(() => _reader = 'Unknown error: $e');
+     else{final snackBar = new SnackBar(content: new Text('Unknown Exception $e'));
+       setState(()=> mScaffoldState.currentState.showSnackBar(snackBar) );}
+  }on FormatException{final snackBar1 = new SnackBar(content: new Text('Went back before scanning'));
+      setState(() => mScaffoldState.currentState.showSnackBar(snackBar1)   );                        //_reader = "");
+    } catch (e) {final snackBar2 = new SnackBar(content: new Text('Unknown Error $e'));
+      setState(() =>  mScaffoldState.currentState.showSnackBar(snackBar2) );
     }
  
 }
