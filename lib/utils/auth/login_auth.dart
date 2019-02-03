@@ -13,13 +13,23 @@ class Auth implements LoginBaseAuth{
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   Future<String> logInWithEmailAndPassword(String email, String password) async{
-    FirebaseUser user = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
-    return user.uid;
+    try{
+      FirebaseUser user = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+      return user.uid;
+    } catch(e){
+      print(e);
+      return null;
+    }
   }
 
   Future<String> createUserWithEmailAndPassword(String email, String password) async{
-    FirebaseUser user = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
-    return user.uid;
+    try{
+      FirebaseUser user = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+      return user.uid;
+    } catch(e){
+      print(e);
+      return null;
+    }
   }
 
   Future<String> currentUser() async{

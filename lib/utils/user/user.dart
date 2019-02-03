@@ -11,31 +11,37 @@ class User{
 
   static Future<String> login(String email, String password) async{
     String userID = await _auth.logInWithEmailAndPassword(email, password);
-    String type = await _db.getUserType(userID);
 
-    _info = new Map<String, dynamic>();
-    _info['uid'] = userID;
-    _info['email'] = email;
-    _info['type'] = type;
+    if (userID != null){
+      String type = await _db.getUserType(userID);
 
-    final file = await _localFile;
-    file.writeAsString(json.encode(_info), flush: true);
+      _info = new Map<String, dynamic>();
+      _info['uid'] = userID;
+      _info['email'] = email;
+      _info['type'] = type;
 
+      final file = await _localFile;
+      file.writeAsString(json.encode(_info), flush: true);
+    }
+    
     return userID;
   }
   
   static Future<String> register(String email, String password) async{
     String userID = await _auth.createUserWithEmailAndPassword(email, password);
-    _db.createUser(userID, "normal");
+    
+    if (userID != null){
+      _db.createUser(userID, "normal");
 
-    _info = new Map<String, dynamic>();
-    _info['uid'] = userID;
-    _info['email'] = email;
-    _info['type'] = "normal";
+      _info = new Map<String, dynamic>();
+      _info['uid'] = userID;
+      _info['email'] = email;
+      _info['type'] = "normal";
 
-    final file = await _localFile;
-    file.writeAsString(json.encode(_info), flush: true);
+      final file = await _localFile;
+      file.writeAsString(json.encode(_info), flush: true);
 
+    }
     return userID;
   }
 

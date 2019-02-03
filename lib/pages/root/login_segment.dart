@@ -37,39 +37,47 @@ class _LoginPageState extends State<LoginPage>{
 
   void validateAndSumbit() async{
     if(validateAndSave()){
-      try{
-        if (_formType == FormType.login) {
+      if (_formType == FormType.login) {
           User.login(_email, _password).then((userID){
-            _loading = false;
-            widget.onSignedIn();
+            if (userID != null){
+              _loading = false;
+              widget.onSignedIn();
+            } else {
+              _showErrorDialog();
+            }
           });
         }else{
           User.register(_email, _password).then((userID){
-            _loading = false;
-            widget.onSignedIn();
+            if (userID != null){
+              _loading = false;
+              widget.onSignedIn();
+            } else {
+              _showErrorDialog();
+            }
           });
         }
-      }
-      catch(e){
-        print("Error: $e");
-      }
+        setState(() {
+          _loading = true;
+        });
     }
-
-    setState(() {
-      _loading = true;
-    });
   }
 
   void moveToRegister(){
-    formKey.currentState.reset();
+    if(formKey.currentState != null){
+      formKey.currentState.reset();
+    }
     setState(() {
+      _loading = false;
       _formType = FormType.register;
     });
   }
 
   void moveToLogin(){
-    formKey.currentState.reset();
+    if(formKey.currentState != null){
+      formKey.currentState.reset();
+    }
     setState(() {
+      _loading = false;
       _formType = FormType.login;
     });
   }
@@ -77,11 +85,47 @@ class _LoginPageState extends State<LoginPage>{
   @override
   Widget build(BuildContext context){
     return new Scaffold(
+      resizeToAvoidBottomPadding: false,
       appBar: new AppBar(
-        title: new Text("Login page"),
+        title: new Text("Cynergy"),
       ),
-      body: buildPage()
+      body: buildPage(),
+      backgroundColor: Colors.black87,
     );
+  }
+
+  Widget buildPage(){
+    Widget c = Center(
+      child: ListView(
+        shrinkWrap: true,
+        children: <Widget>[
+          new Container(
+            padding: EdgeInsets.all(20.0),
+            margin: EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10)
+            ),
+            child: Container(
+              padding: EdgeInsets.all(20),
+              height: 300,
+              child: Form(
+                key: formKey,
+                child: Column(
+                  // crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: buildInputs() + buildSubmitButtons()
+                ),
+              ),
+            )
+          )
+        ]
+      ),
+    );
+    if (!_loading){
+      return c;
+    }
+    return SplashPage();
   }
 
   List<Widget> buildInputs(){
@@ -103,41 +147,51 @@ class _LoginPageState extends State<LoginPage>{
   List<Widget> buildSubmitButtons(){
     if (_formType == FormType.login){
       return [
-        new RaisedButton(
-          child: new Text("login", style: new TextStyle(fontSize: 20.0),),
+        // new RaisedButton(
+        //   child: new Text("login", style: new TextStyle(fontSize: 20.0),),
+        //   onPressed: validateAndSumbit,
+        // ),
+        new IconButton(
+          icon: Icon(Icons.arrow_forward),
           onPressed: validateAndSumbit,
         ),
         new FlatButton(
-          child: new Text("create an account", style: new TextStyle(fontSize: 20.0),),
+          child: new Text("create an account", style: new TextStyle(fontSize: 16.0),),
           onPressed: moveToRegister,                
         )
       ];
     }
     return [
-      new RaisedButton(
-        child: new Text("register", style: new TextStyle(fontSize: 20.0),),
-        onPressed: validateAndSumbit,
+      new IconButton(
+          icon: Icon(Icons.arrow_forward),
+          onPressed: validateAndSumbit,
       ),
       new FlatButton(
-        child: new Text("Already have an account? login", style: new TextStyle(fontSize: 20.0),),
+        child: new Text("Already have an account? login", style: new TextStyle(fontSize: 16.0),),
         onPressed: moveToLogin,                
       )
     ];
   }
 
-  Widget buildPage(){
-    if (!_loading){
-      return new Container(
-        padding: EdgeInsets.all(16.0),
-        child: Form(
-          key: formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: buildInputs() + buildSubmitButtons()
-          ),
-        )
-      );
-    }
-    return SplashPage();
+  void _showErrorDialog(){
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context){
+        return new AlertDialog(
+          title: Text("Error"),
+          content: Text("Invalid username or password."),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("ok"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                moveToLogin();
+              }
+            )
+          ],
+        );
+      }
+    );
   }
 }
