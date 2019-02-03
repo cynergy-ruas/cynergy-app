@@ -1,12 +1,11 @@
 import "package:flutter/material.dart";
-import "../../auth/login_auth.dart";
+import "../../utils/user/user.dart";
 
 class HomePage extends StatefulWidget {
   
-  final LoginBaseAuth auth;
   final VoidCallback onSignedOut;
 
-  HomePage({this.auth, this.onSignedOut});
+  HomePage({this.onSignedOut});
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -16,7 +15,7 @@ class _HomePageState extends State<HomePage> {
 
   void _signOut() async{
     try{
-      await widget.auth.signOut();
+      await User.logout();
       widget.onSignedOut();
     }catch(e){
       print(e);
@@ -37,7 +36,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: new Container(
         child: new Center(
-          child: new Text("Welcome", style: new TextStyle(fontSize: 32.0),),
+          child: new Text("Welcome\nType:${User.type}", style: new TextStyle(fontSize: 32.0),),
         )
       ),
     );
