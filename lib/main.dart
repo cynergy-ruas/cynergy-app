@@ -22,8 +22,9 @@ class MyApp extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return new MaterialApp(
+      theme: ThemeData(fontFamily:'Montserrat'),
       title: "Cynergy",
-      home: new RootPage(auth: Auth()),
+      home: new RootPage(auth: Auth()),      
       debugShowCheckedModeBanner:false
     );
   }
