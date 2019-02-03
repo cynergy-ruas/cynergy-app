@@ -25,8 +25,7 @@ class _QrCoreState extends State<QrCore> {
                new Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
               ),
-              new RaisedButton(
-                
+              new RaisedButton(                
                 splashColor: Colors.pinkAccent,
                 color: Colors.red,
                 child: new Text("Scan",style: new TextStyle(fontSize: 20.0,color: Colors.white),),
