@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget{
   Widget build(BuildContext context){
     FireStoreDB db = FireStoreDB();
     return new MaterialApp(
+      theme: ThemeData(fontFamily:'Montserrat'),
       title: "Cynergy",
       home: new RootPage(
         auth: Auth(),

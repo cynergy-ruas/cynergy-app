@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:color/color.dart';
 
 class Dash extends StatelessWidget{
-  final barColor= const Color(0xFF1C2331);
-  final bgColor1= const Color(0xFF001636);
-  final bgColor2= const Color(0xFF030E1D);
+
+  final subtitleColor= Color.hex("0xFFFDC830");
+  final navbarColor=Color.hex("0xFF1c2331");
+  final titleColor=Color.rgb(222,63,15);
+  final primaryColor= Color.rgb(0,22,54);
+  final secondaryColor = Color.rgb(3,14,29);
+  //Color linkColor= Color.blue;
+  //Color primaryTextColor= Color.white;
+  //Color secondaryColor= Color.grey;
+  
 Widget build(context){
 return MaterialApp(
 home: Scaffold(
