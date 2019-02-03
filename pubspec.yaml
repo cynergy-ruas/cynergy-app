@@ -24,6 +24,7 @@ dependencies:
   firebase_core: ^0.2.5+1
   barcode_scan: ^0.0.8
   simple_permissions: ^0.1.9
+  qr_flutter: ^1.1.6
 
 dev_dependencies:
   flutter_test:
