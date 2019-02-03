@@ -12,6 +12,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+   final navbarColor=const Color(0xFF1c2331);
+  final titleColor=Color.fromARGB(255,222,63,15);
 
   void _signOut() async{
     try{
@@ -26,7 +28,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
-        title: new Text("Welcome"),
+        title: new Text("Welcome",style: TextStyle(color: titleColor),),
+        backgroundColor: navbarColor,
         actions: <Widget>[
           new FlatButton(
             child: new Text("Sign out", style: new TextStyle(fontSize: 17, color: Colors.white)),

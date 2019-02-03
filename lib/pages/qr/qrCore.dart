@@ -11,24 +11,33 @@ _QrCoreState createState() => new _QrCoreState();
 } 
 
 class _QrCoreState extends State<QrCore> {
+   final navbarColor=const Color(0xFF1c2331);
+  final titleColor=Color.fromARGB(255,222,63,15);
  String _reader='';
   Permission permission= Permission.Camera;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      color: Colors.pinkAccent,
+      color: Color.fromARGB(255,3, 14, 29),
       home:new Scaffold(
-        appBar: new AppBar(title: new Text("Scanner"),backgroundColor: Colors.orange,),
+        backgroundColor: navbarColor,
+        appBar: new AppBar(title: new Text("Scanner",style: TextStyle(color: titleColor),),       
+        backgroundColor: navbarColor),
         body: new Column(
+          mainAxisAlignment: MainAxisAlignment.center,         
          children: <Widget>[
             
                new Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
               ),
-              new RaisedButton(                
-                splashColor: Colors.pinkAccent,
-                color: Colors.red,
-                child: new Text("Scan",style: new TextStyle(fontSize: 20.0,color: Colors.white),),
+              new RaisedButton( 
+                      
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),         
+                elevation: 4,
+                
+                splashColor: Color.fromARGB(255,3, 14, 29),
+                color: const Color.fromARGB(255,0, 22, 54),
+                child: new Text("Scan",style: new TextStyle(fontSize: 20.0,color: Colors.white70),),
                 onPressed: scan,
               ),
               new Padding(padding: const EdgeInsets.symmetric(vertical: 10.0), ),
@@ -53,13 +62,13 @@ class _QrCoreState extends State<QrCore> {
       if (!mounted) {
         return;
       }
-
       setState(() => this._reader=reader);
     } on PlatformException catch(e) {
      if(e.code==BarcodeScanner.CameraAccessDenied) {requestPermission();}
      else{setState(()=> _reader = "unknown exception $e");}
   }on FormatException{
-      setState(() => _reader = 'null (User returned using the "back"-button before scanning anything. Result)');
+      setState(() => new SnackBar
+    (backgroundColor: Colors.red,content: new Text("Entered back before scanning $_reader"),)   );                        //_reader = "");
     } catch (e) {
       setState(() => _reader = 'Unknown error: $e');
     }

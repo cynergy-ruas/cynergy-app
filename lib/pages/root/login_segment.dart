@@ -17,7 +17,8 @@ enum FormType{
 }
 
 class _LoginPageState extends State<LoginPage>{
-
+  final navbarColor=const Color(0xFF1c2331);
+  final titleColor=Color.fromARGB(255,222,63,15);
   final formKey = new GlobalKey<FormState>();
 
   String _email;
@@ -87,7 +88,9 @@ class _LoginPageState extends State<LoginPage>{
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: new AppBar(
-        title: new Text("Cynergy"),
+        title: new Text("Cynergy",style: TextStyle(color:titleColor)),
+        backgroundColor:navbarColor,
+        
       ),
       body: buildPage(),
       backgroundColor: Colors.black87,
