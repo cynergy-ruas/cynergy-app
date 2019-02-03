@@ -108,7 +108,7 @@ class _LoginPageState extends State<LoginPage>{
             ),
             child: Container(
               padding: EdgeInsets.all(20),
-              height: 300,
+              height: 302,
               child: Form(
                 key: formKey,
                 child: Column(

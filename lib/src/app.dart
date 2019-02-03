@@ -12,14 +12,11 @@ class Dash extends StatelessWidget{
   //Color primaryTextColor= Color.white;
   //Color secondaryColor= Color.grey;
   
-Widget build(context){
-return MaterialApp(
-home: Scaffold(
+int _count = 0;
 
-)
 
-);
-
+Widget build(BuildContext context) {
+  return Scaffold();
 }
 
 }

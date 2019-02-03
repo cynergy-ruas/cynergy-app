@@ -4,6 +4,7 @@ import 'utils/auth/login_auth.dart';
 import 'utils/db/database.dart';
 import 'pages/qr/painter.dart';
 import 'pages/qr/qrCore.dart';
+import 'src/app.dart';
 
 void main() => runApp(MyApp());
 
