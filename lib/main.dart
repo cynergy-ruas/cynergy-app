@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'pages/root/root_page.dart';
-import 'auth/login_auth.dart';
+import 'utils/auth/login_auth.dart';
+import 'utils/db/database.dart';
 import 'pages/qr/painter.dart';
 import 'pages/qr/qrCore.dart';
 
@@ -21,10 +22,14 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget{
   @override
   Widget build(BuildContext context){
+    FireStoreDB db = FireStoreDB();
     return new MaterialApp(
       theme: ThemeData(fontFamily:'Montserrat'),
       title: "Cynergy",
-      home: new RootPage(auth: Auth()),      
+      home: new RootPage(
+        auth: Auth(),
+        db: db
+      ),
       debugShowCheckedModeBanner:false
     );
   }

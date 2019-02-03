@@ -1,12 +1,12 @@
 import "package:flutter/material.dart";
-import "../../auth/login_auth.dart";
+import "../../utils/user/user.dart";
+import "splash_segment.dart";
 
 class LoginPage extends StatefulWidget{
 
-  final LoginBaseAuth auth;
   final VoidCallback onSignedIn;
   
-  LoginPage({this.auth, this.onSignedIn});
+  LoginPage({this.onSignedIn});
   @override
   State<StatefulWidget> createState() => new _LoginPageState();
 }
@@ -22,6 +22,7 @@ class _LoginPageState extends State<LoginPage>{
 
   String _email;
   String _password;
+  bool _loading = false;
   FormType _formType = FormType.login;
 
   bool validateAndSave(){
@@ -38,11 +39,15 @@ class _LoginPageState extends State<LoginPage>{
     if(validateAndSave()){
       try{
         if (_formType == FormType.login) {
-          String userID = await widget.auth.logInWithEmailAndPassword(_email, _password);
-          print("Signed in: $userID");
+          User.login(_email, _password).then((userID){
+            _loading = false;
+            widget.onSignedIn();
+          });
         }else{
-          String userID = await widget.auth.createUserWithEmailAndPassword(_email, _password);
-          print("Registed user: $userID");
+          User.register(_email, _password).then((userID){
+            _loading = false;
+            widget.onSignedIn();
+          });
         }
       }
       catch(e){
@@ -50,7 +55,9 @@ class _LoginPageState extends State<LoginPage>{
       }
     }
 
-    widget.onSignedIn();
+    setState(() {
+      _loading = true;
+    });
   }
 
   void moveToRegister(){
@@ -73,16 +80,7 @@ class _LoginPageState extends State<LoginPage>{
       appBar: new AppBar(
         title: new Text("Login page"),
       ),
-      body: Container(
-        padding: EdgeInsets.all(16.0),
-        child: Form(
-          key: formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: buildInputs() + buildSubmitButtons()
-          ),
-        )
-      )
+      body: buildPage()
     );
   }
 
@@ -125,5 +123,21 @@ class _LoginPageState extends State<LoginPage>{
         onPressed: moveToLogin,                
       )
     ];
+  }
+
+  Widget buildPage(){
+    if (!_loading){
+      return new Container(
+        padding: EdgeInsets.all(16.0),
+        child: Form(
+          key: formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: buildInputs() + buildSubmitButtons()
+          ),
+        )
+      );
+    }
+    return SplashPage();
   }
 }

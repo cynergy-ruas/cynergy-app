@@ -24,7 +24,9 @@ class Auth implements LoginBaseAuth{
 
   Future<String> currentUser() async{
     FirebaseUser user = await _firebaseAuth.currentUser();
-    return user.uid;
+    if (user != null)
+      return user.uid;
+    return null;
   }
 
   Future<void> signOut() async{
