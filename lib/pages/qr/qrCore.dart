@@ -10,9 +10,6 @@ class QrCore extends StatefulWidget{
 _QrCoreState createState() => new _QrCoreState();
 } 
 
-
-
-
 class _QrCoreState extends State<QrCore> {
    final navbarColor=const Color(0xFF1c2331);
   final titleColor=Color.fromARGB(255,222,63,15);
@@ -29,12 +26,15 @@ class _QrCoreState extends State<QrCore> {
         backgroundColor: navbarColor,
         appBar: new AppBar(title: new Text("Scanner",style: TextStyle(color: titleColor),),       
         backgroundColor: navbarColor),
-        body: new Column(
-          mainAxisAlignment: MainAxisAlignment.center,         
+        body: new Column(        
          children: <Widget>[
             
-               new Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0),
+               new Padding(padding: const EdgeInsets.only(
+              top: 80,
+              left: 0,
+              right: 600,
+              bottom: 200,
+               )
               ),
               new RaisedButton( 
                       
