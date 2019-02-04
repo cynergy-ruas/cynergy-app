@@ -6,7 +6,7 @@ import 'pages/qr/painter.dart';
 import 'pages/qr/qrCore.dart';
 import 'src/app.dart';
 
-void main() => runApp(QrPaint());
+void main() => runApp(MyApp());
 
 class QrPaint extends StatelessWidget{
 @override 
