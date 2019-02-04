@@ -13,9 +13,7 @@ class _PainterState extends State<Painter> {
   static const double _topSectionBottomPadding = 20.0;
   static const double _topSectionHeight = 50.0;
 
-  String _dataString = 'yolo';
-  String _inputErrorText;
-  final TextEditingController _textController = TextEditingController();
+  String _dataString = 'works>';
 
   @override
   Widget build(BuildContext context) {
@@ -47,31 +45,7 @@ class _PainterState extends State<Painter> {
               height: _topSectionHeight,
               child: Row(
                 mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Expanded(
-                    child: TextField(
-                      autofocus: true,
-                      controller: _textController,
-                      decoration: InputDecoration(
-                        hintText: 'Enter a custom message',
-                        errorText: _inputErrorText,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: FlatButton(
-                      child: const Text('SUBMIT'),
-                      onPressed: () {
-                        setState(() {
-                          _dataString = _textController.text;
-                          _inputErrorText = null;
-                        });
-                      },
-                    ),
-                  )
-                ],
+                crossAxisAlignment: CrossAxisAlignment.stretch
               ),
             ),
           ),
@@ -82,14 +56,7 @@ class _PainterState extends State<Painter> {
                 child: QrImage(
                   data: _dataString,
                   gapless: false,
-                  foregroundColor: const Color(0xFF111111),
-                  onError: (dynamic ex) {
-                    print('[QR] ERROR - $ex');
-                    setState(() {
-                      _inputErrorText =
-                          'Error! Maybe your input value is too long?';
-                    });
-                  },
+                  foregroundColor: const Color(0xFF111111),                  
                 ),
               ),
             ),

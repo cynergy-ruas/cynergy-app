@@ -6,18 +6,18 @@ import 'pages/qr/painter.dart';
 import 'pages/qr/qrCore.dart';
 import 'src/app.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(QrPaint());
 
-/*class Aplo extends StatelessWidget{
+class QrPaint extends StatelessWidget{
 @override 
  Widget build(BuildContext context){
  return new MaterialApp(
-   title: "Qr page ",
-   home: MainScreen(),
-   debugShowCheckedModeBanner:false
+   theme: ThemeData(fontFamily:'Montserrat'),
+    debugShowCheckedModeBanner:false,
+    home: Painter()   
      );
  }
-}*/
+}
 
 
 class MyApp extends StatelessWidget{
