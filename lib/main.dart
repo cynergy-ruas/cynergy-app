@@ -27,10 +27,7 @@ class MyApp extends StatelessWidget{
     return new MaterialApp(
       theme: ThemeData(fontFamily:'Montserrat'),
       title: "Cynergy",
-      home: new RootPage(
-        auth: Auth(),
-        db: db
-      ),
+      home: QrCore(),
       debugShowCheckedModeBanner:false
     );
   }
