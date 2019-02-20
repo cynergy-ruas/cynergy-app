@@ -1,3 +1,4 @@
+import 'package:cynergy_app/utils/qrHandler/qrHandler.dart';
 import 'package:flutter/material.dart';
 import 'pages/root/root_page.dart';
 import 'utils/auth/login_auth.dart';
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget{
     return new MaterialApp(
       theme: ThemeData(fontFamily:'Montserrat'),
       title: "Cynergy",
-      home: QrCore(),
+      home: QrCore(qrHandler: QrHandler(db: db),),
+      // home: RootPage(auth: Auth(),db: db,),
       debugShowCheckedModeBanner:false
     );
   }

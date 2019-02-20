@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: new Container(
         child: new Center(
-          child: new Text("Welcome\nType:${User.type}", style: new TextStyle(fontSize: 32.0),),
+          child: new Text("Welcome", style: new TextStyle(fontSize: 32.0),),
         )
       ),
     );
