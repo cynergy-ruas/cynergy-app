@@ -1,10 +1,9 @@
 import 'dart:async';
+import 'package:barcode_scan/barcode_scan.dart';
 import 'package:cynergy_app/utils/qrHandler/qrHandler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:barcode_scan/barcode_scan.dart';
-import 'package:simple_permissions/simple_permissions.dart';
-
+import 'package:permission_handler/permission_handler.dart';
 
 class QrCore extends StatefulWidget{
   final QrHandler qrHandler;
@@ -24,7 +23,6 @@ class _QrCoreState extends State<QrCore> {
   QrHandler get _qrHandler =>widget.qrHandler;
    
   String resultString='';
-  Permission permission= Permission.Camera;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -62,11 +60,11 @@ class _QrCoreState extends State<QrCore> {
   }
   
   requestPermission() async {
-    PermissionStatus result = await SimplePermissions.requestPermission(permission);
-    setState(()=> new SnackBar
-      (
-        backgroundColor: Colors.red,
-        content: new Text(" $result"),
+    Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.camera]);
+    setState(() =>
+    new SnackBar(
+      backgroundColor: Colors.red,
+      content: new Text("camera permssion probably not granted"),
       ),
     );
   }
