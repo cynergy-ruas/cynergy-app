@@ -28,8 +28,8 @@ class MyApp extends StatelessWidget{
     return new MaterialApp(
       theme: ThemeData(fontFamily:'Montserrat'),
       title: "Cynergy",
-      home: QrCore(qrHandler: QrHandler(db: db),),
-      // home: RootPage(auth: Auth(),db: db,),
+      // home: QrCore(qrHandler: QrHandler(db: db),),
+      home: RootPage(auth: Auth(),db: db,),
       debugShowCheckedModeBanner:false
     );
   }
