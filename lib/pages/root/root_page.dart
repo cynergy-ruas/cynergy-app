@@ -59,7 +59,7 @@ class _RootPageState extends State<RootPage>{
         // return new HomePage(
         //   onSignedOut: _signedOut,
         // );
-        return QrCore(qrHandler: QrHandler(db: widget.db),);
+        return QrCore(qrHandler: QrHandler(db: widget.db), onSignOut: _signedOut,);
     }
     return null;
   }

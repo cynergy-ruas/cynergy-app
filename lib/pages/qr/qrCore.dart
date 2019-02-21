@@ -7,9 +7,11 @@ import 'package:permission_handler/permission_handler.dart';
 
 class QrCore extends StatefulWidget{
   final QrHandler qrHandler;
+  final VoidCallback onSignOut;
 
-  QrCore({@required this.qrHandler}):
-    assert(qrHandler != null);
+  QrCore({@required this.qrHandler, @required this.onSignOut}):
+    assert(qrHandler != null),
+    assert(onSignOut != null);
 
   @override 
   _QrCoreState createState() => new _QrCoreState();
@@ -21,6 +23,7 @@ class _QrCoreState extends State<QrCore> {
   final GlobalKey<ScaffoldState> mScaffoldState = new GlobalKey<ScaffoldState>();
   
   QrHandler get _qrHandler =>widget.qrHandler;
+  VoidCallback get _onSignOut => widget.onSignOut;
    
   String resultString='';
   @override
@@ -32,7 +35,13 @@ class _QrCoreState extends State<QrCore> {
         backgroundColor: navbarColor,
         appBar: new AppBar(
           title: new Text("Scanner",style: TextStyle(color: titleColor)),       
-          backgroundColor: navbarColor
+          backgroundColor: navbarColor,
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("Sign out", style: new TextStyle(fontSize: 17, color: Colors.white)),
+              onPressed: _onSignOut
+            )
+          ],
         ),
         body: new Column(        
           children: <Widget>[   
