@@ -1,3 +1,5 @@
+import 'package:cynergy_app/pages/qr/qrCore.dart';
+import 'package:cynergy_app/utils/qrHandler/qrHandler.dart';
 import "package:flutter/material.dart";
 import "login_segment.dart";
 import "../../utils/auth/login_auth.dart";
@@ -54,9 +56,10 @@ class _RootPageState extends State<RootPage>{
         return new LoginPage(
           onSignedIn: _signedIn,);
       case AuthStatus.signedIn:
-        return new HomePage(
-          onSignedOut: _signedOut,
-        );
+        // return new HomePage(
+        //   onSignedOut: _signedOut,
+        // );
+        return QrCore(qrHandler: QrHandler(db: widget.db), onSignOut: _signedOut,);
     }
     return null;
   }
