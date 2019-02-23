@@ -1,36 +1,84 @@
-import 'package:cynergy_app/utils/qrHandler/qrHandler.dart';
 import 'package:flutter/material.dart';
-import 'pages/root/root_page.dart';
-import 'utils/auth/login_auth.dart';
-import 'utils/db/database.dart';
-import 'pages/qr/painter.dart';
-import 'pages/qr/qrCore.dart';
-import 'src/app.dart';
 
-void main() => runApp(MyApp());
+import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class QrPaint extends StatelessWidget{
-@override 
- Widget build(BuildContext context){
- return new MaterialApp(
-   theme: ThemeData(fontFamily:'Montserrat'),
-    debugShowCheckedModeBanner:false,
-    home: Painter()   
-     );
- }
+import 'package:cynergy_app/repository/UserRepository.dart';
+
+import 'package:cynergy_app/services/LoginAuth.dart';
+
+import 'package:cynergy_app/bloc/AuthenticationBloc.dart';
+
+import 'package:cynergy_app/states/AuthenticationStates.dart';
+import 'package:cynergy_app/events/AuthenticationEvents.dart';
+
+import 'package:cynergy_app/pages/SplashPage.dart';
+import 'package:cynergy_app/pages/HomePage.dart';
+import 'package:cynergy_app/pages/LoginPage.dart';
+
+import 'package:cynergy_app/widgets/LoadingIndicator.dart';
+
+class SimpleBlocDelegate extends BlocDelegate {
+  @override
+  void onTransition(Transition transition) {
+    print(transition);
+  }
 }
 
+void main() {
+  BlocSupervisor().delegate = SimpleBlocDelegate();
+  runApp(App(userRepository: UserRepository(auth: LoginAuth())));
+}
 
-class MyApp extends StatelessWidget{
+class App extends StatefulWidget {
+  final UserRepository userRepository;
+
+  App({Key key, @required this.userRepository}) : super(key: key);
+
   @override
-  Widget build(BuildContext context){
-    FireStoreDB db = FireStoreDB();
-    return new MaterialApp(
-      theme: ThemeData(fontFamily:'Montserrat'),
-      title: "Cynergy",
-      // home: QrCore(qrHandler: QrHandler(db: db),),
-      home: RootPage(auth: Auth(),db: db,),
-      debugShowCheckedModeBanner:false
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  AuthenticationBloc authenticationBloc;
+  UserRepository get userRepository => widget.userRepository;
+
+  @override
+  void initState() {
+    authenticationBloc = AuthenticationBloc(userRepository: userRepository);
+    authenticationBloc.dispatch(AppStarted());
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    authenticationBloc.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<AuthenticationBloc>(
+      bloc: authenticationBloc,
+      child: MaterialApp(
+        home: BlocBuilder<AuthenticationEvent, AuthenticationState>(
+          bloc: authenticationBloc,
+          builder: (BuildContext context, AuthenticationState state) {
+            if (state is AuthenticationUninitialized) {
+              return SplashPage();
+            }
+            if (state is AuthenticationAuthenticated) {
+              return HomePage();
+            }
+            if (state is AuthenticationUnauthenticated) {
+              return LoginPage(userRepository: userRepository);
+            }
+            if (state is AuthenticationLoading) {
+              return LoadingIndicator();
+            }
+          },
+        ),
+      ),
     );
   }
 }
