@@ -24,14 +24,15 @@ class LoginAuth {
 
   Future<String> getCurrentUser()async{
     try {
-      FirebaseUser user = await _firebaseAuth.currentUser();
-      return user.uid;
+      _currentUser = await _firebaseAuth.currentUser();
+      return _currentUser.uid;
     } catch (e){
       return null;
     }
   }
 
   Future<Map<String, dynamic>> getClaims() async{
+    print(_currentUser);
     String token = await _currentUser.getIdToken();
     return _parseJwt(token);
   }

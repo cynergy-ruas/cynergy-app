@@ -19,8 +19,10 @@ class UserRepository {
 
   Future<bool> isLoggedIn() async{
     String uid = await auth.getCurrentUser();
-    if (uid != null)
+    if (uid != null) {
+      await setClaims();
       return true;
+    }
     return false;
   }
 
