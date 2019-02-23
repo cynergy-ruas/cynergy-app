@@ -1,3 +1,4 @@
+import 'package:cynergy_app/services/Database.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,6 +24,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   UserRepository get _userRepository => widget.userRepository;
+  Database db = Database();
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +72,7 @@ class _HomePageState extends State<HomePage> {
         onTap: () {
           Navigator.of(context).pop(); // retracts drawer
           Navigator.push(context, MaterialPageRoute(
-            builder: (BuildContext context) => QrScannerPage()
+            builder: (BuildContext context) => QrScannerPage(db: db,)
           ));
         },
       ),

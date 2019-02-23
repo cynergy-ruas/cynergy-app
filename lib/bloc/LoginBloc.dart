@@ -22,10 +22,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginState get initialState => LoginInitial();
 
   @override
-  Stream<LoginState> mapEventToState(
-      LoginState currentState,
-      LoginEvent event,
-      ) async* {
+  Stream<LoginState> mapEventToState(LoginState currentState, LoginEvent event,) async* {
     if (event is LoginButtonPressed) {
       yield LoginLoading();
 

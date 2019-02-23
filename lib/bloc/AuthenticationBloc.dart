@@ -7,8 +7,7 @@ import 'package:cynergy_app/events/AuthenticationEvents.dart';
 import 'package:cynergy_app/states/AuthenticationStates.dart';
 import 'package:cynergy_app/repository/UserRepository.dart';
 
-class AuthenticationBloc
-    extends Bloc<AuthenticationEvent, AuthenticationState> {
+class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
   final UserRepository userRepository;
 
   AuthenticationBloc({@required this.userRepository})
@@ -18,10 +17,7 @@ class AuthenticationBloc
   AuthenticationState get initialState => AuthenticationUninitialized();
 
   @override
-  Stream<AuthenticationState> mapEventToState(
-      AuthenticationState currentState,
-      AuthenticationEvent event,
-      ) async* {
+  Stream<AuthenticationState> mapEventToState(AuthenticationState currentState, AuthenticationEvent event,) async* {
     if (event is AppStarted) {
       final bool isLoggedIn = await userRepository.isLoggedIn();
 
