@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:convert';
+import 'package:flutter/services.dart';
 
 class LoginAuth {
 
@@ -10,8 +11,10 @@ class LoginAuth {
   Map<String, dynamic> _claims;
 
   Future<String> authenticate({@required String email, @required String password,}) async {
-    if (email == null || password == null)
+    if (email == null ||/**/ password == null) {
+      print("emptyyyyyyyyyyyy");
       throw PlatformException;
+    }
     _currentUser = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
     _token = await _currentUser.getIdToken();
     _claims = _parseJwt(_token);
