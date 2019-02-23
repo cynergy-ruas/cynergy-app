@@ -60,10 +60,10 @@ class _LoginFormState extends State<LoginForm> {
                     controller: _passwordController,
                     obscureText: true,
                   ),
-                  RaisedButton(
+                  IconButton(
+                    icon: Icon(Icons.arrow_forward),
                     onPressed:
                     state is! LoginLoading ? _onLoginButtonPressed : null,
-                    child: Text('Login'),
                   ),
                   Container(
                     child:

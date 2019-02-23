@@ -68,7 +68,7 @@ class _AppState extends State<App> {
               return SplashPage();
             }
             if (state is AuthenticationAuthenticated) {
-              return HomePage();
+              return HomePage(userRepository: userRepository,);
             }
             if (state is AuthenticationUnauthenticated) {
               return LoginPage(userRepository: userRepository);

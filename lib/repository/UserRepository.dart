@@ -3,6 +3,7 @@ import 'package:meta/meta.dart';
 
 class UserRepository {
   final LoginAuth auth;
+  Map<String, dynamic> _claims;
 
   UserRepository({@required this.auth}):
       assert(auth != null);
@@ -23,7 +24,15 @@ class UserRepository {
     return false;
   }
 
-  bool isCoordinator(){
-    return auth.getClaim("coordinator");
+  Future<void> setClaims() async{
+    _claims = await auth.getClaims();
   }
+
+  bool isCoordinator(){
+    if (_claims["coordinator"] != null)
+      return true;
+    return false;
+  }
+
+
 }

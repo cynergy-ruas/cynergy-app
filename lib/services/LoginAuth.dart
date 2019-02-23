@@ -7,18 +7,13 @@ class LoginAuth {
 
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   FirebaseUser _currentUser;
-  String _token;
-  Map<String, dynamic> _claims;
 
   Future<String> authenticate({@required String email, @required String password,}) async {
-    if (email == null ||/**/ password == null) {
-      print("emptyyyyyyyyyyyy");
+    if (email == "" || password == "") {
       throw PlatformException;
     }
-    _currentUser = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
-    _token = await _currentUser.getIdToken();
-    _claims = _parseJwt(_token);
 
+    _currentUser = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
     return _currentUser.uid;
   }
 
@@ -36,8 +31,9 @@ class LoginAuth {
     }
   }
 
-  dynamic getClaim(String claim){
-    return _claims[claim];
+  Future<Map<String, dynamic>> getClaims() async{
+    String token = await _currentUser.getIdToken();
+    return _parseJwt(token);
   }
 
   Map<String, dynamic> _parseJwt(String token) {

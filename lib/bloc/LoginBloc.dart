@@ -34,7 +34,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           email: event.email,
           password: event.password,
         );
-
+        await userRepository.setClaims();
         authenticationBloc.dispatch(LoggedIn(token: token));
         yield LoginInitial();
       } catch (error) {
