@@ -7,9 +7,11 @@ import 'package:cynergy_app/repository/UserRepository.dart';
 import 'package:cynergy_app/bloc/AuthenticationBloc.dart';
 import 'package:cynergy_app/events/AuthenticationEvents.dart';
 
+import 'package:cynergy_app/pages/QrScannerPage.dart';
+
 class HomePage extends StatefulWidget {
 
-  UserRepository userRepository;
+  final UserRepository userRepository;
 
   HomePage({@required this.userRepository}):
         assert(userRepository != null);
@@ -27,7 +29,8 @@ class _HomePageState extends State<HomePage> {
     final AuthenticationBloc authenticationBloc =
     BlocProvider.of<AuthenticationBloc>(context);
 
-    bool isCoordinator = _userRepository.isCoordinator();
+    List<Widget> drawerItems = (_userRepository.isCoordinator()) ?
+        coordinatorDrawerItems() : memberDrawerItems();
 
     return Scaffold(
       appBar: AppBar(
@@ -42,8 +45,41 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Center(
-        child: Text("Welcome: coordinator: $isCoordinator"),
+        child: Text("Welcome"),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            Container(
+              height: 80,
+              child: DrawerHeader(
+                child: Text("Menu"),
+              )
+            ),
+          ] + drawerItems,
+        ),
       ),
     );
+  }
+
+  List<Widget> coordinatorDrawerItems(){
+    return <Widget>[
+      ListTile(
+        title: Text("QR Code Scanner"),
+        onTap: () {
+          Navigator.of(context).pop(); // retracts drawer
+          Navigator.push(context, MaterialPageRoute(
+            builder: (BuildContext context) => QrScannerPage()
+          ));
+        },
+      ),
+    ];
+  }
+
+  List<Widget> memberDrawerItems(){
+    return <Widget>[
+
+    ];
   }
 }
