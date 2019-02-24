@@ -10,9 +10,10 @@ class Database{
       CollectionReference coll = _firestore.collection("Users").document(
           userEmail).collection("events_attended");
       DocumentReference doc = coll.document(event);
-      doc.setData({"attended": true});
+      await doc.setData({"attended": true});
       return true;
-    } catch(e){
+    }
+    catch(e){
       return false;
     }
   }

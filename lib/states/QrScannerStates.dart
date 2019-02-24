@@ -11,10 +11,10 @@ class QrScannerInitial extends QrScannerState{
   String toString() => "QrScannerInitial";
 }
 
-//class QrScannerScanning extends QrScannerState{
-//  @override
-//  String toString() => "QrScannerScanning";
-//}
+class QrScannerProcessingResults extends QrScannerState{
+  @override
+  String toString() => "QrScannerProcessingResults";
+}
 
 class QrScannerSuccess extends QrScannerState{
 
@@ -26,7 +26,7 @@ class QrScannerSuccess extends QrScannerState{
       assert(eventid != null);
 
   @override
-  String toString() => "QrScannerSucess";
+  String toString() => "QrScannerSucess email: $email, eventid: $eventid";
 }
 
 class QrScannerFailure extends QrScannerState{

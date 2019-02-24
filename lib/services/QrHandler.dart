@@ -13,25 +13,25 @@ class QrHandler{
       assert(db != null);
 
 
-  Future<void> requestPermission()async{
+  Future<void> _requestPermission()async{
     await PermissionHandler().requestPermissions([PermissionGroup.camera]);
   }
 
-  Future<List<String>> scan() async{
+  Future<String> scan() async{
     try {
       String result = await BarcodeScanner.scan();
-      return _processScanResults(result);
+      return result;
 
     } on PlatformException catch (e){
       if (e.code == BarcodeScanner.CameraAccessDenied)
-        requestPermission();
+        _requestPermission();
       else
         return null;
     }
     return null;
   }
 
-  Future<List<String>> _processScanResults(String result) async{
+  Future<List<String>> processScanResults(String result) async{
     List<String> parts = result.split("/");
     if(await db.addEventForUser(userEmail: parts[0], event: parts[1]))
       return parts;

@@ -20,7 +20,10 @@ class QrScannerBloc extends Bloc<QrScannerEvent, QrScannerState>{
   @override
   Stream<QrScannerState> mapEventToState(QrScannerState currentState, QrScannerEvent event) async*{
     if (event is QrScannerStartScan){
-      List<String> res = await qrHandler.scan();
+
+      String resStr = await qrHandler.scan();
+      yield QrScannerProcessingResults();
+      List<String> res = await qrHandler.processScanResults(resStr);
 
       if (res != null){
         yield QrScannerSuccess(email: res[0], eventid: res[1]);

@@ -1,5 +1,6 @@
 import 'package:cynergy_app/services/Database.dart';
 import 'package:cynergy_app/services/QrHandler.dart';
+import 'package:cynergy_app/widgets/LoadingIndicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -44,22 +45,19 @@ class _QrScannerPageState extends State<QrScannerPage> {
             );
           }
 
+          if (state is QrScannerProcessingResults){
+            return LoadingIndicator();
+          }
+
           if(state is QrScannerSuccess){
             return Center(
-              child: Container(
-                child: Column(
-                  children: <Widget>[
-                    _scanButton(),
-                    Text("Attendance of "+state.email+" taken!")
-                  ],
-                ),
-                constraints: BoxConstraints(
-                  minHeight: 250,
-                  maxHeight: 300,
-                  minWidth: 250,
-                  maxWidth: 500,
-                ),
-              )
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  _scanButton(),
+                  Text("Attendance of "+state.email+" taken!")
+                ],
+              ),
             );
           }
 

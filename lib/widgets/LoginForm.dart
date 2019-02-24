@@ -50,6 +50,7 @@ class _LoginFormState extends State<LoginForm> {
           child: Container(
             child: Form(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextFormField(
                     decoration: InputDecoration(labelText: 'username'),
@@ -73,8 +74,6 @@ class _LoginFormState extends State<LoginForm> {
               ),
             ),
             constraints: BoxConstraints(
-              minHeight: 250,
-              maxHeight: 300,
               minWidth: 250,
               maxWidth: 300,
             ),
