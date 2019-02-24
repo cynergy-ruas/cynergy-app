@@ -93,4 +93,10 @@ class _QrScannerPageState extends State<QrScannerPage> {
       callback();
     });
   }
+
+  @override
+  void dispose() {
+    _qrScannerBloc.dispose();
+    super.dispose();
+  }
 }
