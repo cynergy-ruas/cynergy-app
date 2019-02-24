@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cynergy_app/widgets/EventCard.dart';
 
 class EventsPage extends StatefulWidget {
   @override
@@ -13,11 +14,32 @@ class _EventsPageState extends State<EventsPage> {
         title: Text("Events")
       ),
 
-      body: Center(
+      body: SingleChildScrollView(
         child: Container(
-          child: Text("Events Page")
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(height: 30),
+              Text("The Past, Present and Future",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+
+              ),
+              SizedBox(height: 40),
+              EventCard(),
+              SizedBox(height: 10),
+              EventCard(),
+              SizedBox(height: 10),
+              EventCard(),
+              SizedBox(height: 10),
+            ],
+          )
         )
-      )
+      ),
+      backgroundColor: Colors.blueGrey[50],
     );
   }
 }

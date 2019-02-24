@@ -1,36 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:cynergy_app/pages/EventsInfoPage.dart';
 
 class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
       child: Container(
-        decoration: BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
-        child: ListTile(
-          contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-          leading: Container(
-            padding: EdgeInsets.only(right: 12.0),
-            decoration: new BoxDecoration(
-                border: new Border(
-                    right: new BorderSide(width: 1.0, color: Colors.white24)
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: 180,
+              decoration:BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/events_placeholder.jpg'),
+                  fit: BoxFit.cover
                 )
+              ),
             ),
-            child: Icon(Icons.autorenew, color: Colors.white),
-          ),
-          title: Text(
-            "Introduction to Driving",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-          // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
+            ListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              leading: Container(
+                padding: EdgeInsets.only(right: 12.0),
+                decoration: new BoxDecoration(
+                  border: new Border(
+                      right: new BorderSide(width: 1.0, color: Colors.black)
+                  )
+                ),
+                child: Icon(Icons.av_timer, color: Colors.black),
+              ),
+              title: Text(
+                "Introduction to Linux",
+                style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              ),
+              subtitle: Row(
+                children: <Widget>[
+                  Icon(Icons.linear_scale, color: Colors.yellowAccent),
+                  Text(" Intermediate", style: TextStyle(color: Colors.black))
+                ],
+              ),
+              trailing: IconButton(
+                icon: Icon(Icons.keyboard_arrow_right),
+                color: Colors.black,
+                iconSize: 30.0,
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (BuildContext context) => EventsInfoPage()
+                  ));
+                },
+              )
+            ),
 
-          subtitle: Row(
-            children: <Widget>[
-              Icon(Icons.linear_scale, color: Colors.yellowAccent),
-              Text(" Intermediate", style: TextStyle(color: Colors.white))
-            ],
-          ),
-          trailing:
-          Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0)
+            ListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              title: Text("Blahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
+            )
+          ],
         )
       )
     );
