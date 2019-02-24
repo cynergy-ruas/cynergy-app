@@ -9,6 +9,11 @@ import 'package:cynergy_app/bloc/AuthenticationBloc.dart';
 import 'package:cynergy_app/events/AuthenticationEvents.dart';
 
 import 'package:cynergy_app/pages/QrScannerPage.dart';
+import 'package:cynergy_app/pages/EventsPage.dart';
+import 'package:cynergy_app/pages/AnnouncementsPage.dart';
+import 'package:cynergy_app/pages/LeaderboardPage.dart';
+import 'package:cynergy_app/pages/AboutPage.dart';
+
 
 class HomePage extends StatefulWidget {
 
@@ -32,7 +37,7 @@ class _HomePageState extends State<HomePage> {
     BlocProvider.of<AuthenticationBloc>(context);
 
     List<Widget> drawerItems = (_userRepository.isCoordinator()) ?
-        coordinatorDrawerItems() : memberDrawerItems();
+        normalDrawerItems() + coordinatorDrawerItems() : normalDrawerItems();
 
     return Scaffold(
       appBar: AppBar(
@@ -67,22 +72,49 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> coordinatorDrawerItems(){
     return <Widget>[
-      ListTile(
-        leading: Icon(Icons.filter_center_focus),
-        title: Text("QR Code Scanner"),
-        onTap: () {
-          Navigator.of(context).pop(); // retracts drawer
-          Navigator.push(context, MaterialPageRoute(
-            builder: (BuildContext context) => QrScannerPage(db: db,)
-          ));
-        },
+      _createDrawerItem(
+          icon: Icon(Icons.filter_center_focus),
+          title: "QR Code Scanner",
+          page: QrScannerPage(db: db)
       ),
     ];
   }
 
-  List<Widget> memberDrawerItems(){
+  List<Widget> normalDrawerItems(){
     return <Widget>[
-
+      _createDrawerItem(
+          icon: Icon(Icons.announcement),
+          title: "Announcements",
+          page: AnnouncementsPage()
+      ),
+      _createDrawerItem(
+          icon: Icon(Icons.poll),
+          title: "Leaderboard",
+          page: LeaderboardPage()
+      ),
+      _createDrawerItem(
+          icon: Icon(Icons.event),
+          title: "Events",
+          page: EventsPage()
+      ),
+      _createDrawerItem(
+          icon: Icon(Icons.account_balance),
+          title: "About",
+          page: AboutPage()
+      ),
     ];
+  }
+
+  ListTile _createDrawerItem({@required Icon icon, @required String title, @required Widget page}){
+    return ListTile(
+        leading: icon,
+        title: Text(title),
+        onTap: () {
+          Navigator.of(context).pop(); // retracts drawer
+          Navigator.push(context, MaterialPageRoute(
+              builder: (BuildContext context) => page,
+          ));
+        }
+    );
   }
 }

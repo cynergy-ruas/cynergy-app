@@ -78,6 +78,7 @@ class _AppState extends State<App> {
             }
           },
         ),
+        debugShowCheckedModeBanner: false,
       ),
     );
   }
