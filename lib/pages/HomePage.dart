@@ -68,6 +68,7 @@ class _HomePageState extends State<HomePage> {
   List<Widget> coordinatorDrawerItems(){
     return <Widget>[
       ListTile(
+        leading: Icon(Icons.filter_center_focus),
         title: Text("QR Code Scanner"),
         onTap: () {
           Navigator.of(context).pop(); // retracts drawer

@@ -55,6 +55,7 @@ class _QrScannerPageState extends State<QrScannerPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   _scanButton(),
+                  SizedBox(height: 20,),
                   Text("Attendance of "+state.email+" taken!")
                 ],
               ),
@@ -78,9 +79,12 @@ class _QrScannerPageState extends State<QrScannerPage> {
   }
 
   Widget _scanButton(){
-    return RaisedButton(
-      child: Text("Scan"),
-      onPressed: ()=>_qrScannerBloc.dispatch(QrScannerStartScan()),
+    return Container(
+      child: IconButton(
+        icon: Icon(Icons.filter_center_focus),
+        iconSize: 60,
+        onPressed: () => _qrScannerBloc.dispatch(QrScannerStartScan()),
+      ),
     );
   }
 
