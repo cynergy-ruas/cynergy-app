@@ -1,4 +1,7 @@
+import 'package:cynergy_app/bloc/EventsLoadBloc.dart';
+import 'package:cynergy_app/events/EventsLoadEvents.dart';
 import 'package:cynergy_app/services/Database.dart';
+import 'package:cynergy_app/services/EventsHandler.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,10 +34,14 @@ class _HomePageState extends State<HomePage> {
   UserRepository get _userRepository => widget.userRepository;
   Database db = Database();
 
+  EventsLoadBloc eventsBloc;
+
   @override
   Widget build(BuildContext context) {
     final AuthenticationBloc authenticationBloc =
     BlocProvider.of<AuthenticationBloc>(context);
+
+    eventsBloc = EventsLoadBloc(handler: EventsHandler(db: db));
 
     List<Widget> drawerItems = (_userRepository.isCoordinator()) ?
         normalDrawerItems() + coordinatorDrawerItems() : normalDrawerItems();
@@ -83,34 +90,36 @@ class _HomePageState extends State<HomePage> {
   List<Widget> normalDrawerItems(){
     return <Widget>[
       _createDrawerItem(
-          icon: Icon(Icons.announcement),
-          title: "Announcements",
-          page: AnnouncementsPage()
+        icon: Icon(Icons.announcement),
+        title: "Announcements",
+        page: AnnouncementsPage()
       ),
       _createDrawerItem(
-          icon: Icon(Icons.poll),
-          title: "Leaderboard",
-          page: LeaderboardPage()
+        icon: Icon(Icons.poll),
+        title: "Leaderboard",
+        page: LeaderboardPage()
       ),
       _createDrawerItem(
-          icon: Icon(Icons.event),
-          title: "Events",
-          page: EventsPage()
+        icon: Icon(Icons.event),
+        title: "Events",
+        page: EventsPage(eventsLoadBloc: eventsBloc,),
+        callback: ()=>eventsBloc.dispatch(EventsLoadStart())
       ),
       _createDrawerItem(
-          icon: Icon(Icons.account_balance),
-          title: "About",
-          page: AboutPage()
+        icon: Icon(Icons.account_balance),
+        title: "About",
+        page: AboutPage()
       ),
     ];
   }
 
-  ListTile _createDrawerItem({@required Icon icon, @required String title, @required Widget page}){
+  ListTile _createDrawerItem({@required Icon icon, @required String title, @required Widget page, VoidCallback callback}){
     return ListTile(
         leading: icon,
         title: Text(title),
         onTap: () {
           Navigator.of(context).pop(); // retracts drawer
+          if (callback != null) callback();
           Navigator.push(context, MaterialPageRoute(
               builder: (BuildContext context) => page,
           ));
