@@ -52,13 +52,10 @@ class _EventsPageState extends State<EventsPage> {
 
               return Column(
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Text("Past, Present and\nFuture",
-                        style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-                      ),
-                    ],
+                  ListTile(
+                    title:Text("Past, Present and Future",
+                      style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                    ),
                   )
                 ] + ((state is EventsLoadDone) ? generateCards(state.events) : [LoadingIndicator()]),
               );
