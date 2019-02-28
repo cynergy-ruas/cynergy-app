@@ -118,7 +118,9 @@ class _HomePageState extends State<HomePage> {
         title: Text(title),
         onTap: () {
           Navigator.of(context).pop(); // retracts drawer
-          if (callback != null) callback();
+          if (callback != null)
+            callback();
+
           Navigator.push(context, MaterialPageRoute(
               builder: (BuildContext context) => page,
           ));

@@ -39,19 +39,14 @@ class EventCard extends StatelessWidget {
                 event.eventName,
                 style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
               ),
-              subtitle: Row(
-                children: <Widget>[
-                  Icon(Icons.linear_scale, color: Colors.yellowAccent),
-                  Text(" Intermediate", style: TextStyle(color: Colors.black))
-                ],
-              ),
+
               trailing: IconButton(
                 icon: Icon(Icons.keyboard_arrow_right),
                 color: Colors.black,
                 iconSize: 30.0,
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(
-                    builder: (BuildContext context) => EventsInfoPage()
+                    builder: (BuildContext context) => EventsInfoPage(event: event,)
                   ));
                 },
               )

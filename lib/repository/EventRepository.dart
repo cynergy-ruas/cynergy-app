@@ -10,7 +10,7 @@ class EventRepository{
   String eventName;
   String eventTopic;
   String type;
-  int pos;
+  int pos;  // like if its current event or past event or past past event
 
   EventRepository({@required this.date,
                   @required this.details,
@@ -23,6 +23,6 @@ class EventRepository{
                   @required this.pos});
 
   String toString(){
-    return "date: "+date.toString();
+    return "event: "+eventName;
   }
 }
