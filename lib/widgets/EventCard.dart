@@ -30,10 +30,10 @@ class EventCard extends StatelessWidget {
                 padding: EdgeInsets.only(right: 12.0),
                 decoration: new BoxDecoration(
                   border: new Border(
-                      right: new BorderSide(width: 1.0, color: Colors.black)
+                    right: new BorderSide(width: 1.0, color: Colors.black)
                   )
                 ),
-                child: Icon(Icons.av_timer, color: Colors.black),
+                child: Icon(Icons.event, color: Colors.black),
               ),
               title: Text(
                 event.eventName,

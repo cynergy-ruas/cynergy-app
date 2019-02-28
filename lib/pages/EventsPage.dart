@@ -52,9 +52,14 @@ class _EventsPageState extends State<EventsPage> {
 
               return Column(
                 children: <Widget>[
-                  Text("Past, Present and Future",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Text("Past, Present and\nFuture",
+                        style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  )
                 ] + ((state is EventsLoadDone) ? generateCards(state.events) : [LoadingIndicator()]),
               );
             },
@@ -67,7 +72,7 @@ class _EventsPageState extends State<EventsPage> {
 
   List<Widget> generateCards(List<EventRepository> events){
     List<Widget> w = [
-      SizedBox(height: 40),
+      SizedBox(height: 20),
     ];
 
     for(EventRepository event in events){

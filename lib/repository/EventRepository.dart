@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
+import 'package:intl/intl.dart';
 
 class EventRepository{
   Timestamp date;
@@ -24,5 +25,9 @@ class EventRepository{
 
   String toString(){
     return "event: "+eventName;
+  }
+
+  String getFormattedDate(){
+    return DateFormat.yMMMMEEEEd().format(date.toDate());
   }
 }
