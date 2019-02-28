@@ -53,7 +53,7 @@ class EventCard extends StatelessWidget {
             ),
 
             ListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              contentPadding: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
               title: Text(event.details["description"])
             )
           ],
