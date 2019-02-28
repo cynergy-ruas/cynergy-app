@@ -24,7 +24,7 @@ class QrScannerBloc extends Bloc<QrScannerEvent, QrScannerState>{
       String resStr = await qrHandler.scan();
       yield QrScannerProcessingResults();
       List<String> res = await qrHandler.processScanResults(resStr);
-
+      print("res: "+res.toString());
       if (res != null){
         yield QrScannerSuccess(email: res[0], eventid: res[1]);
       }else{

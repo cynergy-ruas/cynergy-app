@@ -14,6 +14,7 @@ class Database{
       return true;
     }
     catch(e){
+      print("error: "+e.toString());
       return false;
     }
   }
