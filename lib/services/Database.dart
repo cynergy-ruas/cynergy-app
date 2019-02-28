@@ -17,4 +17,20 @@ class Database{
       return false;
     }
   }
+
+  Future<List<Map<String, dynamic>>> getRecentEvents(int count)async{
+
+    List<Map<String, dynamic>> data = [];
+    try{
+      CollectionReference coll = _firestore.collection("EventsList");
+      QuerySnapshot snapshot = await coll.orderBy("date", descending: true).limit(count)
+            .getDocuments();
+
+      snapshot.documents.forEach((doc) => data.add(doc.data));
+    }
+    catch(e){
+      return null;
+    }
+    return data;
+  }
 }

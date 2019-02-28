@@ -1,7 +1,14 @@
+import 'package:cynergy_app/repository/EventRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:cynergy_app/pages/EventsInfoPage.dart';
 
 class EventCard extends StatelessWidget {
+
+  final EventRepository event;
+
+  EventCard({@required this.event}):
+      assert(event != null);
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -29,7 +36,7 @@ class EventCard extends StatelessWidget {
                 child: Icon(Icons.av_timer, color: Colors.black),
               ),
               title: Text(
-                "Introduction to Linux",
+                event.eventName,
                 style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
               ),
               subtitle: Row(
@@ -52,7 +59,7 @@ class EventCard extends StatelessWidget {
 
             ListTile(
               contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-              title: Text("Blahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
+              title: Text(event.details["description"])
             )
           ],
         )
