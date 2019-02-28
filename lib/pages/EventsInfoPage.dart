@@ -81,23 +81,36 @@ class EventsInfoPage extends StatelessWidget {
               child: Text(
                 event.details["description"],
                 style: TextStyle(fontSize: 18),
+                textAlign: TextAlign.justify,
               ),
+            ),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width/2,
+            child: Divider(
+              color: Colors.black54,
+              height: 30,
             ),
           ),
           SizedBox(height: 30,),
           ListTile(
-            title: Icon(
-              Icons.av_timer,
-              size: 30
+            title: Row(
+              children: <Widget>[
+                Icon(
+                  Icons.av_timer,
+                  size: 30
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 20),
+                  child: Text(
+                    event.duration.toString()+" minutes",
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+              ]
             ),
-            subtitle: Container(
-              padding: EdgeInsets.only(top: 20),
-              child: Text(
-                event.duration.toString()+" minutes",
-                style: TextStyle(fontSize: 18),
-              ),
-            ),
-          )
+          ),
+          SizedBox(height: 30,),
         ],
       ),
     );
