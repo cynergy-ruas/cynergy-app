@@ -15,7 +15,7 @@ class EventsHandler{
     List<EventRepository> events = [];
 
     for(int i=0;i<numOfEvents;i++){
-      events.add(EventRepository(date: data[i]["date"].toDate(),
+      events.add(EventRepository(date: data[i]["date"],
           details: data[i]["details"],
           materials: data[i]["materials"],
           videos: data[i]["videos"],

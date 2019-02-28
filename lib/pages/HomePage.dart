@@ -35,7 +35,6 @@ class _HomePageState extends State<HomePage> {
   Database db = Database();
 
   EventsLoadBloc eventsBloc;
-
   @override
   Widget build(BuildContext context) {
     final AuthenticationBloc authenticationBloc =

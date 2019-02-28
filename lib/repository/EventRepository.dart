@@ -1,7 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 
 class EventRepository{
-  DateTime date;
+  Timestamp date;
   Map<dynamic, dynamic> details;
   List<String> materials;
   List<String> videos;

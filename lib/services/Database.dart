@@ -2,9 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 
 class Database{
-  Firestore _firestore = Firestore.instance;
+  Firestore _firestore;
 
   Future<bool> addEventForUser({@required String userEmail, @required String event}) async{
+    if(_firestore == null){
+      await init();
+    }
+
     print("user: $userEmail, event: $event");
     try {
       CollectionReference coll = _firestore.collection("Users").document(
@@ -20,6 +24,9 @@ class Database{
   }
 
   Future<List<Map<String, dynamic>>> getRecentEvents(int count)async{
+    if(_firestore == null){
+      await init();
+    }
 
     List<Map<String, dynamic>> data = [];
     try{
@@ -33,5 +40,10 @@ class Database{
       return null;
     }
     return data;
+  }
+
+  Future<void> init() async{
+    await Firestore().settings(timestampsInSnapshotsEnabled: true);
+    _firestore = Firestore.instance;
   }
 }

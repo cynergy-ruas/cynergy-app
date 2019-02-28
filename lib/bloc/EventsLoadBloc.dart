@@ -26,7 +26,7 @@ class EventsLoadBloc extends Bloc<EventsLoadEvent, EventsLoadState>{
       }
       catch(e){
         print(e);
-        yield EventsLoadFailure(error: e);
+        yield EventsLoadFailure(error: e.toString());
       }
     }
   }
