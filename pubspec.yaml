@@ -31,7 +31,9 @@ dependencies:
   cupertino_icons: ^0.1.2
   permission_handler: ^3.0.0
   barcode_scan:
-    path: barcode_scan
+    git:
+      url: git://github.com/apptreesoftware/flutter_barcode_reader.git
+      ref: 5d498e39a76466b03579486475ec777fba33ed2c
   qr_flutter: ^1.1.6
   color: any
 
