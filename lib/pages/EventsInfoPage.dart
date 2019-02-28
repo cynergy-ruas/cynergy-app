@@ -72,9 +72,9 @@ class EventsInfoPage extends StatelessWidget {
         children: <Widget>[
           SizedBox(height: 20,),
           ListTile(
-            title: Text(
-              "About",
-              style: TextStyle(fontSize: 30),
+            title: Icon(
+              Icons.info,
+              size: 30
             ),
             subtitle: Container(
               padding: EdgeInsets.only(top: 20),
@@ -86,9 +86,9 @@ class EventsInfoPage extends StatelessWidget {
           ),
           SizedBox(height: 30,),
           ListTile(
-            title: Text(
-              "Duration",
-              style: TextStyle(fontSize: 30),
+            title: Icon(
+              Icons.av_timer,
+              size: 30
             ),
             subtitle: Container(
               padding: EdgeInsets.only(top: 20),
