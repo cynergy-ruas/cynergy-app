@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "53016400232",
-    "firebase_url": "https://cynergy-app-auth-demo.firebaseio.com",
-    "project_id": "cynergy-app-auth-demo",
-    "storage_bucket": "cynergy-app-auth-demo.appspot.com"
+    "project_number": "319069936084",
+    "firebase_url": "https://cynergy-ruas.firebaseio.com",
+    "project_id": "cynergy-ruas",
+    "storage_bucket": "cynergy-ruas.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:53016400232:android:8b9f1df1553c8040",
+        "mobilesdk_app_id": "1:319069936084:android:8b9f1df1553c8040",
         "android_client_info": {
           "package_name": "io.github.cynergy.cynergyapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "53016400232-cj9j3ugk98supmb0r1qltathk4jj7j9a.apps.googleusercontent.com",
+          "client_id": "319069936084-tnm7g2jlb9heh4u5hr9i783fqo4lg20d.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBLHfMFvK2al9cvb4wnm4ZbC8lEy2kBjaM"
+          "current_key": "AIzaSyBM-raN4Z7DF7y28RamfiYwgquHasg9Hgw"
         }
       ],
       "services": {

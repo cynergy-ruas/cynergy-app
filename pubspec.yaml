@@ -16,15 +16,25 @@ dependencies:
   flutter:
     sdk: flutter
   
-  firebase_auth: ^0.7.0
-  cloud_firestore: 0.8.0
-  
+  firebase_auth: ^0.8.1+1
+  cloud_firestore:
+    git:
+      url: git://github.com/flutter/plugins.git
+      path: packages/cloud_firestore
+      ref: 1066bac3f503ce58a64d3bafa11e15617bff0901
+  bloc: ^0.9.3
+  flutter_bloc: ^0.6.3
+  equatable: ^0.1.6
+  intl: ^0.15.7
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
-  barcode_scan: ^0.0.8
-  simple_permissions: ^0.1.9
-  path_provider: ^0.5.0
+  permission_handler: ^3.0.0
+  barcode_scan:
+    git:
+      url: git://github.com/apptreesoftware/flutter_barcode_reader.git
+      ref: 5d498e39a76466b03579486475ec777fba33ed2c
   qr_flutter: ^1.1.6
   color: any
 
@@ -41,6 +51,8 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
    uses-material-design: true
+   assets:
+   - assets/images/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
