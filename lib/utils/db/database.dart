@@ -27,11 +27,16 @@ class FireStoreDB implements BaseDB{
 
   @override
   Future<bool> addEventForUser({@required String userEmail, @required String event}) async{
-    print("user: $userEmail, event: $event");
-    CollectionReference coll =  firestore.collection("Users").document(userEmail).collection("events_attended");
-    DocumentReference doc = coll.document(event);
-    doc.setData({"attended": true});
-    return true;
+    try{
+      print("user: $userEmail, event: $event");
+      CollectionReference coll =  firestore.collection("Users").document(userEmail).collection("events_attended");
+      DocumentReference doc = coll.document(event);
+      await doc.setData({"attended": true});
+      return true;
+    }
+    catch(e){
+      return false;
+    }
   }
 
 }

@@ -158,10 +158,10 @@ class _LoginPageState extends State<LoginPage>{
           icon: Icon(Icons.arrow_forward),
           onPressed: validateAndSumbit,
         ),
-        new FlatButton(
-          child: new Text("create an account", style: new TextStyle(fontSize: 16.0),),
-          onPressed: moveToRegister,                
-        )
+        // new FlatButton(
+        //   child: new Text("create an account", style: new TextStyle(fontSize: 16.0),),
+        //   onPressed: moveToRegister,                
+        // )
       ];
     }
     return [

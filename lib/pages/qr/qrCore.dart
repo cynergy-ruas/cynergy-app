@@ -85,17 +85,14 @@ class _QrCoreState extends State<QrCore> {
       if (!mounted) {
         return;
       }
-      try{
-        List<String> parts = reader.split("/");
-        bool res = await _qrHandler.handle(email: parts[0], event: parts[1]); 
-        if (res){
-        setState(() => this.resultString="Attendance taken!");
-        }else{
-          setState(() => this.resultString="Try again");
-        } 
-      } catch (error){
+
+      List<String> parts = reader.split("/");
+      bool res = await _qrHandler.handle(email: parts[0], event: parts[1]); 
+      if (res){
+      setState(() => this.resultString="Attendance taken!");
+      }else{
         setState(() => this.resultString="Try again");
-      }
+      } 
 
     } on PlatformException catch(e) {
       if(e.code==BarcodeScanner.CameraAccessDenied) {

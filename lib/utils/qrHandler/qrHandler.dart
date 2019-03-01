@@ -8,11 +8,6 @@ class QrHandler{
     assert(db != null);
 
   Future<bool> handle({@required String email, @required String event})async{
-    try{
-      return await db.addEventForUser(userEmail: email, event: event);
-    }
-    catch(error){
-      return false;
-    }
+    return await db.addEventForUser(userEmail: email, event: event);
   }
 }
