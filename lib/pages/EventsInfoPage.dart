@@ -11,7 +11,7 @@ class EventsInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final topContent = Container(
-      padding: EdgeInsets.symmetric(vertical: 60),
+      padding: EdgeInsets.only(top: 40, bottom: 60),
       child:Column(
         children: <Widget>[
           Row(
@@ -81,7 +81,7 @@ class EventsInfoPage extends StatelessWidget {
               child: Text(
                 event.details["description"],
                 style: TextStyle(fontSize: 18),
-                textAlign: TextAlign.justify,
+                textAlign: TextAlign.left,
               ),
             ),
           ),
