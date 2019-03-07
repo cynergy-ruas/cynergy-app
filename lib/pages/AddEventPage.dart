@@ -67,6 +67,15 @@ class _AddEventPageState extends State<AddEventPage> {
                 style: TextStyle(fontSize: 16),
               )
             ]
+          ),
+
+          Padding(
+            padding: EdgeInsets.all(formChildrenPadding),
+          ),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[],
           )
 
         ],

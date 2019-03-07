@@ -30,6 +30,10 @@ class UserRepository {
     _claims = await auth.getClaims();
   }
 
+  String getEmailId(){
+    return _claims["email"];
+  }
+
   bool isCoordinator(){
     if (_claims["coordinator"] != null)
       return true;

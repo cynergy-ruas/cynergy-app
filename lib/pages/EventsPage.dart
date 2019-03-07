@@ -42,48 +42,45 @@ class _EventsPageState extends State<EventsPage> {
     return Theme(
       data: themeData,
       child: Scaffold(
-      appBar: AppBar(
-        title: Text("Events"),
-        actions: actions,
-      ),
-      )
-
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.all(20),
-          child: BlocBuilder<EventsLoadEvent, EventsLoadState>(
-            bloc: _eventsLoadBloc,
-            builder: (BuildContext context, EventsLoadState state){
-              if (state is EventsLoadFailure){
-                _onWidgetDidBuild(() => Scaffold.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Try again'),
-                    backgroundColor: Colors.red,
-                  ),
-                ));
-                return Center(
-                  child: Icon(
-                    Icons.error,
-                    size: 40
-                  ),
-                );
-              }
-
-              return Column(
-                children: <Widget>[
-                  ListTile(
-                    title:Text("Past, Present and Future",
-                      style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold,color: const Color(0xFFFDC830)),
+        appBar: AppBar(
+          title: Text("Events"),
+          actions: actions,
+        ),
+        body: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.all(20),
+            child: BlocBuilder<EventsLoadEvent, EventsLoadState>(
+              bloc: _eventsLoadBloc,
+              builder: (BuildContext context, EventsLoadState state){
+                if (state is EventsLoadFailure){
+                  _onWidgetDidBuild(() => Scaffold.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Try again'),
+                      backgroundColor: Colors.red,
                     ),
-                  )
-                ] + ((state is EventsLoadDone) ? generateCards(state.events) : [LoadingIndicator()]),
-              );
-            },
+                  ));
+                  return Center(
+                    child: Icon(
+                        Icons.error,
+                        size: 40
+                    ),
+                  );
+                }
+                return Column(
+                  children: <Widget>[
+                    ListTile(
+                      title:Text("Past, Present and Future",
+                        style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold,color: const Color(0xFFFDC830)),
+                      ),
+                    )
+                  ] + ((state is EventsLoadDone) ? generateCards(state.events) : [LoadingIndicator()]),
+                );
+              },
+            ),
           ),
         ),
-      ),
-      backgroundColor: Colors.blueGrey[50],
-    )
+//      backgroundColor: Colors.blueGrey[50],
+      )
     );
   }
 
