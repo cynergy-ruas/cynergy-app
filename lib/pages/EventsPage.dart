@@ -1,4 +1,6 @@
+
 import 'package:cynergy_app/bloc/EventsLoadBloc.dart';
+
 import 'package:cynergy_app/events/EventsLoadEvents.dart';
 import 'package:cynergy_app/repository/EventRepository.dart';
 import 'package:cynergy_app/states/EventsLoadStates.dart';
@@ -66,7 +68,7 @@ class _EventsPageState extends State<EventsPage> {
           ),
         ),
       ),
-      backgroundColor: Colors.blueGrey[50],
+     // backgroundColor: Colors.blueGrey[50],
     )
     );
   }
