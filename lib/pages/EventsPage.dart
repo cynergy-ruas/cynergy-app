@@ -1,5 +1,6 @@
 import 'package:cynergy_app/bloc/EventsLoadBloc.dart';
 import 'package:cynergy_app/events/EventsLoadEvents.dart';
+import 'package:cynergy_app/pages/AddEventPage.dart';
 import 'package:cynergy_app/repository/EventRepository.dart';
 import 'package:cynergy_app/states/EventsLoadStates.dart';
 import 'package:cynergy_app/widgets/LoadingIndicator.dart';
@@ -10,8 +11,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class EventsPage extends StatefulWidget {
 
   final EventsLoadBloc eventsLoadBloc;
+  final bool userIsCoordinator;
 
-  EventsPage({@required this.eventsLoadBloc}):
+  EventsPage({@required this.eventsLoadBloc, @required this.userIsCoordinator}):
       assert(eventsLoadBloc != null);
 
   @override
@@ -21,12 +23,25 @@ class EventsPage extends StatefulWidget {
 class _EventsPageState extends State<EventsPage> {
 
   EventsLoadBloc get _eventsLoadBloc => widget.eventsLoadBloc;
+  bool get _userIsCoordinator => widget.userIsCoordinator;
 
   @override
   Widget build(BuildContext context) {
+
+    List<Widget> actions = (_userIsCoordinator) ? [
+      IconButton(
+        icon: Icon(Icons.add),
+        iconSize: 30,
+        onPressed: ()=>Navigator.push(context, MaterialPageRoute(
+          builder: (BuildContext context)=>AddEventPage()
+        )),
+      )
+    ] : [];
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Events")
+        title: Text("Events"),
+        actions: actions,
       ),
 
       body: SingleChildScrollView(

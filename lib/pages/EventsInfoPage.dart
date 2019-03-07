@@ -50,7 +50,7 @@ class EventsInfoPage extends StatelessWidget {
               ),
             ),
             subtitle: Text(
-              event.getFormattedDate(),
+              event.type+",\n"+event.getFormattedDate(),
               style: TextStyle(color: Colors.white70),
             ),
           ),

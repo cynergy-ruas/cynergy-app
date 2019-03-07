@@ -101,7 +101,7 @@ class _HomePageState extends State<HomePage> {
       _createDrawerItem(
         icon: Icon(Icons.event),
         title: "Events",
-        page: EventsPage(eventsLoadBloc: eventsBloc,),
+        page: EventsPage(eventsLoadBloc: eventsBloc, userIsCoordinator: _userRepository.isCoordinator(),),
         callback: ()=>eventsBloc.dispatch(EventsLoadStart())
       ),
       _createDrawerItem(
