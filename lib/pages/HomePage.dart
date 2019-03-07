@@ -25,7 +25,7 @@ final ThemeData themeData=new ThemeData(
           onPrimary:Colors.white,onSecondary: Colors.grey,
           brightness: Brightness.dark,
           primaryVariant: color,
-          secondaryVariant: color[50],  //TODO: decide better theming
+          secondaryVariant: color[50],  //TODO: decide better themeing
           surface: Colors.white,background: color,
           error: Colors.red,
           onSurface: Colors.white,
@@ -100,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               )
             ),
-          ] + drawerItems + logoutItem(),
+          ] + drawerItems + logoutItem(authenticationBloc),
         ),
       ),
       ),
@@ -117,16 +117,13 @@ class _HomePageState extends State<HomePage> {
       Divider(),
     ];
   }
-  List<Widget> logoutItem(){
+  List<Widget> logoutItem(AuthenticationBloc bloc){
     return <Widget>[
        ListTile(
           leading: Icon(Icons.exit_to_app),
           title: Text("Logout"),
           onTap: () {
-            
-            final AuthenticationBloc authenticationBloc =
-    BlocProvider.of<AuthenticationBloc>(context);
-                authenticationBloc.dispatch(LoggedOut());
+            bloc.dispatch(LoggedOut());
           }
           
        )
@@ -136,8 +133,14 @@ class _HomePageState extends State<HomePage> {
   List<Widget> normalDrawerItems(){
     return <Widget>[
       UserAccountsDrawerHeader(
-        accountName: Text("AccountName"),
-        accountEmail: Text("AccountEmail"),
+        accountName: Text(
+            "Hello",
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
+        accountEmail: Text(
+            _userRepository.getEmailId(),
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
         decoration: BoxDecoration(
           image: DecorationImage(
             fit: BoxFit.fill,
@@ -166,7 +169,7 @@ class _HomePageState extends State<HomePage> {
       _createDrawerItem(
         icon: Icon(Icons.event),
         title: "Events",
-        page: EventsPage(eventsLoadBloc: eventsBloc,),
+        page: EventsPage(eventsLoadBloc: eventsBloc, userIsCoordinator: _userRepository.isCoordinator(),),
         callback: ()=>eventsBloc.dispatch(EventsLoadStart())
       ),
       _createDrawerItem(
