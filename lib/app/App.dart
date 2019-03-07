@@ -8,7 +8,7 @@ import 'package:cynergy_app/states/AuthenticationStates.dart';
 import 'package:cynergy_app/widgets/LoadingIndicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:cynergy_app/pages/HomePage.dart';
 class App extends StatefulWidget {
   final UserRepository userRepository;
 
@@ -40,6 +40,7 @@ class _AppState extends State<App> {
     return BlocProvider<AuthenticationBloc>(
       bloc: authenticationBloc,
       child: MaterialApp(
+        theme: themeData,
         home: BlocBuilder<AuthenticationEvent, AuthenticationState>(
           bloc: authenticationBloc,
           builder: (BuildContext context, AuthenticationState state) {

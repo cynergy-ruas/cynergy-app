@@ -3,6 +3,7 @@ import 'package:cynergy_app/events/EventsLoadEvents.dart';
 import 'package:cynergy_app/pages/AddEventPage.dart';
 import 'package:cynergy_app/repository/EventRepository.dart';
 import 'package:cynergy_app/states/EventsLoadStates.dart';
+import 'package:cynergy_app/pages/HomePage.dart';
 import 'package:cynergy_app/widgets/LoadingIndicator.dart';
 import 'package:flutter/material.dart';
 import 'package:cynergy_app/widgets/EventCard.dart';
@@ -38,11 +39,14 @@ class _EventsPageState extends State<EventsPage> {
       )
     ] : [];
 
-    return Scaffold(
+    return Theme(
+      data: themeData,
+      child: Scaffold(
       appBar: AppBar(
         title: Text("Events"),
         actions: actions,
       ),
+      )
 
       body: SingleChildScrollView(
         child: Container(
@@ -69,7 +73,7 @@ class _EventsPageState extends State<EventsPage> {
                 children: <Widget>[
                   ListTile(
                     title:Text("Past, Present and Future",
-                      style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold,color: const Color(0xFFFDC830)),
                     ),
                   )
                 ] + ((state is EventsLoadDone) ? generateCards(state.events) : [LoadingIndicator()]),
@@ -79,6 +83,7 @@ class _EventsPageState extends State<EventsPage> {
         ),
       ),
       backgroundColor: Colors.blueGrey[50],
+    )
     );
   }
 
