@@ -1,9 +1,9 @@
-
 import 'package:cynergy_app/bloc/EventsLoadBloc.dart';
 
 import 'package:cynergy_app/events/EventsLoadEvents.dart';
 import 'package:cynergy_app/pages/AddEventPage.dart';
 import 'package:cynergy_app/repository/EventRepository.dart';
+import 'package:cynergy_app/services/EventsHandler.dart';
 import 'package:cynergy_app/states/EventsLoadStates.dart';
 import 'package:cynergy_app/pages/HomePage.dart';
 import 'package:cynergy_app/widgets/LoadingIndicator.dart';
@@ -15,8 +15,9 @@ class EventsPage extends StatefulWidget {
 
   final EventsLoadBloc eventsLoadBloc;
   final bool userIsCoordinator;
+  final EventsHandler eventHandler;
 
-  EventsPage({@required this.eventsLoadBloc, @required this.userIsCoordinator}):
+  EventsPage({@required this.eventHandler, @required this.eventsLoadBloc, @required this.userIsCoordinator}):
       assert(eventsLoadBloc != null);
 
   @override
@@ -27,6 +28,7 @@ class _EventsPageState extends State<EventsPage> {
 
   EventsLoadBloc get _eventsLoadBloc => widget.eventsLoadBloc;
   bool get _userIsCoordinator => widget.userIsCoordinator;
+  EventsHandler get _eventHandler => widget.eventHandler;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class _EventsPageState extends State<EventsPage> {
         icon: Icon(Icons.add),
         iconSize: 30,
         onPressed: ()=>Navigator.push(context, MaterialPageRoute(
-          builder: (BuildContext context)=>AddEventPage()
+          builder: (BuildContext context)=>AddEventPage(handler: _eventHandler,)
         )),
       )
     ] : [];
@@ -81,7 +83,6 @@ class _EventsPageState extends State<EventsPage> {
             ),
           ),
         ),
-
       ),
     );
   }

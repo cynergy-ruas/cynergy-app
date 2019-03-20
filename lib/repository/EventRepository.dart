@@ -5,29 +5,52 @@ import 'package:intl/intl.dart';
 class EventRepository{
   Timestamp date;
   Map<dynamic, dynamic> details;
-  List<String> materials;
-  List<String> videos;
   int duration;
   String eventName;
   String eventTopic;
   String type;
-  int pos;  // like if its current event or past event or past past event
 
   EventRepository({@required this.date,
                   @required this.details,
-                  @required this.materials,
-                  @required this.videos,
                   @required this.duration,
                   @required this.eventName,
                   @required this.eventTopic,
-                  @required this.type,
-                  @required this.pos});
+                  @required this.type,});
 
   String toString(){
-    return "event: "+eventName;
+    return "Event[Name: "+eventName+",Topic: "+eventTopic+
+        ",Date: "+getFormattedDate()+",Duration: "+duration.toString()+
+        ".Description: "+details["description"]+",Type: "+type+"]";
   }
 
   String getFormattedDate(){
     return DateFormat.yMMMMEEEEd().format(date.toDate());
+  }
+
+  static Map<dynamic, dynamic> createDetails({@required String description,
+    String logs = "",
+    List<String> materials = const [""],
+    List<String> videos = const [""]}
+  ){
+    Map<dynamic, dynamic> map = Map();
+    map["description"] = description;
+    map["logs"] = logs;
+    map["materials"] = materials;
+    map["videos"] = videos;
+
+    return map;
+  }
+
+  Map<dynamic, dynamic> toMap(){
+    Map<dynamic, dynamic> map = Map();
+    map["date"] = date;
+    map["details"] = details;
+    map["duration"] = duration;
+    map["eventName"] = eventName;
+    map["eventTopic"] = eventTopic;
+    map["type"] = type;
+    map["timestamp"] = Timestamp.now();
+    return map;
+
   }
 }

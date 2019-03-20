@@ -17,15 +17,16 @@ class EventsHandler{
     for(int i=0;i<numOfEvents;i++){
       events.add(EventRepository(date: data[i]["date"],
           details: data[i]["details"],
-          materials: data[i]["materials"],
-          videos: data[i]["videos"],
           duration: data[i]["duration"],
           eventName: data[i]["eventName"],
           eventTopic: data[i]["eventTopic"],
-          type: data[i]["type"],
-          pos: i));
+          type: data[i]["type"],));
     }
 
     return events;
+  }
+
+  Future<bool> uploadEvent({@required EventRepository event}) async{
+    return db.uploadEvent(event: event);
   }
 }

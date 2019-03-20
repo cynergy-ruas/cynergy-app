@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cynergy_app/repository/EventRepository.dart';
 import 'package:meta/meta.dart';
 
 class Database{
@@ -42,8 +43,32 @@ class Database{
     return data;
   }
 
+  Future<bool> uploadEvent({@required EventRepository event}) async{
+    if(_firestore == null){
+      await init();
+    }
+
+    try{
+      DocumentReference doc = await _firestore.collection("EventsList").add({
+          "date": event.date,
+          "details": event.details,
+          "duration": event.duration,
+          "eventName": event.eventName,
+          "eventTopic": event.eventTopic,
+          "type": event.type,
+          "timestamp": Timestamp.now()
+      });
+      return true;
+    }catch(e){
+      print("error: "+e.toString());
+      return false;
+    }
+  }
+
   Future<void> init() async{
     await Firestore().settings(timestampsInSnapshotsEnabled: true);
     _firestore = Firestore.instance;
   }
+
+
 }

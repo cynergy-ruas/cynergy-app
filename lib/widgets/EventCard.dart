@@ -30,19 +30,18 @@ class EventCard extends StatelessWidget {
                 padding: EdgeInsets.only(right: 12.0),
                 decoration: new BoxDecoration(
                   border: new Border(
-                    right: new BorderSide(width: 1.0, color: Colors.black)
+                    right: new BorderSide(width: 1.0, color: Colors.white)
                   )
                 ),
-                child: Icon(Icons.event, color: Colors.black),
+                child: Icon(Icons.event),
               ),
               title: Text(
                 event.eventName,
-                style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
 
               trailing: IconButton(
                 icon: Icon(Icons.keyboard_arrow_right),
-                color: Colors.black,
                 iconSize: 30.0,
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(

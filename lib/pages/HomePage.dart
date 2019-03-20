@@ -55,14 +55,16 @@ class _HomePageState extends State<HomePage> {
 
   UserRepository get _userRepository => widget.userRepository;
   Database db = Database();
+  EventsHandler handler;
+
 
   EventsLoadBloc eventsBloc;
   @override
   Widget build(BuildContext context) {
     final AuthenticationBloc authenticationBloc =
     BlocProvider.of<AuthenticationBloc>(context);
-
-    eventsBloc = EventsLoadBloc(handler: EventsHandler(db: db));
+    handler = EventsHandler(db: db);
+    eventsBloc = EventsLoadBloc(handler: handler);
 
     List<Widget> drawerItems = (_userRepository.isCoordinator()) ?
         normalDrawerItems() + coordinatorDrawerItems() : normalDrawerItems();
@@ -169,7 +171,7 @@ class _HomePageState extends State<HomePage> {
       _createDrawerItem(
         icon: Icon(Icons.event),
         title: "Events",
-        page: EventsPage(eventsLoadBloc: eventsBloc, userIsCoordinator: _userRepository.isCoordinator(),),
+        page: EventsPage(eventHandler: handler, eventsLoadBloc: eventsBloc, userIsCoordinator: _userRepository.isCoordinator(),),
         callback: ()=>eventsBloc.dispatch(EventsLoadStart())
       ),
       _createDrawerItem(
@@ -184,17 +186,17 @@ class _HomePageState extends State<HomePage> {
 
   ListTile _createDrawerItem({@required Icon icon, @required String title, @required Widget page, VoidCallback callback}){
     return ListTile(
-        leading: icon,
-        title: Text(title),
-        onTap: () {
-          Navigator.of(context).pop(); // retracts drawer
-          if (callback != null)
-            callback();
+      leading: icon,
+      title: Text(title),
+      onTap: () {
+        Navigator.of(context).pop(); // retracts drawer
+        if (callback != null)
+          callback();
 
-          Navigator.push(context, MaterialPageRoute(
-              builder: (BuildContext context) => page,
-          ));
-        }
+        Navigator.push(context, MaterialPageRoute(
+            builder: (BuildContext context) => page,
+        ));
+      }
     );
   }
 }
