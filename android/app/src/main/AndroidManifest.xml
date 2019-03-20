@@ -17,7 +17,7 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="Cynergy"
-        android:icon="@mipmap/mainicon">
+        android:icon="@mipmap/icon1">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
