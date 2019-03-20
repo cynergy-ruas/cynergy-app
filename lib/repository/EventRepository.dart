@@ -9,6 +9,7 @@ class EventRepository{
   String eventName;
   String eventTopic;
   String type;
+  String documentID;
 
   EventRepository({@required this.date,
                   @required this.details,
@@ -41,16 +42,8 @@ class EventRepository{
     return map;
   }
 
-  Map<dynamic, dynamic> toMap(){
-    Map<dynamic, dynamic> map = Map();
-    map["date"] = date;
-    map["details"] = details;
-    map["duration"] = duration;
-    map["eventName"] = eventName;
-    map["eventTopic"] = eventTopic;
-    map["type"] = type;
-    map["timestamp"] = Timestamp.now();
-    return map;
-
+  void setDocumentID(String documentID){
+    this.documentID = documentID;
   }
+
 }

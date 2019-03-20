@@ -94,7 +94,7 @@ class _EventsPageState extends State<EventsPage> {
 
     for(EventRepository event in events){
       w.add(SizedBox(height: 10,));
-      w.add(EventCard(event: event,));
+      w.add(EventCard(event: event, eventsHandler: _eventHandler, isUserCoordinator: _userIsCoordinator,));
     }
 
     return w;

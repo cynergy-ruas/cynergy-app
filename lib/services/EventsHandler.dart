@@ -15,12 +15,14 @@ class EventsHandler{
     List<EventRepository> events = [];
 
     for(int i=0;i<numOfEvents;i++){
-      events.add(EventRepository(date: data[i]["date"],
-          details: data[i]["details"],
-          duration: data[i]["duration"],
-          eventName: data[i]["eventName"],
-          eventTopic: data[i]["eventTopic"],
-          type: data[i]["type"],));
+      EventRepository event = EventRepository(date: data[i]["date"],
+        details: data[i]["details"],
+        duration: data[i]["duration"],
+        eventName: data[i]["eventName"],
+        eventTopic: data[i]["eventTopic"],
+        type: data[i]["type"],);
+      event.setDocumentID(data[i]['docRef']);
+      events.add(event);
     }
 
     return events;
@@ -29,4 +31,9 @@ class EventsHandler{
   Future<bool> uploadEvent({@required EventRepository event}) async{
     return db.uploadEvent(event: event);
   }
+
+  Future<bool> deleteEvent({@required String documentID}) async{
+    return db.deleteEvent(documentID: documentID);
+  }
+
 }

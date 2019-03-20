@@ -35,7 +35,11 @@ class Database{
       QuerySnapshot snapshot = await coll.orderBy("date", descending: true).limit(count)
             .getDocuments();
 
-      snapshot.documents.forEach((doc) => data.add(doc.data));
+      snapshot.documents.forEach((doc) {
+        Map<dynamic, dynamic> docData = doc.data;
+        docData["docRef"] = doc.documentID;
+        data.add(docData);
+      });
     }
     catch(e){
       return null;
@@ -65,10 +69,19 @@ class Database{
     }
   }
 
+  Future<bool> deleteEvent({@required String documentID}) async{
+    try{
+      await _firestore.collection("EventsList").document(documentID).delete();
+      return true;
+    } catch(e){
+      print("error: "+e.toString());
+      return false;
+    }
+  }
+
   Future<void> init() async{
     await Firestore().settings(timestampsInSnapshotsEnabled: true);
     _firestore = Firestore.instance;
   }
-
 
 }

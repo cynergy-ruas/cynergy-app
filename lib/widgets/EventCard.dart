@@ -1,13 +1,18 @@
 import 'package:cynergy_app/repository/EventRepository.dart';
+import 'package:cynergy_app/services/EventsHandler.dart';
 import 'package:flutter/material.dart';
 import 'package:cynergy_app/pages/EventsInfoPage.dart';
 
 class EventCard extends StatelessWidget {
 
   final EventRepository event;
+  final EventsHandler eventsHandler;
+  final bool isUserCoordinator;
 
-  EventCard({@required this.event}):
-      assert(event != null);
+  EventCard({@required this.event, @required this.eventsHandler, @required this.isUserCoordinator}):
+      assert(event != null),
+      assert(eventsHandler != null),
+      assert(isUserCoordinator != null);
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +50,7 @@ class EventCard extends StatelessWidget {
                 iconSize: 30.0,
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(
-                    builder: (BuildContext context) => EventsInfoPage(event: event,)
+                    builder: (BuildContext context) => EventsInfoPage(event: event, eventsHandler: eventsHandler, isUserCoordinator: isUserCoordinator,)
                   ));
                 },
               )
