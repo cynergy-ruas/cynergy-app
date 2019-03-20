@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                    image:DecorationImage(
-                     image:NetworkImage("https://cynergy-ruas.github.io/assets/logos/cynergy-logo.png"),             
+                     image:AssetImage("assets/images/cynergy-logo (1).png"),             
                    )
                   ),
                 ),
@@ -146,14 +146,14 @@ class _HomePageState extends State<HomePage> {
         decoration: BoxDecoration(
           image: DecorationImage(
             fit: BoxFit.fill,
-            image: NetworkImage("https://secure.i.telegraph.co.uk/multimedia/archive/03290/kitten_potd_3290498k.jpg")
+            image: AssetImage("assets/images/kitten_potd_3290498k.jpg")
           )
         ),
         currentAccountPicture: GestureDetector(
           onTap: ()=> print("idk something should happen maybe"),
           child: (
             CircleAvatar(
-              backgroundImage: NetworkImage("https://cynergy-ruas.github.io/assets/default-avatar.jpg"),
+              backgroundImage: AssetImage("assets/images/default-avatar.jpg"),
             )
           ),
         )
