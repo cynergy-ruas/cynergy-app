@@ -1,17 +1,28 @@
 import 'package:cynergy_app/repository/EventRepository.dart';
 import 'package:cynergy_app/services/EventsHandler.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
-class EventsInfoPage extends StatelessWidget {
+class EventsInfoPage extends StatefulWidget {
+  @override
+  _EventsInfoPageState createState() => _EventsInfoPageState();
 
   final EventRepository event;
   final EventsHandler eventsHandler;
   final bool isUserCoordinator;
-
   EventsInfoPage({@required this.event, @required this.eventsHandler, @required this.isUserCoordinator}) :
       assert(event != null),
       assert(eventsHandler != null),
       assert(isUserCoordinator != null);
+}
+
+class _EventsInfoPageState extends  State<EventsInfoPage> {
+  //dataString is the string that is converted to QR
+  String dataString ='yolo';
+  String inputErrorText;
+  EventRepository get event => widget.event;
+  EventsHandler get eventsHandler => widget.eventsHandler;
+  bool get isUserCoordinator => widget.isUserCoordinator;
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +46,7 @@ class EventsInfoPage extends StatelessWidget {
               )
             ],
           ),
+                    
           SizedBox(height: 20,),
           ListTile(
             title: Text(
@@ -60,6 +72,7 @@ class EventsInfoPage extends StatelessWidget {
             ),
           ),
         ],
+
       ),
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -77,10 +90,8 @@ class EventsInfoPage extends StatelessWidget {
         children: <Widget>[
           SizedBox(height: 20,),
           ListTile(
-            title: Icon(
-              Icons.info,
-              size: 30
-            ),
+            title: Icon(Icons.info,size: 30),
+            onTap: () => showQrCode(context),
             subtitle: Container(
               padding: EdgeInsets.only(top: 20),
               child: Text(
@@ -189,6 +200,55 @@ class EventsInfoPage extends StatelessWidget {
               title: Text("Event Deletion"),
               content: Text("Error deleting event.")
           );
+        }
+    );
+  }
+
+  void showQrCode(BuildContext context){
+    showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return Container(  
+      color: const Color(0xFFFFFFFF),
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 50.0,
+              left: 30.0,
+              right: 20.0,
+              bottom: 50.0,
+            ),
+            child: Container(
+              height: 50.0,
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.stretch,               
+              ),
+            ),
+          ),
+          Expanded(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: QrImage(
+                  data: dataString,
+                  gapless: false,
+                  foregroundColor: const Color(0xFF111111),
+                  onError: (dynamic ex) {
+                    print('[QR] ERROR - $ex');
+                    setState(() {
+                      inputErrorText =
+                          'Error! Maybe your input value is too long?';
+                    });
+                  },
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+);
         }
     );
   }

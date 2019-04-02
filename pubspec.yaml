@@ -16,6 +16,9 @@ dependencies:
   flutter:
     sdk: flutter
   
+  qr_flutter:
+    git:
+      url: git://github.com/lukef/qr.flutter.git
   firebase_auth: ^0.8.1+1
   cloud_firestore:
     git:
@@ -36,7 +39,6 @@ dependencies:
     git:
       url: git://github.com/apptreesoftware/flutter_barcode_reader.git
       ref: 5d498e39a76466b03579486475ec777fba33ed2c
-  qr_flutter: ^1.1.6
   color: any
 
 dev_dependencies:
