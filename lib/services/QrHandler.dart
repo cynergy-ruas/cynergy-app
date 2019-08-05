@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:meta/meta.dart';

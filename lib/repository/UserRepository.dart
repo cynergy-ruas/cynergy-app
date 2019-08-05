@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cynergy_app/services/LoginAuth.dart';
 import 'package:meta/meta.dart';
 
