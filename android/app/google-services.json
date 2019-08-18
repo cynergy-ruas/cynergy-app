@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "319069936084",
+    "firebase_url": "https://cynergy-ruas.firebaseio.com",
+    "project_id": "cynergy-ruas",
+    "storage_bucket": "cynergy-ruas.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:319069936084:android:8b9f1df1553c8040",
+        "android_client_info": {
+          "package_name": "io.github.cynergy.cynergyapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "319069936084-tnm7g2jlb9heh4u5hr9i783fqo4lg20d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBM-raN4Z7DF7y28RamfiYwgquHasg9Hgw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
