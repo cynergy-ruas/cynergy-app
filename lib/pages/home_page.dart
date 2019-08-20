@@ -1,8 +1,9 @@
 import 'package:cynergy_app/bloc/data_load_bloc.dart';
 import 'package:cynergy_app/pages/events_page.dart';
 import 'package:cynergy_app/services/events_handler.dart';
-import 'package:cynergy_app/widgets/tab_bar.dart';
 import 'package:flutter/material.dart';
+
+import 'package:cynergy_app/theme_data.dart' as theme_data;
 
 
 class HomePage extends StatefulWidget {
@@ -14,13 +15,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   
-  DataLoadBloc eventsBloc;
-  EventsHandler handler;
+  DataLoadBloc _eventsBloc;
+  EventsHandler _handler;
+
+  int _currentIndex = 0;
 
   @override
   void initState() {
-    handler = EventsHandler();
-    eventsBloc = DataLoadBloc(handler: handler);
+    _handler = EventsHandler();
+    _eventsBloc = DataLoadBloc(handler: _handler);
     super.initState();
   }
 
@@ -33,51 +36,47 @@ class _HomePageState extends State<HomePage> {
       Scaffold: The home page contents.
     */
 
+    List pages = [
+      buildHome(),
+      EventsPage(eventsBloc: _eventsBloc,),
+    ];
+
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            SizedBox(height: 30,),
-            Header(),
-            SizedBox(height: 30,),
-            Expanded(
-              child: HomeTabView(
-                length: 2,
-                padding: 10,
-                initialPage: 0,
-                tabs: [
-                  CustomTab(text: "Events",),
-                  CustomTab(text: "Others",)
-                ],
-                pages: <Widget>[
-                  EventsPage(eventsBloc: eventsBloc,),
-                  Center(
-                    child: Text("Others"),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      )
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color(0xff373737),
+        currentIndex: _currentIndex,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Container()
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.location_on),
+            title: Container()
+          )
+        ],
+        selectedIconTheme: IconThemeData(color: theme_data.purple),
+        unselectedIconTheme: IconThemeData(color: Color(0xff9f9f9f)),
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+      ),
+      body: pages[_currentIndex],
     );
   }
-}
 
-class Header extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 32),
-      child: Text(
-        "Cynergy",
-        style: TextStyle(
-          fontSize: 38,
-          fontWeight: FontWeight.w600
-        )
-      ),
+  Widget buildHome() {
+    /**
+     * Builds the Home page contents.
+     * 
+     * Returns
+     *  Widget: The home page contents.
+     */
+    
+    return Center(
+      child: Text("HomePage", style: TextStyle(color: Colors.white)),
     );
   }
 }

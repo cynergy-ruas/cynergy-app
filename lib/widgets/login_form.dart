@@ -3,6 +3,8 @@ import 'package:cynergy_app/theme_data.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_text/gradient_text.dart';
 
+import 'misc_widgets.dart';
+
 class LoginForm extends StatelessWidget {
 
   final AuthBloc authBloc;

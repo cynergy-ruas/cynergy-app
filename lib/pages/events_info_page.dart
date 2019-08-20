@@ -9,25 +9,8 @@ class EventsInfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: event.name,
-      child: Material(
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: MediaQuery.of(context).size.height * 0.31,
-              child: Image.asset(
-                "assets/images/events_placeholder.jpg",
-                fit: BoxFit.none
-              ),
-            ),
-            ListTile( 
-              title: Text(event.name, style: TextStyle(fontSize: 20),),
-              subtitle: Text(event.getFormattedDate()),
-            )
-          ],
-        ),
-      ),
+    return Center(
+      child: Text("Events info"),
     );
   }
 }

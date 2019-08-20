@@ -1,50 +1,62 @@
 import 'package:cynergy_app/models/events_model.dart';
-import 'package:cynergy_app/widgets/card_scroll_widget.dart';
+import 'package:cynergy_app/widgets/misc_widgets.dart';
 import 'package:flutter/material.dart';
+
+import 'package:cynergy_app/theme_data.dart' as theme_data;
 
 import 'dart:math' as math;
 
 import 'package:shimmer/shimmer.dart';
 
+typedef CardTapCallback (dynamic);
+
+
 class EventCard extends StatelessWidget {
 
+  /// The event whose details are to be rendered.
   final Event event;
+
+  /// The offset of the card. Used for the animation.
   final double offset;
+
+  /// boolean that defines whether the skeleton should be built
+  /// or not.
   final bool buildSkeleton;
+
+  /// Callback that is called when the card is tapped.
   final CardTapCallback onTap;
 
-  EventCard({Key key, @required this.event, @required this.offset, @required this.onTap, this.buildSkeleton = false});
+  /// Height of the card.
+  final double height;
+
+  EventCard({Key key, @required this.event, @required this.offset, @required this.onTap, this.buildSkeleton = false, @required this.height});
 
   @override
   Widget build(BuildContext context) {
+    /// converting offset to a gaussian distribution. Cooler animation.
     double gauss = math.exp(-(math.pow((offset.abs() - 0.5), 2) / 0.08));
-    double height = MediaQuery.of(context).size.height * 0.3;
 
     Widget card = GestureDetector(
       child: Card(
+        color: theme_data.purple,
         margin: EdgeInsets.only(left: 8, right: 8, bottom: 24),
         elevation: 8,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
-              child: buildSkeleton
-              ? shimmerBox(height: height)
-              : Image.asset(
-                  'assets/images/events_placeholder.jpg',
-                  height: height,
-                  alignment: Alignment(-offset.abs(), 0),
-                  fit: BoxFit.none,
-                ),
+            Stack(
+              children: <Widget>[
+                _backgroundImage(),
+                _CardHeader(event: event, offset: gauss, buildSkeleton: buildSkeleton,),
+                Positioned(
+                  top: this.height * 0.54,
+                  right: 10,
+                  child: _button()
+                )
+              ],
             ),
-            SizedBox(height: 8,),
-            Expanded(
-              child: _CardContents(event: event, offset: gauss, buildSkeleton: buildSkeleton,),
-            )
+            _CardFooter(event: event, offset: gauss, buildSkeleton: buildSkeleton,)
           ],
-        ),
+        )
       ),
       onTap: () {
         onTap(event);
@@ -61,34 +73,199 @@ class EventCard extends StatelessWidget {
       )
     );
   }
+
+  Widget _button() {
+    /**
+     * Build the info button (for normal members) or the edit
+     * button (for coordinators)
+     * 
+     * Returns
+     *  Widget: The button
+     */
+
+    return RawMaterialButton(
+      onPressed: () {},
+      child: _dots(),
+      shape: CircleBorder(),
+      elevation: 2.0,
+      fillColor: Colors.white,
+      padding: EdgeInsets.all(10.0),
+    );
+  }
+
+  Widget _dots() {
+    /**
+     * Build a widget that functions as an Icon of sorts.
+     * The three vertical dots.
+     * 
+     * Returns:
+     *  Widget: The widget.
+     */
+
+    Container _circleContainer = Container(
+      height: 6,
+      width: 6,
+      decoration: new BoxDecoration(
+        color: Colors.grey,
+        shape: BoxShape.circle,
+      ),
+    );
+
+    return Column(
+      children: <Widget>[
+        _circleContainer,
+        SizedBox(height: 5,),
+        _circleContainer,
+        SizedBox(height: 5,),
+        _circleContainer
+      ],
+    );
+  }
+
+  Widget _backgroundImage() {
+    /**
+     * Builds the clipped background image.
+     * 
+     * Returns:
+     *  Widget: The background image
+     */
+
+    if (! buildSkeleton)
+      return Container(
+        height: this.height * 0.7,
+        child: ClipPath(
+          clipper: AntiClockwiseDiagonalClipper(),
+          child: Image.asset(
+            'assets/images/events_placeholder.jpg',
+            fit: BoxFit.none,
+            alignment: Alignment(-offset.abs(), 0),
+            color: Colors.grey.withOpacity(0.5),
+            colorBlendMode: BlendMode.srcOver,
+          ),
+        ),
+      );
+    
+    return shimmerBox(height: this.height * 0.7);
+  }
 }
 
-class _CardContents extends StatelessWidget {
+class _CardHeader extends StatelessWidget {
 
   final Event event;
   final double offset;
   final bool buildSkeleton;
 
-  _CardContents({this.event, this.offset, this.buildSkeleton = false});
+  _CardHeader({this.event, this.offset, this.buildSkeleton = false});
 
   @override
   Widget build(BuildContext context) {
+    /**
+     * Builds the contents on the top part of the card.
+     * Contains the title and the description.
+     * 
+     * Returns:
+     *  Widget: The contents.
+     */
+
     return Padding(
       padding: EdgeInsets.only(top: 8, right: 8, bottom: 8),
-      child: Transform.translate(
-        offset: Offset(32 * offset, 0),
-        child: (buildSkeleton)
-          ? shimmerBox()
-          : ListTile( 
-              title: Text(event.name, style: TextStyle(fontSize: 20),),
-              subtitle: Text(event.getFormattedDate()),
-            )
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Transform.translate(
+            offset: Offset(32 * offset, 0),
+            child: (buildSkeleton)
+              ? shimmerBox()
+              : Column(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(top: 10, left: 30, right: 30),
+                    child: Center(
+                      child: Text(event.name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),),
+                    )
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 30, left: 30, right: 30),
+                    child: Center(
+                      child: Text(
+                        event.getDescription(),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16
+                        ),
+                      ),
+                    )
+                  )
+                ],
+              )
+          )
+        ],
+      )
+    );
+  }
+}
+
+class _CardFooter extends StatelessWidget {
+
+  final Event event;
+  final double offset;
+  final bool buildSkeleton;
+
+  _CardFooter({this.event, this.offset, this.buildSkeleton = false});
+
+  @override
+  Widget build(BuildContext context) {
+    /**
+     * Build the bottom part of the card. Contains the text for
+     * Date, Time and Venue
+     * 
+     * Returns:
+     *  Widget: The contents.
+     */
+
+    TextStyle style = TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.bold,
+      fontSize: 16
+    );
+
+    return Transform.translate(
+      offset: Offset(offset * 32, 0),
+      child: Column(
+        children: <Widget>[
+          Text(
+            "Date: " + event.getShortDate(),
+            style: style
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 10),
+            child: Text(
+              "Time: ",
+              style: style,
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 10),
+            child: Text(
+              "Venue: ",
+              style: style,
+            ),
+          ),
+        ],
       )
     );
   }
 }
 
 Widget shimmerBox({double  height}) {
+  /**
+   * Build the skeleton.
+   * 
+   * Returns:
+   *  Widget: The skeleton.
+   */
+
   if (height != null) {
     return Shimmer.fromColors(
       baseColor: Colors.grey[200],

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 
 final gradientPurple = Color(0xffa556c3);
+final purple = Color(0xff6200ee);
 final gradientLightYellow = Color(0xffec9d7d);
 final gradientLightGrey = Color(0xff232633);
 final gradientDarkGrey = Color(0xff171821);
@@ -33,13 +34,7 @@ InputDecoration textFieldInputDecoration ({@required double textFieldRadius, @re
   );
 }
 
-
-class NoGlowingOverscrollBehaviour extends ScrollBehavior {
-  /*
-  class that is used to remove the glowing overscroll effect
-  */
-  @override
-  Widget buildViewportChrome(BuildContext context, Widget child, AxisDirection axisDirection) {
-    return child;
-  }
-}
+ThemeData darkTheme = ThemeData(
+  scaffoldBackgroundColor: Color(0xff121212),
+  accentColor: Color(0xff6200ee)
+);

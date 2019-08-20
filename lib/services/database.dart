@@ -20,17 +20,17 @@ class Database {
 
     List<Map<String, dynamic>> data = [];
     try{
-      // getting a reference to the collection in firestore
+      /// getting a reference to the collection in firestore
       CollectionReference coll = _firestore.collection("EventsList");
-      // getting the documents in the reference and ordering by date
+      /// getting the documents in the reference and ordering by date
       QuerySnapshot snapshot = await coll.orderBy("date", descending: true).limit(count).getDocuments();
-      // adding the data in each document obtained to [data]
+      /// adding the data in each document obtained to [data]
       snapshot.documents.forEach((doc) {
         Map<dynamic, dynamic> docData = doc.data;
         docData["docRef"] = doc.documentID;
         data.add(docData);
       });
-      // returning data
+      /// returning data
       return data.reversed.toList();
     }
     catch (e) {

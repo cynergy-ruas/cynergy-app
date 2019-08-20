@@ -9,21 +9,21 @@ import 'package:meta/meta.dart';
 import 'package:cynergy_app/models/user_model.dart';
 
 ////////////////////////////////////////////
-// Defining the events
+/// Defining the events
 ////////////////////////////////////////////
 
-// The base class
+/// The base class
 abstract class AuthEvent extends Equatable {
   AuthEvent([List props = const []]) : super(props);
 }
 
-// The event emitted when the app first starts
+/// The event emitted when the app first starts
 class AppStart extends AuthEvent {
   @override
   String toString() => "App started.";
 }
 
-// The event emitted when the user attempts to log in
+/// The event emitted when the user attempts to log in
 class LogIn extends AuthEvent {
   final String email;
   final String password;
@@ -34,46 +34,46 @@ class LogIn extends AuthEvent {
   String toString() => "User is logging in";
 }
 
-// The event emitted when the user attempts to logs out
+/// The event emitted when the user attempts to logs out
 class LogOut extends AuthEvent {
   @override
   String toString() => "User is logging out";
 }
 
 ////////////////////////////////////////////
-// Defining the states
+/// Defining the states
 ////////////////////////////////////////////
 
-// The base class
+/// The base class
 abstract class AuthState extends Equatable {}
 
-// The state when the authentication is not initialized, initial state
+/// The state when the authentication is not initialized, initial state
 class AuthUninitialized extends AuthState {
   String toString() => "AuthenticationUninitialized";
 }
 
-// The state when the authentication is valid
+/// The state when the authentication is valid
 class AuthValid extends AuthState {
   String toString() => "AuthenticationValid";
 }
 
-// The state when authentication is invalid/when user has logged out/when user has not logged in
+/// The state when authentication is invalid/when user has logged out/when user has not logged in
 class AuthInvalid extends AuthState {
   String toString() => "AuthenticationInvalid";
 }
 
-// The state when authentication is loading
+/// The state when authentication is loading
 class AuthLoading extends AuthState {
   String toString() => "AuthLoading";
 }
 
-// The state when an error occurs while logging in
+/// The state when an error occurs while logging in
 class AuthError extends AuthState {
   String toString() => "AuthError";
 }
 
 ////////////////////////////////////////////
-// Defining the Bloc. Logic goes here
+/// Defining the Bloc. Logic goes here
 ////////////////////////////////////////////
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
@@ -97,18 +97,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     */
 
     if (event is AppStart) {
-      // check if user is logged in, then do stuff
+      /// check if user is logged in, then do stuff
       yield AuthUninitialized();
 
       var user = User.getInstance();
-      // checking if user is already logged in
+      /// checking if user is already logged in
       if (await _auth.isLoggedIn()) {
         print("In if");
         user.setClaims(await _auth.getClaims());
         yield AuthValid();
       }
       else
-        // user has not logged in, yield AuthInvalid
+        /// user has not logged in, yield AuthInvalid
         yield AuthInvalid();
     }
 
@@ -116,20 +116,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield AuthLoading();
       
       try{
-        // logging in
+        /// logging in
         await _auth.login(email: event.email, password: event.password);
         print("User has logged in.");
         yield AuthValid();
       }
       catch (e) {
-        // error occured while logging in
+        /// error occured while logging in
         yield AuthError();
       }
     }
 
     else if (event is LogOut){
       yield AuthLoading();
-      // logging out
+      /// logging out
       await _auth.logout();
       yield AuthInvalid();
     }
