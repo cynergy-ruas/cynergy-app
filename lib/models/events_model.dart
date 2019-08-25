@@ -58,6 +58,18 @@ class Event {
            DateFormat.y().format(_date); 
   }
 
+  String getTime() {
+    /**
+     * Formats the [TimeStamp] and returns the time in the format:
+     * {Hour}:{Minute} {AM/PM}
+     * 
+     * Returns:
+     *  String: The time.
+     */
+
+    return DateFormat.jm().format(date.toDate());
+  }
+
   String getDescription() {
     /**
      * Extracts the description from the [details]
@@ -76,5 +88,20 @@ class Event {
     
     this.documentID = documentID;
   }
+}
 
+class EventPool {
+  static List<Event> events;
+
+  static setEvents(List<Event> e) {
+    events = e;
+  } 
+
+  static int getIndexOfFirstPastEvent() {
+    for (int i = 0;i<events.length;i++) {
+      if (DateTime.now().difference(events[i].date.toDate()) > Duration(seconds: 0))
+        return i;
+    }
+    return 0;
+  }
 }

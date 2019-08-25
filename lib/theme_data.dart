@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 final gradientPurple = Color(0xffa556c3);
 final purple = Color(0xff6200ee);
+final grey = Color(0xff707070);
 final gradientLightYellow = Color(0xffec9d7d);
 final gradientLightGrey = Color(0xff232633);
 final gradientDarkGrey = Color(0xff171821);
@@ -36,5 +37,6 @@ InputDecoration textFieldInputDecoration ({@required double textFieldRadius, @re
 
 ThemeData darkTheme = ThemeData(
   scaffoldBackgroundColor: Color(0xff121212),
-  accentColor: Color(0xff6200ee)
+  accentColor: Color(0xff6200ee),
+  disabledColor: Color(0xff707070)
 );

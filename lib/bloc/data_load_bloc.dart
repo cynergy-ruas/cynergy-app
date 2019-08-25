@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:cynergy_app/models/events_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -23,25 +24,24 @@ class BeginDataLoad extends DataLoadEvent {
 
 /// The base class
 abstract class DataLoadState extends Equatable {
-  final data;
-  DataLoadState({@required this.data});
+  DataLoadState();
 }
 
 /// The state when the data loading is uninitialized
 class DataLoadUnintialized extends DataLoadState {
   String toString() => "DataLoadUninitialized";
-  DataLoadUnintialized() : super(data: null);
+  DataLoadUnintialized() : super();
 }
 
 /// The state when data loading is ongoing
 class DataLoadOnGoing extends DataLoadState {
   String toString() => "DataLoadOnGoing";
-  DataLoadOnGoing() : super(data: null);
+  DataLoadOnGoing() : super();
 }
 
 /// The state when data loading is complete
 class DataLoadComplete extends DataLoadState {
-  DataLoadComplete({@required data}) : super(data: data);
+  DataLoadComplete() : super();
 
   String toString() => "DataLoadComplete";
 }
@@ -76,7 +76,8 @@ class DataLoadBloc extends Bloc<DataLoadEvent, DataLoadState>{
     if (event is BeginDataLoad) {
       yield DataLoadOnGoing();
       var data = await handler.loadData();
-      yield DataLoadComplete(data: data);
+      EventPool.setEvents(data.reversed.toList());
+      yield DataLoadComplete();
     }
   }
   

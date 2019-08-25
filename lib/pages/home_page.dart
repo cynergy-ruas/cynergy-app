@@ -3,8 +3,6 @@ import 'package:cynergy_app/pages/events_page.dart';
 import 'package:cynergy_app/services/events_handler.dart';
 import 'package:flutter/material.dart';
 
-import 'package:cynergy_app/theme_data.dart' as theme_data;
-
 
 class HomePage extends StatefulWidget {
   static final routeName = "/events";
@@ -55,7 +53,7 @@ class _HomePageState extends State<HomePage> {
             title: Container()
           )
         ],
-        selectedIconTheme: IconThemeData(color: theme_data.purple),
+        selectedIconTheme: IconThemeData(color: Theme.of(context).accentColor),
         unselectedIconTheme: IconThemeData(color: Color(0xff9f9f9f)),
         onTap: (index) {
           setState(() {

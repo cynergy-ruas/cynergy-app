@@ -1,8 +1,7 @@
 import 'package:cynergy_app/models/events_model.dart';
 import 'package:cynergy_app/widgets/event_card.dart';
+import 'package:cynergy_app/widgets/events_tab.dart';
 import 'package:flutter/material.dart';
-
-typedef void CardTapCallback (dynamic);
 
 class CardView extends StatefulWidget {
 
@@ -12,14 +11,10 @@ class CardView extends StatefulWidget {
   /// The number of events
   final int itemCount;
 
-  /// boolean that says whether to build a skeleton or render the
-  /// event details.
-  final bool buildSkeleton;
+  /// determines whether the animation should be applied or not
+  final bool shouldAnimate;
 
-  /// Callback that runs when card is tapped
-  final CardTapCallback onCardTap;
-
-  CardView({Key key, @required this.events, @required this.itemCount, @required this.onCardTap, this.buildSkeleton = false}):
+  CardView({Key key, @required this.events, @required this.itemCount, @required this.shouldAnimate}):
     super(key: key);
 
   @override
@@ -31,8 +26,7 @@ class _CardViewState extends State<CardView> {
   /// Getting the variables from the [CardView] class.
   List<Event> get events => widget.events;
   int get itemCount => widget.itemCount;
-  bool get buildSkeleton => widget.buildSkeleton;
-  CardTapCallback get onCardTap => widget.onCardTap;
+  bool get shouldAnimate => widget.shouldAnimate;
 
   PageController pageController;
 
@@ -47,9 +41,10 @@ class _CardViewState extends State<CardView> {
 
     super.initState();
     pageController = PageController(viewportFraction: 0.8);
-    pageController.addListener(() {
-      setState(() => pageOffset = pageController.page);
-    });
+    if (shouldAnimate)
+      pageController.addListener(() {
+        setState(() => pageOffset = pageController.page);
+      });
   }
 
   @override
@@ -68,7 +63,9 @@ class _CardViewState extends State<CardView> {
      */
     
     double height = MediaQuery.of(context).size.height * 0.60;
-    return SizedBox(
+    double width = MediaQuery.of(context).size.width * 0.8;
+
+    Widget body = SizedBox(
       height: height,
       child: PageView.builder(
         controller: pageController,
@@ -77,12 +74,40 @@ class _CardViewState extends State<CardView> {
           return EventCard(
             event: events?.elementAt(position),
             offset: pageOffset - position,
-            buildSkeleton: buildSkeleton,
-            onTap: onCardTap,
             height: height,
+            shouldAnimate: shouldAnimate,
           );
         },
       )
+    );
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        EventsTab(
+          width: width,
+          height: 50,
+          tabWidth: width * 0.4,
+          parent: pageController,
+          onUpcomingTap: () async {
+            if (EventPool.getIndexOfFirstPastEvent() != 0) 
+              await pageController.animateToPage(
+                0,
+                duration: Duration(milliseconds: 1000),
+                curve: Curves.easeInOutQuad
+              );
+          },
+          onPastTap: () async{
+            await pageController.animateToPage(
+              EventPool.getIndexOfFirstPastEvent(),
+              duration: Duration(milliseconds: 1000),
+              curve: Curves.easeInOutQuad
+            );
+          },
+        ),
+        SizedBox(height: 50,),
+        body
+      ],
     );
   }
 }

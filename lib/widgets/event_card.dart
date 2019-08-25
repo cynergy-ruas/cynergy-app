@@ -2,14 +2,7 @@ import 'package:cynergy_app/models/events_model.dart';
 import 'package:cynergy_app/widgets/misc_widgets.dart';
 import 'package:flutter/material.dart';
 
-import 'package:cynergy_app/theme_data.dart' as theme_data;
-
 import 'dart:math' as math;
-
-import 'package:shimmer/shimmer.dart';
-
-typedef CardTapCallback (dynamic);
-
 
 class EventCard extends StatelessWidget {
 
@@ -19,59 +12,50 @@ class EventCard extends StatelessWidget {
   /// The offset of the card. Used for the animation.
   final double offset;
 
-  /// boolean that defines whether the skeleton should be built
-  /// or not.
-  final bool buildSkeleton;
-
-  /// Callback that is called when the card is tapped.
-  final CardTapCallback onTap;
-
   /// Height of the card.
   final double height;
 
-  EventCard({Key key, @required this.event, @required this.offset, @required this.onTap, this.buildSkeleton = false, @required this.height});
+  /// determines whether the animations should be applied or not.
+  final bool shouldAnimate;
+
+  EventCard({Key key, @required this.event, @required this.offset, @required this.height, this.shouldAnimate = false});
 
   @override
   Widget build(BuildContext context) {
-    /// converting offset to a gaussian distribution. Cooler animation.
-    double gauss = math.exp(-(math.pow((offset.abs() - 0.5), 2) / 0.08));
+    double gauss;
 
-    Widget card = GestureDetector(
-      child: Card(
-        color: theme_data.purple,
-        margin: EdgeInsets.only(left: 8, right: 8, bottom: 24),
-        elevation: 8,
-        child: Column(
-          children: <Widget>[
-            Stack(
-              children: <Widget>[
-                _backgroundImage(),
-                _CardHeader(event: event, offset: gauss, buildSkeleton: buildSkeleton,),
-                Positioned(
-                  top: this.height * 0.54,
-                  right: 10,
-                  child: _button()
-                )
-              ],
-            ),
-            _CardFooter(event: event, offset: gauss, buildSkeleton: buildSkeleton,)
-          ],
-        )
-      ),
-      onTap: () {
-        onTap(event);
-      },
-    );
+    if (shouldAnimate)
+      /// converting offset to a gaussian distribution. Cooler animation.
+      gauss = math.exp(-(math.pow((offset.abs() - 0.5), 2) / 0.08));
 
-    return Transform.translate(
-      offset: Offset(-32 * gauss * offset.sign, 0),
-      child: (buildSkeleton)
-      ? card
-      : Hero(
-          tag: event.name,
-          child: card,
+    Widget card = Card(
+      color: Theme.of(context).accentColor,
+      margin: EdgeInsets.only(left: 8, right: 8, bottom: 24),
+      elevation: 8,
+      child: Column(
+        children: <Widget>[
+          Stack(
+            children: <Widget>[
+              _backgroundImage(),
+              _CardHeader(event: event, offset: gauss, shouldAnimate: shouldAnimate,),
+              Positioned(
+                top: this.height * 0.542,
+                right: 10,
+                child: _button()
+              )
+            ],
+          ),
+          _CardFooter(event: event, offset: gauss, shouldAnimate: shouldAnimate,)
+        ],
       )
     );
+
+    if (shouldAnimate)
+      return Transform.translate(
+        offset: Offset(-32 * gauss * offset.sign, 0),
+        child: card
+      );
+    return card;
   }
 
   Widget _button() {
@@ -130,22 +114,19 @@ class EventCard extends StatelessWidget {
      *  Widget: The background image
      */
 
-    if (! buildSkeleton)
-      return Container(
-        height: this.height * 0.7,
-        child: ClipPath(
-          clipper: AntiClockwiseDiagonalClipper(),
-          child: Image.asset(
-            'assets/images/events_placeholder.jpg',
-            fit: BoxFit.none,
-            alignment: Alignment(-offset.abs(), 0),
-            color: Colors.grey.withOpacity(0.5),
-            colorBlendMode: BlendMode.srcOver,
-          ),
+    return Container(
+      height: this.height * 0.7,
+      child: ClipPath(
+        clipper: AntiClockwiseDiagonalClipper(),
+        child: Image.asset(
+          'assets/images/events_placeholder.jpg',
+          fit: BoxFit.none,
+          alignment: (shouldAnimate) ? Alignment(-offset.abs(), 0): Alignment(0, 0),
+          color: Colors.grey.withOpacity(0.5),
+          colorBlendMode: BlendMode.srcOver,
         ),
-      );
-    
-    return shimmerBox(height: this.height * 0.7);
+      ),
+    );
   }
 }
 
@@ -153,9 +134,9 @@ class _CardHeader extends StatelessWidget {
 
   final Event event;
   final double offset;
-  final bool buildSkeleton;
+  final bool shouldAnimate;
 
-  _CardHeader({this.event, this.offset, this.buildSkeleton = false});
+  _CardHeader({@required this.event, @required this.offset, @required this.shouldAnimate});
 
   @override
   Widget build(BuildContext context) {
@@ -167,39 +148,41 @@ class _CardHeader extends StatelessWidget {
      *  Widget: The contents.
      */
 
+    Widget content = Column(
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(top: 10, left: 30, right: 30),
+          child: Center(
+            child: Text(event.name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),),
+          )
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 30, left: 30, right: 30),
+          child: Center(
+            child: Text(
+              event.getDescription(),
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+                fontSize: 16
+              ),
+            ),
+          )
+        )
+      ],
+    );
+
     return Padding(
       padding: EdgeInsets.only(top: 8, right: 8, bottom: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Transform.translate(
-            offset: Offset(32 * offset, 0),
-            child: (buildSkeleton)
-              ? shimmerBox()
-              : Column(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(top: 10, left: 30, right: 30),
-                    child: Center(
-                      child: Text(event.name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),),
-                    )
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 30, left: 30, right: 30),
-                    child: Center(
-                      child: Text(
-                        event.getDescription(),
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16
-                        ),
-                      ),
-                    )
-                  )
-                ],
-              )
-          )
+          (shouldAnimate) 
+          ? Transform.translate(
+              offset: Offset(32 * offset, 0),
+              child: content
+            )
+          : content
         ],
       )
     );
@@ -210,9 +193,9 @@ class _CardFooter extends StatelessWidget {
 
   final Event event;
   final double offset;
-  final bool buildSkeleton;
+  final bool shouldAnimate;
 
-  _CardFooter({this.event, this.offset, this.buildSkeleton = false});
+  _CardFooter({@required this.event, @required this.offset, @required this.shouldAnimate});
 
   @override
   Widget build(BuildContext context) {
@@ -230,67 +213,34 @@ class _CardFooter extends StatelessWidget {
       fontSize: 16
     );
 
-    return Transform.translate(
-      offset: Offset(offset * 32, 0),
-      child: Column(
-        children: <Widget>[
-          Text(
-            "Date: " + event.getShortDate(),
-            style: style
+    Widget content = Column(
+      children: <Widget>[
+        Text(
+          "Date: " + event.getShortDate(),
+          style: style
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 10),
+          child: Text(
+            "Time: " + event.getTime(),
+            style: style,
           ),
-          Padding(
-            padding: EdgeInsets.only(top: 10),
-            child: Text(
-              "Time: ",
-              style: style,
-            ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 10),
+          child: Text(
+            "Venue: ",
+            style: style,
           ),
-          Padding(
-            padding: EdgeInsets.only(top: 10),
-            child: Text(
-              "Venue: ",
-              style: style,
-            ),
-          ),
-        ],
-      )
+        ),
+      ],
     );
+
+    if (shouldAnimate) 
+      return Transform.translate(
+        offset: Offset(offset * 32, 0),
+        child: content
+      );
+    return content;
   }
-}
-
-Widget shimmerBox({double  height}) {
-  /**
-   * Build the skeleton.
-   * 
-   * Returns:
-   *  Widget: The skeleton.
-   */
-
-  if (height != null) {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey[200],
-      highlightColor: Colors.white,
-      child: Container(
-        height: height,
-        color: Colors.white,
-      )
-    );
-  }
-
-  Widget shimmer = Shimmer.fromColors(
-    baseColor: Colors.grey[200],
-    highlightColor: Colors.white,
-    child: Container(
-      height: 25,
-      color: Colors.white,
-    )
-  );
-
-  return ListTile(
-    title: shimmer,
-    subtitle: Padding(
-      padding: EdgeInsets.only(top: 15),
-      child: shimmer
-    )
-  );
 }
