@@ -109,6 +109,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget page1(BuildContext context) {
+    /**
+     * Build the first page in the page view.
+     * 
+     * Returns:
+     *  Widget: The contents.
+     */
+    
     double height = MediaQuery.of(context).size.height;
 
     return SafeArea(
@@ -146,6 +153,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget page2(BuildContext context) {
+
+    /**
+     * Build the second page in the [PageView].
+     * 
+     * Returns:
+     *  Widget: The contents.
+     */
 
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;

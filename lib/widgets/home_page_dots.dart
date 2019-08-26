@@ -13,11 +13,20 @@ class HomePageDots extends StatefulWidget {
 
 class _HomePageDotsState extends State<HomePageDots> {
 
+  /// [PageController] this widget should be attached to.
   PageController get _controller => widget.controller;
+
+  /// The current page, used to highlight the dot.
   int _currentPage = 0;
 
   @override
   void initState() {
+    /**
+     * Intializes the widget.
+     * 
+     * Returns:
+     *  void
+     */
     super.initState();
     _controller.addListener(() {
       if (_controller.page.round() != _currentPage && this.mounted) {
@@ -30,6 +39,13 @@ class _HomePageDotsState extends State<HomePageDots> {
 
   @override
   Widget build(BuildContext context) {
+    /**
+     * Builds the dots indicator.
+     * 
+     * Returns:
+     *  Widget: The dots indicator.
+     */
+    
     return DotsIndicator(
       dotsCount: 2,
       position: _currentPage,
