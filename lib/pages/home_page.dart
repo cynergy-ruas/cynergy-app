@@ -2,7 +2,6 @@ import 'package:cynergy_app/bloc/data_load_bloc.dart';
 import 'package:cynergy_app/pages/events_page.dart';
 import 'package:cynergy_app/services/events_handler.dart';
 import 'package:cynergy_app/widgets/home_page_dots.dart';
-import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 
 
@@ -266,6 +265,12 @@ class _HomePageState extends State<HomePage> {
       fontSize: fontSize,
       height: height
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pageController.dispose();
   }
 }
 

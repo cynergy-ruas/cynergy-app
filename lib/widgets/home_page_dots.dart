@@ -20,7 +20,7 @@ class _HomePageDotsState extends State<HomePageDots> {
   void initState() {
     super.initState();
     _controller.addListener(() {
-      if (_controller.page.round() != _currentPage) {
+      if (_controller.page.round() != _currentPage && this.mounted) {
         setState(() {
           _currentPage = _controller.page.round();
         });

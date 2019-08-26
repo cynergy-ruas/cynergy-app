@@ -1,6 +1,5 @@
 import 'package:cynergy_app/bloc/auth_bloc.dart';
 import 'package:cynergy_app/pages/home_page.dart';
-import 'package:cynergy_app/theme_data.dart';
 import 'package:cynergy_app/widgets/login_form.dart';
 import 'package:cynergy_app/widgets/modal_barrier.dart';
 import 'package:cynergy_app/widgets/splash_screen.dart';
