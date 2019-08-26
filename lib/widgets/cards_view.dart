@@ -84,7 +84,7 @@ class _CardViewState extends State<CardView> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        EventsTab(
+        EventsTabBar(
           width: width,
           height: 50,
           tabWidth: width * 0.4,
