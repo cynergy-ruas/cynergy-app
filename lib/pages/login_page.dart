@@ -30,7 +30,6 @@ class _LoginPageState extends State<LoginPage> {
 
     List<Widget> body = List<Widget>();
     return Container(
-      decoration: darkBackgroundDecoration,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: BlocBuilder<AuthEvent, AuthState>(
