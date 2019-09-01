@@ -1,5 +1,9 @@
 import 'package:cynergy_app/models/events_model.dart';
+import 'package:cynergy_app/models/user_model.dart';
+import 'package:cynergy_app/pages/events_edit_page.dart';
+import 'package:cynergy_app/pages/events_info_page.dart';
 import 'package:cynergy_app/widgets/misc_widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:math' as math;
@@ -39,9 +43,9 @@ class EventCard extends StatelessWidget {
               _backgroundImage(),
               _CardHeader(event: event, offset: gauss, shouldAnimate: shouldAnimate,),
               Positioned(
-                top: this.height * 0.542,
+                top: this.height * 0.53,
                 right: 10,
-                child: _button()
+                child: _button(context)
               )
             ],
           ),
@@ -58,18 +62,44 @@ class EventCard extends StatelessWidget {
     return card;
   }
 
-  Widget _button() {
+  Widget _button(BuildContext context) {
     /**
      * Build the info button (for normal members) or the edit
      * button (for coordinators)
+     * 
+     * Args:
+     *  context (BuildContext): The build context.
      * 
      * Returns
      *  Widget: The button
      */
 
     return RawMaterialButton(
-      onPressed: () {},
-      child: _dots(),
+      onPressed: () {
+        Widget page = (User.getInstance().isCoordinator())
+          ? EventsEditPage(event: event,)
+          : EventsInfoPage(event: event,);
+
+        Navigator.of(context).push(PageRouteBuilder(
+          pageBuilder: (context, anim, secondaryAnim) => page,
+          transitionDuration: Duration(milliseconds: 500),
+          transitionsBuilder: (context, anim, secondaryAnim, child) {
+            return SlideTransition(
+              position: Tween<Offset>(
+                begin: Offset(0, 1),
+                end: Offset.zero,
+              ).animate(CurvedAnimation(
+                curve: Curves.easeInOutQuint,
+                parent: anim
+              )),
+              child: child,
+            );
+          }
+        ));
+      },
+      child: (User.getInstance().isCoordinator())
+        ? Icon(Icons.edit, color: Colors.black)
+        : _dots(),
       shape: CircleBorder(),
       elevation: 2.0,
       fillColor: Colors.white,
@@ -153,7 +183,7 @@ class _CardHeader extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(top: 10, left: 30, right: 30),
           child: Center(
-            child: Text(event.name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),),
+            child: Text(event.name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32, color: Colors.black),),
           )
         ),
         Padding(

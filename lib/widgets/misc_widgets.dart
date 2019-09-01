@@ -1,4 +1,8 @@
+import 'package:cynergy_app/theme_data.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class AntiClockwiseDiagonalClipper extends CustomClipper<Path> {
   /// A clipper that runs from the bottom left to top right.
@@ -6,7 +10,7 @@ class AntiClockwiseDiagonalClipper extends CustomClipper<Path> {
   Path getClip(Size size) {
     Path path = new Path();
     path.lineTo(0.0, size.height);
-    path.lineTo(size.width, size.height - 60.0);
+    path.lineTo(size.width, (size.height * 0.81));
     path.lineTo(size.width, 0.0);
     path.close();
     return path;
@@ -22,7 +26,7 @@ class EventsTabClipperLeft extends CustomClipper<Path> {
     Path path = new Path();
     path.lineTo(0.0, size.height);
     path.lineTo(size.width, size.height);
-    path.lineTo(size.width - 30, 0.0);
+    path.lineTo(size.width - (size.height * 0.4), 0.0);
     path.close();
     return path;
   }
@@ -39,3 +43,55 @@ class NoGlowingOverscrollBehaviour extends ScrollBehavior {
     return child;
   }
 }
+
+class DatePickerField extends StatelessWidget {
+  final format = DateFormat("dd-MM-yy");
+  final TextEditingController controller;
+
+  DatePickerField({this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return DateTimeField(
+      controller: controller,
+      format: format,
+      onShowPicker: (context, currentValue) {
+        return showDatePicker(
+          context: context,
+          firstDate: DateTime(1900),
+          initialDate: currentValue ?? DateTime.now(),
+          lastDate: DateTime(2100),
+          builder: (context, child) {
+            return Theme(
+              child: child,
+              data: darkTheme,
+            );
+          }
+        );
+      },
+    );
+  }
+}
+
+class TimePickerField extends StatelessWidget {
+  final format = DateFormat("hh:mm a");
+  final TextEditingController controller;
+
+  TimePickerField({this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return DateTimeField(
+      controller: controller,
+      format: format,
+      onShowPicker: (context, currentValue) async {
+        final time = await showTimePicker(
+          context: context,
+          initialTime: TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
+        );
+        return DateTimeField.convert(time);
+      },
+    );
+  }
+}
+

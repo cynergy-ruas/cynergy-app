@@ -90,7 +90,6 @@ class LoginForm extends StatelessWidget {
           hintText: "email"
         ),
         style: TextStyle(
-          color: Colors.white,
           fontFamily: "Calibre-Semibold",
           letterSpacing: 1.25
         ),
@@ -107,7 +106,6 @@ class LoginForm extends StatelessWidget {
           hintText: "password"
         ),
         style: TextStyle(
-          color: Colors.white,
           fontFamily: "Calibre-Semibold",
           letterSpacing: 1.25
         ),

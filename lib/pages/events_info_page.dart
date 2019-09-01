@@ -9,8 +9,10 @@ class EventsInfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text("Events info"),
+    return Scaffold(
+      body: Center(
+        child: Text("Events info"),
+      )
     );
   }
 }

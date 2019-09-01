@@ -129,9 +129,7 @@ class _HomePageState extends State<HomePage> {
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-            child: Divider(
-              color: Colors.white,
-            ),
+            child: Divider()
           ),
           Text(
             "Bigger, Better, Open Source and Free for all.",
@@ -197,8 +195,8 @@ class _HomePageState extends State<HomePage> {
                   Container(
                     decoration: BoxDecoration(
                       border: Border(
-                        right: BorderSide(color: Colors.white),
-                        bottom: BorderSide(color: Colors.white)
+                        right: BorderSide(color: Theme.of(context).dividerColor),
+                        bottom: BorderSide(color: Theme.of(context).dividerColor)
                       ),
                     ),
                     height: height * 0.15,
@@ -213,7 +211,7 @@ class _HomePageState extends State<HomePage> {
                   Container(
                     decoration: BoxDecoration(
                       border: Border(
-                        bottom: BorderSide(color: Colors.white)
+                        bottom: BorderSide(color: Theme.of(context).dividerColor)
                       ),
                     ),
                     height: height * 0.15,
@@ -233,7 +231,7 @@ class _HomePageState extends State<HomePage> {
                   Container(
                     decoration: BoxDecoration(
                       border: Border(
-                        right: BorderSide(color: Colors.white),
+                        right: BorderSide(color: Theme.of(context).dividerColor),
                       ),
                     ),
                     height: height * 0.15,
@@ -264,7 +262,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  TextStyle _style({@required double fontSize, Color color = Colors.white, double height = 1}) {
+  TextStyle _style({@required double fontSize, Color color, double height = 1}) {
     /**
      * Constructs a text style given the arguments.
      * 

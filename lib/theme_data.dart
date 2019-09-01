@@ -36,7 +36,28 @@ InputDecoration textFieldInputDecoration ({@required double textFieldRadius, @re
 }
 
 ThemeData darkTheme = ThemeData(
+  brightness: Brightness.dark,
   scaffoldBackgroundColor: Color(0xff121212),
+  dialogBackgroundColor: Color(0xff373737),
+  dividerColor: Colors.white,
   accentColor: Color(0xff6200ee),
-  disabledColor: Color(0xff707070)
+  disabledColor: Color(0xff707070),
+  cursorColor: Colors.white,
+  inputDecorationTheme: InputDecorationTheme(
+    fillColor: Color(0xff4c4c4c),
+    filled: true,
+    contentPadding: EdgeInsets.all(12),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(0)),
+      borderSide: BorderSide(color: Colors.transparent, width: 1.0)
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(0)),
+      borderSide: BorderSide(color: Colors.transparent, width: 1.0)
+    ),
+    disabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(0)),
+      borderSide: BorderSide(color: Colors.transparent, width: 1.0)
+    ),
+  )
 );

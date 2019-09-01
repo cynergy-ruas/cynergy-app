@@ -1,5 +1,6 @@
 import 'package:cynergy_app/bloc/data_load_bloc.dart';
 import 'package:cynergy_app/models/events_model.dart';
+import 'package:cynergy_app/models/user_model.dart';
 import 'package:cynergy_app/widgets/cards_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,32 +40,43 @@ class _EventsPageState extends State<EventsPage> {
      *  Widget: The page contents.
      */
     
-    return Center(
-      child: BlocBuilder<DataLoadEvent, DataLoadState>(
-        bloc: eventsBloc,
-        builder: (context, state) {
-          Widget body;
-          if (state is DataLoadComplete) {
-            /// returning [CardView] that shows the events as a card.
-            body = CardView(
-              events: EventPool.events,
-              itemCount: eventsBloc.handler.numOfEvents,
-              shouldAnimate: true,
-            );
-          }
-
-          else
-            /// returning [CircularProgressIndicator] if data is not loaded yet
-            body = CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).accentColor),
-            );
-
-          return AnimatedSwitcher(
-            duration: Duration(milliseconds: 250),
-            child: body,
+    return BlocBuilder<DataLoadEvent, DataLoadState> (
+      bloc: eventsBloc,
+      builder: (context, state) {
+        Widget body;
+        Widget floatingActionButton;
+        if (state is DataLoadComplete) {
+          /// returning [CardView] that shows the events as a card.
+          body = CardView(
+            events: EventPool.events,
+            itemCount: eventsBloc.handler.numOfEvents,
+            shouldAnimate: true,
           );
-        },
-      ),
+          floatingActionButton = (User.getInstance().isCoordinator())
+            ? FloatingActionButton(
+                mini: true,
+                child: Icon(Icons.add),
+                onPressed: () {},
+              )
+            : null;
+        }
+
+        else
+          /// returning [CircularProgressIndicator] if data is not loaded yet
+          body = CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).accentColor),
+          );
+
+        return Scaffold(
+          body: Center(
+            child: AnimatedSwitcher(
+              duration: Duration(milliseconds: 250),
+              child: body,
+            ),
+          ),
+          floatingActionButton: floatingActionButton,
+        );
+      },
     );
   }
 }
