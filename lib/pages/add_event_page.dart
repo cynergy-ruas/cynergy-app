@@ -31,8 +31,43 @@ class AddEventPage extends StatelessWidget {
       venueContoller: _venueContoller,
       descriptionController: _descriptionController,
       isNewEvent: true,
-      onDone: () {},
+      onDone: () {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: FutureBuilder(
+                future: _someFunc(),
+                builder: (context, snapshot) {
+                  Widget body;
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    body = Text("Done");
+                  } else {
+                    body = CircularProgressIndicator();
+                  }
+
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      AnimatedSwitcher(
+                        duration: Duration(milliseconds: 250),
+                        child: body,
+                      )
+                    ],
+                  );
+                },
+              ),
+            );
+          }
+        );
+      },
     );
 
   }
+
+  Future<int> _someFunc() async {
+    await Future.delayed(Duration(seconds: 2));
+    return 100;
+  }
+
 }

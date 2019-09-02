@@ -58,8 +58,13 @@ class _EventsPageState extends State<EventsPage> {
                 mini: true,
                 child: Icon(Icons.add),
                 onPressed: () {
+                  // instantiate [AddEventPage] here. DO NOT instantiate it in 
+                  // the [pageBuilder] argument in [PageRouteBuilder]. refer
+                  // https://github.com/flutter/flutter/issues/37878 for more details
+                  Widget page = AddEventPage();
+                  
                   Navigator.of(context).push(PageRouteBuilder(
-                    pageBuilder: (context, anim, secondaryAnim) => AddEventPage(),
+                    pageBuilder: (context, anim, secondaryAnim) => page,
                     transitionDuration: Duration(milliseconds: 500),
                     transitionsBuilder: (context, anim, secondaryAnim, child) {
                       return SlideTransition(

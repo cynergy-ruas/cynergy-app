@@ -111,105 +111,116 @@ class _AddResourcesListState extends State<AddResourcesList> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
+        return SimpleDialog(
+          contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15)
           ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              GestureDetector(
-                child: Container(
-                  padding: EdgeInsets.only(right: 10, top: 5, bottom: 5),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20)
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Icon(Icons.arrow_back_ios, color: Colors.black,),
-                      SizedBox(width: 10,),
-                      Text("Back", style: _textStyle(color: Colors.black))
-                    ],
-                  ),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              SizedBox(height: 20,),
-              Text("Add Resouce Link", style: _textStyle(),),
-              SizedBox(height: 20,),
-              Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text("Title", style: _textStyle(),),
-                    SizedBox(height: 20,),
-                    TextFormField(
-                      controller: _titleController,
-                      maxLines: 1,
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return "Title cannot be empty";
-                        }
-                        return null;
-                      },
+          children: <Widget>[
+            // using row widget to constrain the width of the [Container] acting as the button.
+            // for some reason, specifying width for the [Container] does not work.
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                GestureDetector(
+                  child: Container(
+                    padding: EdgeInsets.only(right: 10, top: 5, bottom: 5),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20)
                     ),
-
-                    SizedBox(height: 20,),
-                    Text("Url", style: _textStyle(),),
-                    SizedBox(height: 20,),
-                    TextFormField(
-                      controller: _urlController, 
-                      maxLines: 1,
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return "Url cannot be empty";
-                        }
-                        return null;
-                      },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Icon(Icons.arrow_back_ios, color: Colors.black,),
+                        SizedBox(width: 10,),
+                        Text("Back", style: _textStyle(color: Colors.black))
+                      ],
                     ),
-                  ],
-                ),
-              ),
-
-              SizedBox(height: 20,),
-              GestureDetector(
-                child: Container(
-                  padding: EdgeInsets.only(top: 6, bottom: 6, left: 8, right: 6),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20) 
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text("Done", style: _textStyle(color: Colors.black)),
-                      SizedBox(width: 10),
-                      Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Color(0xffffd500)
-                        ),
-                        child: Icon(Icons.arrow_forward, color: Colors.white,)
-                      )
-                    ],
-                  ),
-                ),
-                onTap: () {
-                  if (_formKey.currentState.validate()) {
-                    dataStructure.add({"title": _titleController.text, "url": _urlController.text});
-                    setState((){});
+                  onTap: () {
                     Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+            SizedBox(height: 20,),
+            Text("Add Resouce Link", style: _textStyle(),),
+            SizedBox(height: 20,),
+            Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text("Title", style: _textStyle(),),
+                  SizedBox(height: 20,),
+                  TextFormField(
+                    controller: _titleController,
+                    maxLines: 1,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "Title cannot be empty";
+                      }
+                      return null;
+                    },
+                  ),
+
+                  SizedBox(height: 20,),
+                  Text("Url", style: _textStyle(),),
+                  SizedBox(height: 20,),
+                  TextFormField(
+                    controller: _urlController, 
+                    maxLines: 1,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "Url cannot be empty";
+                      }
+                      return null;
+                    },
+                  ),
+                ],
+              ),
+            ),
+
+            SizedBox(height: 20,),
+            // using row widget to constrain the width of the [Container] acting as the button.
+            // for some reason, specifying width for the [Container] does not work.
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                GestureDetector(
+                  child: Container(
+                    padding: EdgeInsets.only(top: 6, bottom: 6, left: 8, right: 6),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20) 
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Text("Done", style: _textStyle(color: Colors.black)),
+                        SizedBox(width: 10),
+                        Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color(0xffffd500)
+                          ),
+                          child: Icon(Icons.arrow_forward, color: Colors.white,)
+                        )
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    if (_formKey.currentState.validate()) {
+                      dataStructure.add({"title": _titleController.text, "url": _urlController.text});
+                      setState((){});
+                      Navigator.pop(context);
+                    }
                   }
-                }
-              )
-            ],
-          ),
+                )
+              ],
+            )
+          ],
         );
       }
     );

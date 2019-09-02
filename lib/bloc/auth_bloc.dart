@@ -103,7 +103,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       var user = User.getInstance();
       /// checking if user is already logged in
       if (await _auth.isLoggedIn()) {
-        print("In if");
         user.setClaims(await _auth.getClaims());
         yield AuthValid();
       }
