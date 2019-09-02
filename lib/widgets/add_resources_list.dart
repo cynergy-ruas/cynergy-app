@@ -24,6 +24,9 @@ class _AddResourcesListState extends State<AddResourcesList> {
   /// The controller for the url
   TextEditingController _urlController;
 
+  /// key for add link form
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     super.initState();
@@ -36,79 +39,28 @@ class _AddResourcesListState extends State<AddResourcesList> {
   @override
   Widget build(BuildContext context) {
 
-    Widget header;
-
-    if (isAdding) {
-      // if user press add, change ui to text form fields
-      header = ListView(
-        shrinkWrap: true,
-        children: <Widget>[
-          Text("Resources", style: _textStyle(),),
-          SizedBox(height: 20,),
-          Text("Title", style: _textStyle(),),
-          SizedBox(height: 20,),
-          TextFormField(controller: _titleController, maxLines: 1),
-
-          SizedBox(height: 20,),
-          Text("Url", style: _textStyle(),),
-          SizedBox(height: 20,),
-          TextFormField(controller: _urlController, maxLines: 1,),
-
-          SizedBox(height: 20,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              FlatButton(
-                child: Text("Cancel"),
-                color: Colors.red,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                onPressed: () {
-                  setState(() {
-                    isAdding = false;
-                  });
-                },
-              ),
-              FlatButton(
-                child: Text("Done"),
-                color: Color(0xffffd500),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                onPressed: () {
-                  setState(() {
-                    dataStructure.add({"title": _titleController.text, "url": _urlController.text}); 
-                    isAdding = false;
-                  });
-                },
-              )
-            ],
-          )
-        ],
-      );
-    } else {
-      // else change ui to add button
-      header = Row(
-        children: <Widget>[
-          Expanded(
-            child: Text("Resources", style: _textStyle(),),
-          ),
-          GestureDetector(
-            child: Container(
-              padding: EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Color(0xffffd500),
-              ),
-              child: Icon(Icons.add, color: Colors.white,),
+    Widget header = Row(
+      children: <Widget>[
+        Expanded(
+          child: Text("Resources", style: _textStyle(),),
+        ),
+        GestureDetector(
+          child: Container(
+            padding: EdgeInsets.all(4),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Color(0xffffd500),
             ),
-            onTap: () {
-              setState(() {
-                isAdding = true;
-              });
-            }
-          )
-        ],
-      );
-    }
-
+            child: Icon(Icons.add, color: Colors.white,),
+          ),
+          onTap: () {
+            _titleController.clear();
+            _urlController.clear();
+            _showDialog(context);
+          }
+        )
+      ],
+    );
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -155,8 +107,112 @@ class _AddResourcesListState extends State<AddResourcesList> {
     );
   }
 
-  TextStyle _textStyle() {
+  void _showDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              GestureDetector(
+                child: Container(
+                  padding: EdgeInsets.only(right: 10, top: 5, bottom: 5),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20)
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Icon(Icons.arrow_back_ios, color: Colors.black,),
+                      SizedBox(width: 10,),
+                      Text("Back", style: _textStyle(color: Colors.black))
+                    ],
+                  ),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              SizedBox(height: 20,),
+              Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text("Title", style: _textStyle(),),
+                    SizedBox(height: 20,),
+                    TextFormField(
+                      controller: _titleController,
+                      maxLines: 1,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return "Title cannot be empty";
+                        }
+                        return null;
+                      },
+                    ),
+
+                    SizedBox(height: 20,),
+                    Text("Url", style: _textStyle(),),
+                    SizedBox(height: 20,),
+                    TextFormField(
+                      controller: _urlController, 
+                      maxLines: 1,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return "Url cannot be empty";
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
+                ),
+              ),
+
+              SizedBox(height: 20,),
+              GestureDetector(
+                child: Container(
+                  padding: EdgeInsets.only(top: 6, bottom: 6, left: 8, right: 6),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20) 
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text("Done", style: _textStyle(color: Colors.black)),
+                      SizedBox(width: 10),
+                      Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xffffd500)
+                        ),
+                        child: Icon(Icons.arrow_forward, color: Colors.white,)
+                      )
+                    ],
+                  ),
+                ),
+                onTap: () {
+                  if (_formKey.currentState.validate()) {
+                    dataStructure.add({"title": _titleController.text, "url": _urlController.text});
+                    setState((){});
+                    Navigator.pop(context);
+                  }
+                }
+              )
+            ],
+          ),
+        );
+      }
+    );
+  }
+
+  TextStyle _textStyle({Color color}) {
     return TextStyle(
+      color: color,
       fontWeight: FontWeight.bold,
       fontFamily: "Poppins"
     );

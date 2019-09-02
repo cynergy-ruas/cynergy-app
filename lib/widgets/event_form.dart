@@ -50,6 +50,7 @@ class EventForm extends StatefulWidget {
 
 class _EventFormState extends State<EventForm> {
 
+  // getting the parameters from widget
   Event get event => widget.event;
 
   bool get isNewEvent => widget.isNewEvent;
@@ -64,15 +65,20 @@ class _EventFormState extends State<EventForm> {
   TextEditingController get venueController => widget.venueContoller;
   TextEditingController get descriptionController => widget.descriptionController;
 
-  List links;
+  // the data structure for the links
+  List _links;
+
+  // the key for the form
+  GlobalKey<FormState> _formKey;
 
   @override
   void initState() {
     super.initState();
 
-    links = List();
+    _formKey = GlobalKey<FormState>();
+    _links = List();
     if (event != null)
-      links.addAll(event.getLinks());
+      _links.addAll(event.getLinks());
   }
 
   @override
@@ -89,7 +95,7 @@ class _EventFormState extends State<EventForm> {
             // The fields
             SizedBox(height: 20,),
             Expanded(
-              child: _form(context, links),
+              child: _form(context, _links),
             ),
 
             // The footer buttons
@@ -122,85 +128,94 @@ class _EventFormState extends State<EventForm> {
           shrinkWrap: true,
           children: <Widget>[
             // for title
-            Text("Title", style: _textFieldTitleTextStyle(),),
-            SizedBox(height: 20,),
-            TextFormField(
-              controller: titleController,
-              textCapitalization: TextCapitalization.words,
-              maxLines: 1,
-            ),
-            SizedBox(height: 20,),
-
-            // for by field
-            Text("By", style: _textFieldTitleTextStyle(),),
-            SizedBox(height: 20,),
-            TextFormField(
-              controller: byController,
-              textCapitalization: TextCapitalization.words,
-              maxLines: 1,
-            ),
-
-            // for date picker and time picker titles
-            SizedBox(height: 20,),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: Text("Date", style: _textFieldTitleTextStyle(),),
-                ),
-                SizedBox(width: 30,),
-                Expanded(
-                  child: Text("Time", style: _textFieldTitleTextStyle(),),
-                )
-              ],
-            ),
-
-            // for date and time picker
-            SizedBox(height: 20,),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: DatePickerField(
-                    controller: dateController,
+            Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text("Title", style: _textFieldTitleTextStyle(),),
+                  SizedBox(height: 20,),
+                  TextFormField(
+                    controller: titleController,
+                    textCapitalization: TextCapitalization.words,
+                    maxLines: 1,
+                    validator: (value) => _validator(value, "Title"),
                   ),
-                ),
-                SizedBox(width: 30,),
-                Expanded(
-                  child: TimePickerField(
-                    controller: timeController,
+                  SizedBox(height: 20,),
+
+                  // for by field
+                  Text("By", style: _textFieldTitleTextStyle(),),
+                  SizedBox(height: 20,),
+                  TextFormField(
+                    controller: byController,
+                    textCapitalization: TextCapitalization.words,
+                    maxLines: 1,
                   ),
-                )
-              ],
-            ),
 
-            // for venue title
-            SizedBox(height: 20,),
-            Text("Venue", style: _textFieldTitleTextStyle(),),
-
-            // for venue text field
-            SizedBox(height: 20,),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: TextFormField(
-                    controller: venueController,
-                    textCapitalization: TextCapitalization.characters,
+                  // for date picker and time picker titles
+                  SizedBox(height: 20,),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Text("Date", style: _textFieldTitleTextStyle(),),
+                      ),
+                      SizedBox(width: 30,),
+                      Expanded(
+                        child: Text("Time", style: _textFieldTitleTextStyle(),),
+                      )
+                    ],
                   ),
-                ),
-                Expanded(child: SizedBox(),)
-              ],
+
+                  // for date and time picker
+                  SizedBox(height: 20,),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: DatePickerField(
+                          controller: dateController,
+                        ),
+                      ),
+                      SizedBox(width: 30,),
+                      Expanded(
+                        child: TimePickerField(
+                          controller: timeController,
+                        ),
+                      )
+                    ],
+                  ),
+
+                  // for venue title
+                  SizedBox(height: 20,),
+                  Text("Venue", style: _textFieldTitleTextStyle(),),
+
+                  // for venue text field
+                  SizedBox(height: 20,),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: TextFormField(
+                          controller: venueController,
+                          textCapitalization: TextCapitalization.characters,
+                        ),
+                      ),
+                      Expanded(child: SizedBox(),)
+                    ],
+                  ),
+
+                  // for description title
+                  SizedBox(height: 20,),
+                  Text("Description", style: _textFieldTitleTextStyle()),
+
+                  // for description field
+                  SizedBox(height: 20,),
+                  TextFormField(
+                    controller: descriptionController,
+                    maxLines: 5,
+                    validator: (value) => _validator(value, "Description"),
+                  ),
+                ],
+              ),
             ),
-
-            // for description title
-            SizedBox(height: 20,),
-            Text("Description", style: _textFieldTitleTextStyle()),
-
-            // for description field
-            SizedBox(height: 20,),
-            TextFormField(
-              controller: descriptionController,
-              maxLines: 5,
-            ),
-
             // for add resources
             SizedBox(height: 20,),
             AddResourcesList(dataStructure: links,),
@@ -260,7 +275,11 @@ class _EventFormState extends State<EventForm> {
           height: 60,
           child: FlatButton(
             child: Icon(Icons.arrow_forward, size: 30,),
-            onPressed: onDone,
+            onPressed: () {
+              if (_formKey.currentState.validate()) {
+                onDone();
+              }
+            },
             shape: CircleBorder(),
             color: Color(0xffffd500),
           ),
@@ -289,6 +308,25 @@ class _EventFormState extends State<EventForm> {
       fontWeight: FontWeight.bold,
       fontFamily: "Poppins"
     );
+  }
+
+  String _validator(String value, String field) {
+    /**
+     * Simple validator for the text form fields.
+     * checks if field is empty or not.
+     * 
+     * Args:
+     *  value (String): The value of the field
+     *  field (String): The name of the field
+     * 
+     * Returns:
+     *  String: Error message, if value of the field is invalid, null if valid
+     */
+
+    if (value.isEmpty) {
+      return field + " cannot be empty";
+    }
+    return null;
   }
 
 }
