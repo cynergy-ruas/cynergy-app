@@ -43,6 +43,7 @@ ThemeData darkTheme = ThemeData(
   accentColor: Color(0xff6200ee),
   disabledColor: Color(0xff707070),
   cursorColor: Colors.white,
+  textSelectionHandleColor: Color(0xff6200ee),
   inputDecorationTheme: InputDecorationTheme(
     fillColor: Color(0xff4c4c4c),
     filled: true,

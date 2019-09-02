@@ -18,11 +18,12 @@ class EventsHandler {
     List<Event> events = [];
     for (int i = 0;i < numOfEvents; i++) {
       Event event = Event(date: data[i]["date"],
-        details: data[i]["details"],
+        info: data[i]["details"],
         duration: data[i]["duration"],
         name: data[i]["eventName"],
         topic: data[i]["eventTopic"],
-        type: data[i]["type"],);
+        type: data[i]["type"],
+        venue: data[i]["venue"]);
 
       event.setDocumentID(data[i]['docRef']);
       events.add(event);

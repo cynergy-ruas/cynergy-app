@@ -1,6 +1,7 @@
 import 'package:cynergy_app/bloc/data_load_bloc.dart';
 import 'package:cynergy_app/models/events_model.dart';
 import 'package:cynergy_app/models/user_model.dart';
+import 'package:cynergy_app/pages/add_event_page.dart';
 import 'package:cynergy_app/widgets/cards_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,7 +57,24 @@ class _EventsPageState extends State<EventsPage> {
             ? FloatingActionButton(
                 mini: true,
                 child: Icon(Icons.add),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(PageRouteBuilder(
+                    pageBuilder: (context, anim, secondaryAnim) => AddEventPage(),
+                    transitionDuration: Duration(milliseconds: 500),
+                    transitionsBuilder: (context, anim, secondaryAnim, child) {
+                      return SlideTransition(
+                        position: Tween<Offset>(
+                          begin: Offset(0, 1),
+                          end: Offset.zero,
+                        ).animate(CurvedAnimation(
+                          curve: Curves.easeInOutQuint,
+                          parent: anim
+                        )),
+                        child: child,
+                      );
+                    }
+                  ));
+                },
               )
             : null;
         }

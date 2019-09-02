@@ -1,6 +1,6 @@
 import 'package:cynergy_app/models/events_model.dart';
 import 'package:cynergy_app/models/user_model.dart';
-import 'package:cynergy_app/pages/events_edit_page.dart';
+import 'package:cynergy_app/pages/edit_event_page.dart';
 import 'package:cynergy_app/pages/events_info_page.dart';
 import 'package:cynergy_app/widgets/misc_widgets.dart';
 import 'package:flutter/cupertino.dart';

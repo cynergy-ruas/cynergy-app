@@ -4,26 +4,70 @@ import 'package:intl/intl.dart';
 
 class Event {
   Timestamp date;
-  Map<dynamic, dynamic> details;
+  Map<dynamic, dynamic> info;
   int duration;
   String name;
   String topic;
   String type;
   String documentID;
+  String venue;
+  String by;
 
   Event({
     @required this.date,
-    @required this.details,
+    @required this.info,
     @required this.duration,
     @required this.name,
     @required this.topic,
     @required this.type,
+    @required this.venue,
+    this.by
   });
+
+  void addLink(String title, String url) {
+    /**
+     * Adds a link to the [info["materials"]] field.
+     * 
+     * Args:
+     *  title (String): The title of the link
+     *  url (String): The url of the link
+     * 
+     * Returns:
+     *  void
+     */
+
+    (info["materials"]["links"] as List).add({"title": title, "url": url});
+  }
+
+  List getLinks() {
+    /**
+     * Returns the links present in materials.
+     * 
+     * Returns:
+     *  List: The links.
+     */
+
+    return (info["materials"]["links"] as List);
+  }
+
+  Map<String, String> getLink(int index) {
+    /**
+     * Gets the link at the specified index.
+     * 
+     * Args:
+     *  index (int): The link at the index.
+     * 
+     * Returns:
+     *  Map<String, String>: The link.
+     */
+
+    return (info["materials"]["links"] as List)[index];
+  }
 
   String toString(){
     return "Event[Name: "+name+",Topic: "+topic+
         ",Date: "+getLongDate()+",Duration: "+duration.toString()+
-        ".Description: "+details["description"]+",Type: "+type+"]";
+        ".Description: "+info["description"]+",Type: "+type+"]";
   }
 
   String getLongDate(){
@@ -78,7 +122,7 @@ class Event {
      *  String: The description. 
      */
 
-    return details["description"];
+    return info["description"];
   }
 
   void setDocumentID(String documentID){
