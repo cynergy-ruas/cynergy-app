@@ -112,6 +112,9 @@ class _AddResourcesListState extends State<AddResourcesList> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15)
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,6 +139,8 @@ class _AddResourcesListState extends State<AddResourcesList> {
                   Navigator.pop(context);
                 },
               ),
+              SizedBox(height: 20,),
+              Text("Add Resouce Link", style: _textStyle(),),
               SizedBox(height: 20,),
               Form(
                 key: _formKey,
