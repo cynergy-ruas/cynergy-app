@@ -149,7 +149,7 @@ class Event {
     return DateFormat.jm().format(date.toDate());
   }
 
-  String getDescription() {
+  String get description {
     /**
      * Extracts the description from the [details]
      * 

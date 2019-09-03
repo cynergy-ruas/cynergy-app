@@ -260,7 +260,7 @@ class _EventFormState extends State<EventForm> {
                     maxLines: 5,
                     validator: (value) => _validator(value, "Description"),
                     onSaved: (value) => _description = value,
-                    initialValue: event?.getDescription(),
+                    initialValue: event?.description,
                   ),
                 ],
               ),

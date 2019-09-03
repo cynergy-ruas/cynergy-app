@@ -33,26 +33,32 @@ class EventCard extends StatelessWidget {
       /// converting offset to a gaussian distribution. Cooler animation.
       gauss = math.exp(-(math.pow((offset.abs() - 0.5), 2) / 0.08));
 
-    Widget card = Card(
-      color: Theme.of(context).accentColor,
-      margin: EdgeInsets.only(left: 8, right: 8, bottom: 24),
-      elevation: 8,
-      child: Column(
-        children: <Widget>[
-          Stack(
-            children: <Widget>[
-              _backgroundImage(),
-              _CardHeader(event: event, offset: gauss, shouldAnimate: shouldAnimate,),
-              Positioned(
-                top: this.height * 0.53,
-                right: 10,
-                child: _button(context)
-              )
-            ],
-          ),
-          _CardFooter(event: event, offset: gauss, shouldAnimate: shouldAnimate,)
-        ],
-      )
+    Widget card = GestureDetector(
+      child: Card(
+        color: Theme.of(context).accentColor,
+        margin: EdgeInsets.only(left: 8, right: 8, bottom: 24),
+        elevation: 8,
+        child: Column(
+          children: <Widget>[
+            Stack(
+              children: <Widget>[
+                _backgroundImage(),
+                _CardHeader(event: event, offset: gauss, shouldAnimate: shouldAnimate,),
+                Positioned(
+                  top: this.height * 0.53,
+                  right: 10,
+                  child: _button(context)
+                )
+              ],
+            ),
+            _CardFooter(event: event, offset: gauss, shouldAnimate: shouldAnimate,)
+          ],
+        )
+      ),
+      onTap: () {
+        Widget page = EventsInfoPage(event: event,);
+        Navigator.of(context).push(SlideFromDownPageRouteBuilder(page: page));
+      },
     );
 
     if (shouldAnimate)
@@ -81,22 +87,7 @@ class EventCard extends StatelessWidget {
           ? EventsEditPage(event: event, handler: InheritedEventHandler.of(context).handler)
           : EventsInfoPage(event: event,);
 
-        Navigator.of(context).push(PageRouteBuilder(
-          pageBuilder: (context, anim, secondaryAnim) => page,
-          transitionDuration: Duration(milliseconds: 500),
-          transitionsBuilder: (context, anim, secondaryAnim, child) {
-            return SlideTransition(
-              position: Tween<Offset>(
-                begin: Offset(0, 1),
-                end: Offset.zero,
-              ).animate(CurvedAnimation(
-                curve: Curves.easeInOutQuint,
-                parent: anim
-              )),
-              child: child,
-            );
-          }
-        ));
+        Navigator.of(context).push(SlideFromDownPageRouteBuilder(page: page));
       },
       child: (User.getInstance().isCoordinator())
         ? Icon(Icons.edit, color: Colors.black)
@@ -191,7 +182,7 @@ class _CardHeader extends StatelessWidget {
           padding: EdgeInsets.only(top: 30, left: 30, right: 30),
           child: Center(
             child: Text(
-              event.getDescription(),
+              event.description,
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w500,

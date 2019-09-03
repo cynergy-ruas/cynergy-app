@@ -214,3 +214,22 @@ class TimePickerField extends StatelessWidget {
   }
 }
 
+class SlideFromDownPageRouteBuilder extends PageRouteBuilder {
+  SlideFromDownPageRouteBuilder({@required Widget page}) :
+    super(
+      pageBuilder: (context, anim, secondaryAnim) => page,
+      transitionDuration: Duration(milliseconds: 500),
+      transitionsBuilder: (context, anim, secondaryAnim, child) {
+        return SlideTransition(
+          position: Tween<Offset>(
+            begin: Offset(0, 1),
+            end: Offset.zero,
+          ).animate(CurvedAnimation(
+            curve: Curves.easeInOutQuint,
+            parent: anim
+          )),
+          child: child,
+        );
+      }
+    );
+}

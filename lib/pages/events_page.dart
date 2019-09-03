@@ -4,6 +4,7 @@ import 'package:cynergy_app/models/user_model.dart';
 import 'package:cynergy_app/pages/add_event_page.dart';
 import 'package:cynergy_app/services/events_handler.dart';
 import 'package:cynergy_app/widgets/cards_view.dart';
+import 'package:cynergy_app/widgets/misc_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -69,22 +70,7 @@ class _EventsPageState extends State<EventsPage> {
                   // https://github.com/flutter/flutter/issues/37878 for more details
                   Widget page = AddEventPage(handler: handler,);
                   
-                  Navigator.of(context).push(PageRouteBuilder(
-                    pageBuilder: (context, anim, secondaryAnim) => page,
-                    transitionDuration: Duration(milliseconds: 500),
-                    transitionsBuilder: (context, anim, secondaryAnim, child) {
-                      return SlideTransition(
-                        position: Tween<Offset>(
-                          begin: Offset(0, 1),
-                          end: Offset.zero,
-                        ).animate(CurvedAnimation(
-                          curve: Curves.easeInOutQuint,
-                          parent: anim
-                        )),
-                        child: child,
-                      );
-                    }
-                  ));
+                  Navigator.of(context).push(SlideFromDownPageRouteBuilder(page: page));
                 },
               )
             : null;
