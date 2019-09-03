@@ -1,73 +1,73 @@
+import 'package:cynergy_app/services/events_handler.dart';
 import 'package:cynergy_app/widgets/event_form.dart';
 import 'package:flutter/material.dart';
 
 class AddEventPage extends StatelessWidget {
 
-  /// controller to access the title field
-  final TextEditingController _titleController = TextEditingController();
+  /// The [EventHandler] that will be used to add events
+  final EventsHandler handler;
 
-  /// controller to access the by field
-  final TextEditingController _byController = TextEditingController();
-
-  /// controller to access the date field
-  final TextEditingController _dateController = TextEditingController();
-
-  /// controller to access the time field
-  final TextEditingController _timeController = TextEditingController();
-
-  /// controller to access the venue field
-  final TextEditingController _venueContoller = TextEditingController();
-
-  /// controller to access the description field
-  final TextEditingController _descriptionController = TextEditingController();
+  AddEventPage({@required this.handler});
 
   @override
   Widget build(BuildContext context) {
     return EventForm(
-      titleController: _titleController,
-      byController: _byController,
-      dateController: _dateController,
-      timeController: _timeController,
-      venueContoller: _venueContoller,
-      descriptionController: _descriptionController,
       isNewEvent: true,
-      onDone: () {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              content: FutureBuilder(
-                future: _someFunc(),
-                builder: (context, snapshot) {
-                  Widget body;
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    body = Text("Done");
-                  } else {
-                    body = CircularProgressIndicator();
-                  }
+      onSaved: ({date, time, duration, title, venue, by, description, links}) {
+        _showDialog(context, date, time, duration, title, venue, by, description, links);
+      },
+    );
+  }
 
-                  return Column(
+  void _showDialog(BuildContext context, DateTime date, DateTime time, int duration, String title, String venue, String by, String description, List links) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return SimpleDialog(
+          children: <Widget> [
+            FutureBuilder(
+              future: handler.addEvent(date: date, time: time, duration: duration, title: title, venue: venue, by: by, description: description, type: "", links: links),
+              builder: (context, snapshot) {
+                Widget body;
+                if (snapshot.connectionState == ConnectionState.done) {
+                  body = Center(
+                    child: Text("Event uploaded!", style: TextStyle(fontFamily: "Poppins")),
+                  );
+
+                  Future.delayed(Duration(milliseconds: 1500)).then((value) {
+                    Navigator.of(context).popUntil((route) => route.isFirst);
+                  });
+                } else {
+                  body = Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+
+                return SizedBox(
+                  height: 150,
+                  width: 50,
+                  child: Column(
                     mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       AnimatedSwitcher(
-                        duration: Duration(milliseconds: 250),
+                        duration: Duration(milliseconds: 150),
                         child: body,
                       )
                     ],
-                  );
-                },
-              ),
-            );
-          }
+                  ),
+                );
+              },
+            ),
+          ]
         );
-      },
+      }
     );
-
   }
 
-  Future<int> _someFunc() async {
+  Future<int> _onDone() async {
     await Future.delayed(Duration(seconds: 2));
     return 100;
   }
-
 }

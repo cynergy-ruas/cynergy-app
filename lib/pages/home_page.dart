@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
 
     List pages = [
       buildHome(),
-      EventsPage(eventsBloc: _eventsBloc,),
+      EventsPage(eventsBloc: _eventsBloc, handler: _handler,),
     ];
 
     return Scaffold(

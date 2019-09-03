@@ -2,6 +2,7 @@ import 'package:cynergy_app/bloc/data_load_bloc.dart';
 import 'package:cynergy_app/models/events_model.dart';
 import 'package:cynergy_app/models/user_model.dart';
 import 'package:cynergy_app/pages/add_event_page.dart';
+import 'package:cynergy_app/services/events_handler.dart';
 import 'package:cynergy_app/widgets/cards_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,8 +10,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class EventsPage extends StatefulWidget {
 
   final DataLoadBloc eventsBloc;
+  final EventsHandler handler;
 
-  EventsPage({@required this.eventsBloc});
+  EventsPage({@required this.eventsBloc, @required this.handler});
 
   @override
   State<StatefulWidget> createState() => _EventsPageState();
@@ -20,6 +22,7 @@ class EventsPage extends StatefulWidget {
 class _EventsPageState extends State<EventsPage> {
 
   DataLoadBloc get eventsBloc => widget.eventsBloc;
+  EventsHandler get handler => widget.handler;
 
   @override
   void initState() {
@@ -48,10 +51,13 @@ class _EventsPageState extends State<EventsPage> {
         Widget floatingActionButton;
         if (state is DataLoadComplete) {
           /// returning [CardView] that shows the events as a card.
-          body = CardView(
-            events: EventPool.events,
-            itemCount: eventsBloc.handler.numOfEvents,
-            shouldAnimate: true,
+          body = InheritedEventHandler(
+            handler: handler,
+            child: CardView(
+              events: EventPool.events,
+              itemCount: eventsBloc.handler.numOfEvents,
+              shouldAnimate: true,
+            ),
           );
           floatingActionButton = (User.getInstance().isCoordinator())
             ? FloatingActionButton(
@@ -61,7 +67,7 @@ class _EventsPageState extends State<EventsPage> {
                   // instantiate [AddEventPage] here. DO NOT instantiate it in 
                   // the [pageBuilder] argument in [PageRouteBuilder]. refer
                   // https://github.com/flutter/flutter/issues/37878 for more details
-                  Widget page = AddEventPage();
+                  Widget page = AddEventPage(handler: handler,);
                   
                   Navigator.of(context).push(PageRouteBuilder(
                     pageBuilder: (context, anim, secondaryAnim) => page,
@@ -102,4 +108,17 @@ class _EventsPageState extends State<EventsPage> {
       },
     );
   }
+}
+
+class InheritedEventHandler extends InheritedWidget {
+
+  final EventsHandler handler;
+
+  InheritedEventHandler({this.handler, child}) : super(child: child);
+
+  static InheritedEventHandler of(BuildContext context) => 
+    context.inheritFromWidgetOfExactType(InheritedEventHandler);
+
+  @override
+  bool updateShouldNotify(InheritedEventHandler oldWidget) => handler != oldWidget.handler;
 }

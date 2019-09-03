@@ -4,44 +4,28 @@ import 'package:flutter/material.dart';
 
 import 'misc_widgets.dart';
 
+typedef void OnSavedCallback({@required DateTime date, @required DateTime time, @required int duration, @required String title, @required String venue, @required String by, @required String description, @required List links});
+
 class EventForm extends StatefulWidget {
   /// Widget that represents an [Event] as an interactable interface.
   
   /// the event
   final Event event;
-  
-  /// controller to access the title field
-  final TextEditingController titleController;
 
-  /// controller to access the by field
-  final TextEditingController byController;
-
-  /// controller to access the date field
-  final TextEditingController dateController;
+  /// callback executed when form is saved
+  final OnSavedCallback onSaved;
   
-  /// controller to access the time field
-  final TextEditingController timeController;
-  
-  /// controller to access the venue field
-  final TextEditingController venueContoller;
-  
-  /// controller to access the description field
-  final TextEditingController descriptionController;
 
   /// specifies whether the event being represented is a 
   /// new event or not. This is needed for the "Delete Event"
   /// button.
   final bool isNewEvent;
 
-  /// called when done button is clicked.
-  final VoidCallback onDone;
 
   /// called when delete event button is clicked
   final VoidCallback onDelete;
 
-  EventForm({this.event, @required this.titleController, @required this.byController, @required this.dateController, @required this.timeController, 
-             @required this.venueContoller, @required this.descriptionController, @required this.isNewEvent, @required this.onDone, 
-             this.onDelete}) :
+  EventForm({this.event, @required this.isNewEvent, @required this.onSaved, this.onDelete}) :
     assert((isNewEvent && onDelete == null) || (! isNewEvent && onDelete != null));
 
   @override
@@ -55,15 +39,30 @@ class _EventFormState extends State<EventForm> {
 
   bool get isNewEvent => widget.isNewEvent;
 
-  VoidCallback get onDone => widget.onDone;
   VoidCallback get onDelete => widget.onDelete;
 
-  TextEditingController get titleController => widget.titleController;
-  TextEditingController get byController => widget.byController;
-  TextEditingController get dateController => widget.dateController;
-  TextEditingController get timeController => widget.timeController;
-  TextEditingController get venueController => widget.venueContoller;
-  TextEditingController get descriptionController => widget.descriptionController;
+  OnSavedCallback get onSaved => widget.onSaved;
+
+  /// variable to access the title field
+  String _title;
+
+  /// variable to access the by field
+  String _by;
+
+  /// variable to access the duration field
+  int _duration;
+  
+  /// variable to access the venue field
+  String _venue;
+  
+  /// variable to access the description field
+  String _description;
+
+  /// [DateTime] object to access the date field
+  DateTime _date;
+
+  /// [DateTime] object to access the time field
+  DateTime _time;
 
   // the data structure for the links
   List _links;
@@ -119,6 +118,15 @@ class _EventFormState extends State<EventForm> {
      *  Widget: The form.
      */
 
+    DateTime parsedDate = event?.date?.toDate();
+    DateTime day;
+    DateTime time;
+
+    if (parsedDate != null) {
+      day = DateTime(parsedDate.year, parsedDate.month, parsedDate.day);
+      time = parsedDate;
+    }
+
     return Container(
       color: Theme.of(context).dialogBackgroundColor,
       padding: EdgeInsets.symmetric(horizontal: 20),
@@ -136,10 +144,11 @@ class _EventFormState extends State<EventForm> {
                   Text("Title", style: _textFieldTitleTextStyle(),),
                   SizedBox(height: 20,),
                   TextFormField(
-                    controller: titleController,
                     textCapitalization: TextCapitalization.words,
                     maxLines: 1,
                     validator: (value) => _validator(value, "Title"),
+                    onSaved: (value) => _title = value,
+                    initialValue: event?.topic,
                   ),
                   SizedBox(height: 20,),
 
@@ -147,9 +156,11 @@ class _EventFormState extends State<EventForm> {
                   Text("By", style: _textFieldTitleTextStyle(),),
                   SizedBox(height: 20,),
                   TextFormField(
-                    controller: byController,
                     textCapitalization: TextCapitalization.words,
                     maxLines: 1,
+                    validator: (value) => _validator(value, "By"),
+                    onSaved: (value) => _by = value,
+                    initialValue: event?.by,
                   ),
 
                   // for date picker and time picker titles
@@ -172,15 +183,50 @@ class _EventFormState extends State<EventForm> {
                     children: <Widget>[
                       Expanded(
                         child: DatePickerField(
-                          controller: dateController,
+                          initialValue: day,
+                          onSaved: (value) => _date = value,
+                          validator: (value) {
+                            if (value == null)
+                              return "Date cannot be empty";
+                            return null;
+                          },
                         ),
                       ),
                       SizedBox(width: 30,),
                       Expanded(
                         child: TimePickerField(
-                          controller: timeController,
+                          initialValue: time,
+                          onSaved: (value) => _time = value,
+                          validator: (value) {
+                            if (value == null)
+                              return "Time cannot be empty";
+                            return null;
+                          },
                         ),
                       )
+                    ],
+                  ),
+
+                  // for duration field
+                  SizedBox(height: 20,),
+                  Text("Duration (min)", style: _textFieldTitleTextStyle(),),
+                  SizedBox(height: 20,),
+                   Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          onSaved: (value) {
+                            if (value != '')
+                              _duration = int.parse(value);
+                            else
+                              _duration = -1;
+                          },
+                          validator: (value) => _validator(value, "Duration"),
+                          initialValue: event?.duration?.toString(),
+                        ),
+                      ),
+                      Expanded(child: SizedBox(),)
                     ],
                   ),
 
@@ -194,8 +240,10 @@ class _EventFormState extends State<EventForm> {
                     children: <Widget>[
                       Expanded(
                         child: TextFormField(
-                          controller: venueController,
                           textCapitalization: TextCapitalization.characters,
+                          onSaved: (value) => _venue = value,
+                          validator: (value) => _validator(value, "Venue"),
+                          initialValue: event?.venue,
                         ),
                       ),
                       Expanded(child: SizedBox(),)
@@ -209,9 +257,10 @@ class _EventFormState extends State<EventForm> {
                   // for description field
                   SizedBox(height: 20,),
                   TextFormField(
-                    controller: descriptionController,
                     maxLines: 5,
                     validator: (value) => _validator(value, "Description"),
+                    onSaved: (value) => _description = value,
+                    initialValue: event?.getDescription(),
                   ),
                 ],
               ),
@@ -275,9 +324,19 @@ class _EventFormState extends State<EventForm> {
           height: 60,
           child: FlatButton(
             child: Icon(Icons.arrow_forward, size: 30,),
-            onPressed: () {
+            onPressed: () async {
               if (_formKey.currentState.validate()) {
-                onDone();
+                _formKey.currentState.save();
+                onSaved(
+                  date: _date,
+                  time: _time,
+                  duration: _duration,
+                  title: _title,
+                  venue: _venue,
+                  by: _by,
+                  description: _description,
+                  links: _links
+                );
               }
             },
             shape: CircleBorder(),

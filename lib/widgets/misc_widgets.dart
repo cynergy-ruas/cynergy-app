@@ -45,15 +45,19 @@ class NoGlowingOverscrollBehaviour extends ScrollBehavior {
 }
 
 class DatePickerField extends StatelessWidget {
-  final format = DateFormat("dd-MM-yy");
-  final TextEditingController controller;
+  final format = DateFormat("dd-MM-yyyy");
+  final void Function(DateTime) onSaved;
+  final String Function(DateTime) validator;
+  final DateTime initialValue;
 
-  DatePickerField({this.controller});
+  DatePickerField({this.onSaved, this.validator, this.initialValue});
 
   @override
   Widget build(BuildContext context) {
     return DateTimeField(
-      controller: controller,
+      onSaved: (value) => onSaved(value),
+      validator: (value) => validator(value),
+      initialValue: initialValue,
       format: format,
       onShowPicker: (context, currentValue) {
         return showDatePicker(
@@ -75,14 +79,18 @@ class DatePickerField extends StatelessWidget {
 
 class TimePickerField extends StatelessWidget {
   final format = DateFormat("hh:mm a");
-  final TextEditingController controller;
+  final void Function(DateTime) onSaved;
+  final String Function(DateTime) validator;
+  final DateTime initialValue;
 
-  TimePickerField({this.controller});
+  TimePickerField({this.onSaved, this.validator, this.initialValue});
 
   @override
   Widget build(BuildContext context) {
     return DateTimeField(
-      controller: controller,
+      onSaved: (value) => onSaved(value),
+      validator: (value) => validator(value),
+      initialValue: initialValue,
       format: format,
       onShowPicker: (context, currentValue) async {
         final time = await showTimePicker(

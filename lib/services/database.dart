@@ -1,3 +1,4 @@
+import 'package:cynergy_app/models/events_model.dart';
 import 'package:meta/meta.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -38,6 +39,45 @@ class Database {
     }
   }
 
+  Future<void> uploadEvent({@required Event event}) async {
+    /**
+     * Uploads an event to firestore.
+     * 
+     * Args:
+     *  event (Event): The event to upload
+     * 
+     * Returns:
+     *  void
+     */
+
+    await _firestore.collection("EventsList").add(
+      {
+        "date": event.date,
+        "venue": event.venue,
+        "by": event.by,
+        "details": event.info,
+        "duration": event.duration,
+        "eventName": event.name,
+        "eventTopic": event.topic,
+        "type": event.type,
+        "timestamp": Timestamp.now()
+      }
+    );
+  }
+
+  Future<void> deleteEvent({@required Event event}) async {
+    /**
+     * Deletes an event from firestore.
+     * 
+     * Args:
+     *  event (Event): The event to be deleted.
+     * 
+     * Returns:
+     *  void
+     */
+
+    await _firestore.collection("EventsList").document(event.documentID).delete();
+  }
 
   static Future<Database> getInstance() async {
     /**

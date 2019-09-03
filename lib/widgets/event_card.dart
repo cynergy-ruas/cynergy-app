@@ -2,6 +2,7 @@ import 'package:cynergy_app/models/events_model.dart';
 import 'package:cynergy_app/models/user_model.dart';
 import 'package:cynergy_app/pages/edit_event_page.dart';
 import 'package:cynergy_app/pages/events_info_page.dart';
+import 'package:cynergy_app/pages/events_page.dart';
 import 'package:cynergy_app/widgets/misc_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -77,7 +78,7 @@ class EventCard extends StatelessWidget {
     return RawMaterialButton(
       onPressed: () {
         Widget page = (User.getInstance().isCoordinator())
-          ? EventsEditPage(event: event,)
+          ? EventsEditPage(event: event, handler: InheritedEventHandler.of(context).handler)
           : EventsInfoPage(event: event,);
 
         Navigator.of(context).push(PageRouteBuilder(

@@ -237,7 +237,7 @@ class _AddResourcesListState extends State<AddResourcesList> {
 
 class _Tile extends StatelessWidget {
 
-  final Map<String, String> data;
+  final Map data;
 
   _Tile({@required this.data});
 
