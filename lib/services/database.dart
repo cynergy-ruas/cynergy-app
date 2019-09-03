@@ -79,6 +79,32 @@ class Database {
     await _firestore.collection("EventsList").document(event.documentID).delete();
   }
 
+  Future<void> updateEvent({@required Event event}) async {
+    /**
+     * Updates an event in firestore.
+     * 
+     * Args:
+     *  event (Event): The updated event object
+     * 
+     * Returns:
+     *  void
+     */
+    
+    // creating a reference to the document containing the event data
+    DocumentReference doc = _firestore.collection("EventsList").document(event.documentID);
+    // updating data
+    await doc.updateData({
+      "date": event.date,
+      "venue": event.venue,
+      "by": event.by,
+      "details": event.info,
+      "duration": event.duration,
+      "eventName": event.name,
+      "eventTopic": event.topic,
+      "type": event.type,
+    });
+  }
+
   static Future<Database> getInstance() async {
     /**
      * Returns the created instance of this class. Also performs

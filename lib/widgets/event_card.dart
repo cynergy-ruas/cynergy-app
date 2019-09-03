@@ -260,7 +260,7 @@ class _CardFooter extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(top: 10),
           child: Text(
-            "Venue: ",
+            "Venue: " + event.venue,
             style: style,
           ),
         ),

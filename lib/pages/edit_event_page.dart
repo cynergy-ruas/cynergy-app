@@ -1,6 +1,7 @@
 import 'package:cynergy_app/models/events_model.dart';
 import 'package:cynergy_app/services/events_handler.dart';
 import 'package:cynergy_app/widgets/event_form.dart';
+import 'package:cynergy_app/widgets/misc_widgets.dart';
 import 'package:flutter/material.dart';
 
 class EventsEditPage extends StatelessWidget {
@@ -16,60 +17,27 @@ class EventsEditPage extends StatelessWidget {
       event: event,
       isNewEvent: false,
       onSaved: ({date, time, duration, title, venue, by, description, links}) {
-
+        showStatusDialog(context, "Event Updated!", () async {
+          await handler.updateEvent(
+            date: date,
+            time: time,
+            duration: duration,
+            title: title,
+            type: "",
+            venue: venue,
+            by: by,
+            description: description,
+            links: links,
+            documentID: event.documentID
+          );
+        });
       },
       onDelete: () {
-        _showDialog(context, handler.deleteEvent, event);
+        showStatusDialog(context, "Event Deleted!", () async {
+          await handler.deleteEvent(event);
+        });
       },
     );
 
-  }
-
-  void _showDialog(BuildContext context, dynamic future, dynamic args) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return SimpleDialog(
-          children: <Widget> [
-            FutureBuilder(
-              future: future(args),
-              builder: (context, snapshot) {
-                Widget body;
-                if (snapshot.connectionState == ConnectionState.done) {
-                  body = Center(
-                    child: Text("Event deleted!", style: TextStyle(fontFamily: "Poppins")),
-                  );
-                  Future.delayed(Duration(milliseconds: 1500)).then((value) {
-                    Navigator.of(context).popUntil((route) {
-                      return route.isFirst;
-                    });
-                  });
-                } else {
-                  body = Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-
-                return SizedBox(
-                  height: 150,
-                  width: 50,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      AnimatedSwitcher(
-                        duration: Duration(milliseconds: 150),
-                        child: body,
-                      )
-                    ],
-                  ),
-                );
-              },
-            ),
-          ]
-        );
-      }
-    );
   }
 }

@@ -36,7 +36,7 @@ class EventsHandler {
     return events;
   }
 
-  Future<bool> addEvent({
+  Future<void> addEvent({
     @required DateTime date,
     @required DateTime time,
     @required int duration,
@@ -69,26 +69,49 @@ class EventsHandler {
     );
 
     Database db = await Database.getInstance();
-    
-    try{
-      await db.uploadEvent(event: event);
-      return true;
-    }
-    catch (e) {
-      print(e);
-      return false;
-    }
+    await db.uploadEvent(event: event);
   }
 
-  Future<bool> deleteEvent(Event event) async {
+  Future<void> updateEvent({
+    @required DateTime date,
+    @required DateTime time,
+    @required int duration,
+    @required String title,
+    @required String type,
+    @required String venue,
+    @required String by,
+    @required String description,
+    @required List links,
+    @required String documentID
+  }) async {
+    DateTime parsedDate = DateTime(
+      date.year,
+      date.month,
+      date.day,
+      time.hour,
+      time.minute,
+      time.second
+    );
+
+    Event event = Event.fromBareBones(
+      date: Timestamp.fromDate(parsedDate),
+      duration: duration,
+      name: title,
+      topic: title,
+      type: type,
+      venue: venue,
+      by: by,
+      description: description,
+      links: links
+    );
+    event.setDocumentID(documentID);
+
     Database db = await Database.getInstance();
-    try {
-      await db.deleteEvent(event: event);
-      return true;
-    }
-    catch (e) {
-      print(e);
-      return false;
-    }
+    await db.updateEvent(event: event);
+  }
+
+  Future<void> deleteEvent(Event event) async {
+    Database db = await Database.getInstance();
+    await db.deleteEvent(event: event);
   }
 }
