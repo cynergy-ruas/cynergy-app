@@ -33,9 +33,42 @@ class EventsEditPage extends StatelessWidget {
         });
       },
       onDelete: () {
-        showStatusDialog(context, "Event Deleted!", () async {
-          await handler.deleteEvent(event);
-        });
+        showDialog(
+          context: context,
+          builder: (context) {
+            return SimpleDialog(
+              title: Text("Confirmation", style: TextStyle(fontFamily: "Poppings"),),
+              children: <Widget>[
+                ListTile(
+                  title: Text("Are you sure you want to delete the event?", style: TextStyle(fontFamily: "Poppins"),),                  
+                ),
+                SizedBox(height: 30,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    FlatButton(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      child: Text("Yes", style: TextStyle(fontFamily: "Poppins"),),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        showStatusDialog(context, "Event Deleted!", () async {
+                          await handler.deleteEvent(event);
+                        });
+                      }
+                    ),
+                    FlatButton(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      child: Text("No", style: TextStyle(fontFamily: "Poppins"),),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      }
+                    )
+                  ],
+                )
+              ], 
+            );
+          }
+        );
       },
     );
 
