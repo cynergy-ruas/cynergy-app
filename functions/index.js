@@ -19,7 +19,7 @@ exports.newSessionNotify = functions.firestore.document("/EventsList/{eventId}")
             }
         };
 
-        return admin.messaging().send(payload)
+        return admin.messaging().sendToTopic("new_events", payload)
         .then((response) => {
             console.log(`Notification for event ${name} sent sucessfully`);
         })
