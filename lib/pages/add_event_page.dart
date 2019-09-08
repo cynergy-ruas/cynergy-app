@@ -15,18 +15,22 @@ class AddEventPage extends StatelessWidget {
     return EventForm(
       isNewEvent: true,
       onSaved: ({date, time, duration, title, venue, by, description, links}) {
-        showStatusDialog(context, "Event Uploaded!", () async {
-          await handler.addEvent(
-            date: date,
-            time: time,
-            duration: duration,
-            title: title,
-            venue: venue,
-            by: by,
-            description: description,
-            type: "",
-            links: links);
-        });
+        showStatusDialog(
+          context: context, 
+          message: "Event Uploaded!", 
+          future: () async {
+            await handler.addEvent(
+              date: date,
+              time: time,
+              duration: duration,
+              title: title,
+              venue: venue,
+              by: by,
+              description: description,
+              type: "",
+              links: links);
+          }
+        );
       },
     );
   }

@@ -117,6 +117,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try{
         /// logging in
         await _auth.login(email: event.email, password: event.password);
+        User.getInstance().setClaims(await _auth.getClaims());
         print("User has logged in.");
         yield AuthValid();
       }

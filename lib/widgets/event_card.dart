@@ -175,14 +175,16 @@ class _CardHeader extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(top: 10, left: 30, right: 30),
           child: Center(
-            child: Text(event.name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32, color: Colors.black),),
+            child: Text(event.name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Colors.black),),
           )
         ),
         Padding(
           padding: EdgeInsets.only(top: 30, left: 30, right: 30),
           child: Center(
             child: Text(
-              event.description,
+              (event.description.length > 75)
+              ? removeTrailingCharacters(event.description.substring(0, 74)) + " . . ."
+              : event.description,
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w500,
@@ -209,6 +211,23 @@ class _CardHeader extends StatelessWidget {
       )
     );
   }
+
+  String removeTrailingCharacters(String str) {
+    /**
+     * Removes trailing characters from a word. Stops when space is encountered.
+     * 
+     * Args:
+     *  str (String): The input string
+     * 
+     * Returns:
+     *  str(String): The result
+     */
+
+    int index = str.lastIndexOf(" ");
+    return str.substring(0, index);
+    
+  }
+
 }
 
 class _CardFooter extends StatelessWidget {

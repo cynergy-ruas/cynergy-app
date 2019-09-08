@@ -1,4 +1,5 @@
 import 'package:cynergy_app/models/events_model.dart';
+import 'package:cynergy_app/models/user_model.dart';
 import 'package:cynergy_app/widgets/add_resources_list.dart';
 import 'package:flutter/material.dart';
 
@@ -89,10 +90,10 @@ class _EventFormState extends State<EventForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             // The back button
-            _backButton(context),
+            BackButtonNoBackground(),
 
             // The fields
-            SizedBox(height: 20,),
+            SizedBox(height: 10,),
             Expanded(
               child: _form(context, _links),
             ),
@@ -130,178 +131,147 @@ class _EventFormState extends State<EventForm> {
     return Container(
       color: Theme.of(context).dialogBackgroundColor,
       padding: EdgeInsets.symmetric(horizontal: 20),
-      child: ScrollConfiguration(
-        behavior: NoGlowingOverscrollBehaviour(),
-        child: ListView(
-          shrinkWrap: true,
-          children: <Widget>[
-            // for title
-            Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text("Title", style: _textFieldTitleTextStyle(),),
-                  SizedBox(height: 20,),
-                  TextFormField(
-                    textCapitalization: TextCapitalization.words,
-                    maxLines: 1,
-                    validator: (value) => _validator(value, "Title"),
-                    onSaved: (value) => _title = value,
-                    initialValue: event?.topic,
-                  ),
-                  SizedBox(height: 20,),
-
-                  // for by field
-                  Text("By", style: _textFieldTitleTextStyle(),),
-                  SizedBox(height: 20,),
-                  TextFormField(
-                    textCapitalization: TextCapitalization.words,
-                    maxLines: 1,
-                    validator: (value) => _validator(value, "By"),
-                    onSaved: (value) => _by = value,
-                    initialValue: event?.by,
-                  ),
-
-                  // for date picker and time picker titles
-                  SizedBox(height: 20,),
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Text("Date", style: _textFieldTitleTextStyle(),),
-                      ),
-                      SizedBox(width: 30,),
-                      Expanded(
-                        child: Text("Time", style: _textFieldTitleTextStyle(),),
-                      )
-                    ],
-                  ),
-
-                  // for date and time picker
-                  SizedBox(height: 20,),
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: DatePickerField(
-                          initialValue: day,
-                          onSaved: (value) => _date = value,
-                          validator: (value) {
-                            if (value == null)
-                              return "Date cannot be empty";
-                            return null;
-                          },
-                        ),
-                      ),
-                      SizedBox(width: 30,),
-                      Expanded(
-                        child: TimePickerField(
-                          initialValue: time,
-                          onSaved: (value) => _time = value,
-                          validator: (value) {
-                            if (value == null)
-                              return "Time cannot be empty";
-                            return null;
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-
-                  // for duration field
-                  SizedBox(height: 20,),
-                  Text("Duration (min)", style: _textFieldTitleTextStyle(),),
-                  SizedBox(height: 20,),
-                   Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: TextFormField(
-                          keyboardType: TextInputType.number,
-                          onSaved: (value) {
-                            if (value != '')
-                              _duration = int.parse(value);
-                            else
-                              _duration = -1;
-                          },
-                          validator: (value) => _validator(value, "Duration"),
-                          initialValue: event?.duration?.toString(),
-                        ),
-                      ),
-                      Expanded(child: SizedBox(),)
-                    ],
-                  ),
-
-                  // for venue title
-                  SizedBox(height: 20,),
-                  Text("Venue", style: _textFieldTitleTextStyle(),),
-
-                  // for venue text field
-                  SizedBox(height: 20,),
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: TextFormField(
-                          textCapitalization: TextCapitalization.characters,
-                          onSaved: (value) => _venue = value,
-                          validator: (value) => _validator(value, "Venue"),
-                          initialValue: event?.venue,
-                        ),
-                      ),
-                      Expanded(child: SizedBox(),)
-                    ],
-                  ),
-
-                  // for description title
-                  SizedBox(height: 20,),
-                  Text("Description", style: _textFieldTitleTextStyle()),
-
-                  // for description field
-                  SizedBox(height: 20,),
-                  TextFormField(
-                    maxLines: 5,
-                    validator: (value) => _validator(value, "Description"),
-                    onSaved: (value) => _description = value,
-                    initialValue: event?.description,
-                  ),
-                ],
-              ),
-            ),
-            // for add resources
-            SizedBox(height: 20,),
-            AddResourcesList(dataStructure: links,),
-
-            SizedBox(height: 30,)
-          ],
-        ),
-      )
-    );
-  }
-
-  Widget _backButton(BuildContext context) {
-    /**
-     * Build the back button.
-     * 
-     * Args:
-     *  context (BuildContext): The current [BuildContext]
-     * 
-     * Returns:
-     *  Widget: The back button
-     */
-
-    return InkWell(
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
+      child: ListView(
+        physics: BouncingScrollPhysics(),
+        shrinkWrap: true,
         children: <Widget>[
-          Icon(Icons.arrow_back_ios, size: 26,),
-          SizedBox(width: 20,),
-          Text(
-            "Back", 
-            style: _textFieldTitleTextStyle()
-          )
+          // for title
+          Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text("Title", style: _textFieldTitleTextStyle(),),
+                SizedBox(height: 20,),
+                TextFormField(
+                  textCapitalization: TextCapitalization.words,
+                  maxLines: 1,
+                  validator: (value) => _validator(value, "Title"),
+                  onSaved: (value) => _title = value,
+                  initialValue: event?.topic,
+                ),
+                SizedBox(height: 20,),
+
+                // for by field
+                Text("By", style: _textFieldTitleTextStyle(),),
+                SizedBox(height: 20,),
+                TextFormField(
+                  textCapitalization: TextCapitalization.words,
+                  maxLines: 1,
+                  validator: (value) => _validator(value, "By"),
+                  onSaved: (value) => _by = value,
+                  initialValue: event?.by,
+                ),
+
+                // for date picker and time picker titles
+                SizedBox(height: 20,),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Text("Date", style: _textFieldTitleTextStyle(),),
+                    ),
+                    SizedBox(width: 30,),
+                    Expanded(
+                      child: Text("Time", style: _textFieldTitleTextStyle(),),
+                    )
+                  ],
+                ),
+
+                // for date and time picker
+                SizedBox(height: 20,),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: DatePickerField(
+                        initialValue: day,
+                        onSaved: (value) => _date = value,
+                        validator: (value) {
+                          if (value == null)
+                            return "Date cannot be empty";
+                          return null;
+                        },
+                      ),
+                    ),
+                    SizedBox(width: 30,),
+                    Expanded(
+                      child: TimePickerField(
+                        initialValue: time,
+                        onSaved: (value) => _time = value,
+                        validator: (value) {
+                          if (value == null)
+                            return "Time cannot be empty";
+                          return null;
+                        },
+                      ),
+                    )
+                  ],
+                ),
+
+                // for duration field
+                SizedBox(height: 20,),
+                Text("Duration (min)", style: _textFieldTitleTextStyle(),),
+                SizedBox(height: 20,),
+                  Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: TextFormField(
+                        keyboardType: TextInputType.number,
+                        onSaved: (value) {
+                          if (value != '')
+                            _duration = int.parse(value);
+                          else
+                            _duration = -1;
+                        },
+                        validator: (value) => _validator(value, "Duration"),
+                        initialValue: event?.duration?.toString(),
+                      ),
+                    ),
+                    Expanded(child: SizedBox(),)
+                  ],
+                ),
+
+                // for venue title
+                SizedBox(height: 20,),
+                Text("Venue", style: _textFieldTitleTextStyle(),),
+
+                // for venue text field
+                SizedBox(height: 20,),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: TextFormField(
+                        textCapitalization: TextCapitalization.characters,
+                        onSaved: (value) => _venue = value,
+                        validator: (value) => _validator(value, "Venue"),
+                        initialValue: event?.venue,
+                      ),
+                    ),
+                    Expanded(child: SizedBox(),)
+                  ],
+                ),
+
+                // for description title
+                SizedBox(height: 20,),
+                Text("Description", style: _textFieldTitleTextStyle()),
+
+                // for description field
+                SizedBox(height: 20,),
+                TextFormField(
+                  maxLines: 5,
+                  validator: (value) => _validator(value, "Description"),
+                  onSaved: (value) => _description = value,
+                  initialValue: event?.description,
+                ),
+              ],
+            ),
+          ),
+          // for add resources
+          SizedBox(height: 20,),
+          AddResourcesList(dataStructure: links,),
+
+          SizedBox(height: 30,)
         ],
       ),
-      onTap: () {
-        Navigator.of(context).pop();
-      },
     );
   }
 
@@ -347,7 +317,7 @@ class _EventFormState extends State<EventForm> {
     ));
 
     // adding a delete button if the event is not a new event
-    if(! isNewEvent) {
+    if(! isNewEvent && User.getInstance().getClearanceLevel() > 1) {
       children.insert(0, FlatButton(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         color: Colors.red,
@@ -365,7 +335,6 @@ class _EventFormState extends State<EventForm> {
   TextStyle _textFieldTitleTextStyle() {
     return TextStyle(
       fontWeight: FontWeight.bold,
-      fontFamily: "Poppins"
     );
   }
 

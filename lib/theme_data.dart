@@ -36,8 +36,10 @@ InputDecoration textFieldInputDecoration ({@required double textFieldRadius, @re
 }
 
 ThemeData darkTheme = ThemeData(
+  fontFamily: "Poppins",
   brightness: Brightness.dark,
   scaffoldBackgroundColor: Color(0xff121212),
+  canvasColor: Color(0xff121212),
   dialogBackgroundColor: Color(0xff373737),
   dividerColor: Colors.white,
   accentColor: Color(0xff6200ee),

@@ -54,7 +54,7 @@ class EventsInfoPage extends StatelessWidget {
           children: <Widget>[
             Icon(Icons.arrow_back_ios, color: Colors.black,),
             SizedBox(width: 10,),
-            Text("Back", style: TextStyle(fontFamily: "Poppins", color: Colors.black),)
+            Text("Back", style: TextStyle(color: Colors.black),)
           ],
         ),
       ),
@@ -73,7 +73,6 @@ class EventsInfoPage extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.black,
-                fontFamily: "Poppins",
                 fontSize: 24,
                 fontWeight: FontWeight.w900,
                 letterSpacing: 1.2
@@ -104,7 +103,6 @@ class EventsInfoPage extends StatelessWidget {
                   "By: " + event.by, 
                   style: TextStyle(
                     color: Colors.black,
-                    fontFamily: "Poppins",
                     fontWeight: FontWeight.bold
                   ),
                 ),
@@ -117,7 +115,6 @@ class EventsInfoPage extends StatelessWidget {
               event.description,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontFamily: "Poppins",
                 fontWeight: FontWeight.w600,
                 height: 1.25
               ),
@@ -128,7 +125,6 @@ class EventsInfoPage extends StatelessWidget {
             Text(
               "Date: " + event.getLongDate(),
               style: TextStyle(
-                fontFamily: "Poppins",
                 fontWeight: FontWeight.w600,
                 color: Colors.black
               ),
@@ -139,7 +135,6 @@ class EventsInfoPage extends StatelessWidget {
             Text(
               "Starting at: " + DateFormat("h:mm a").format(event.date.toDate()),
               style: TextStyle(
-                fontFamily: "Poppins",
                 fontWeight: FontWeight.w600,
                 color: Colors.black
               ),
@@ -150,7 +145,6 @@ class EventsInfoPage extends StatelessWidget {
             Text(
               "Duration: ~ " + (event.duration / 60).toString() + " hrs",
               style: TextStyle(
-                fontFamily: "Poppins",
                 fontWeight: FontWeight.w600,
                 color: Colors.black
               ),
@@ -161,7 +155,6 @@ class EventsInfoPage extends StatelessWidget {
             Text(
               "Venue: " + event.venue,
               style: TextStyle(
-                fontFamily: "Poppins",
                 fontWeight: FontWeight.w600,
                 color: Colors.black
               ),
@@ -172,7 +165,6 @@ class EventsInfoPage extends StatelessWidget {
             Text(
               "Resources: ",
               style: TextStyle(
-                fontFamily: "Poppins",
                 fontWeight: FontWeight.w600,
                 color: Colors.black
               ),
@@ -185,7 +177,6 @@ class EventsInfoPage extends StatelessWidget {
                 child: Text(
                   "No resources provided.",
                   style: TextStyle(
-                    fontFamily: "Poppins",
                     fontWeight: FontWeight.w600
                   ),
                 ),
@@ -225,14 +216,12 @@ class _Link extends StatelessWidget{
           TextSpan(
             text: "- ",
             style: TextStyle(
-              fontFamily: "Poppins",
               fontWeight: FontWeight.w600,
             )
           ),
           TextSpan(
             text: link["title"],
             style: TextStyle(
-              fontFamily: "Poppins",
               fontWeight: FontWeight.w600,
               decoration: TextDecoration.underline
             ),

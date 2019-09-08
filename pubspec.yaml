@@ -29,6 +29,8 @@ dependencies:
       url: git://github.com/flutter/plugins.git
       path: packages/cloud_firestore
       ref: 1066bac3f503ce58a64d3bafa11e15617bff0901
+  firebase_messaging: ^4.0.0+1
+  cloud_functions: 0.2.0+1
 
   intl: ^0.15.7
   gradient_text: ^1.0.2

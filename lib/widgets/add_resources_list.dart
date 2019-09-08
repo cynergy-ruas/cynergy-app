@@ -242,7 +242,6 @@ class _AddResourcesListState extends State<AddResourcesList> {
     return TextStyle(
       color: color,
       fontWeight: FontWeight.bold,
-      fontFamily: "Poppins"
     );
   }
 }
@@ -265,7 +264,6 @@ class _Tile extends StatelessWidget {
   TextStyle _textStyle() {
     return TextStyle(
       fontWeight: FontWeight.bold,
-      fontFamily: "Poppins"
     );
   }
 }

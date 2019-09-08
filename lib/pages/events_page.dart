@@ -60,7 +60,7 @@ class _EventsPageState extends State<EventsPage> {
               shouldAnimate: true,
             ),
           );
-          floatingActionButton = (User.getInstance().isCoordinator())
+          floatingActionButton = (User.getInstance().getClearanceLevel() > 1)
             ? FloatingActionButton(
                 mini: true,
                 child: Icon(Icons.add),

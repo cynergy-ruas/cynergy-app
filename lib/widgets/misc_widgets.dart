@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-void showStatusDialog(BuildContext context, String message, Function future) {
+void showStatusDialog({@required BuildContext context, @required String message, @required Function future}) {
 /**
    * Shows the dialog and executes the given future. The dialog shows a [CircularProgressIndicator]
    * When the future is not finished executing, and shows a message for sometime once the future
@@ -25,7 +25,7 @@ void showStatusDialog(BuildContext context, String message, Function future) {
     barrierDismissible: false,
     builder: (context) {
       return SimpleDialog(
-        title: Text("Status", style: TextStyle(fontFamily: "Poppins"),),
+        title: Text("Status",),
         children: <Widget> [
           FutureBuilder(
             future: future(),
@@ -36,9 +36,9 @@ void showStatusDialog(BuildContext context, String message, Function future) {
                   children: <Widget>[
                     Container(
                       padding: EdgeInsets.all(20),
-                      child: Text("Error has occurred. Try again", style: TextStyle(fontFamily: "Poppins", fontSize: 18)),
+                      child: Text("Error has occurred. Try again", style: TextStyle(fontSize: 18)),
                     ),
-                    SizedBox(height: 20,),
+                    SizedBox(height: 10,),
                     _doneButton(() {
                         Navigator.of(context).popUntil((route) {
                         return route.isFirst;
@@ -50,7 +50,7 @@ void showStatusDialog(BuildContext context, String message, Function future) {
               else if (snapshot.connectionState == ConnectionState.done) {
                 body = Column(
                   children: <Widget>[
-                    Text(message, style: TextStyle(fontFamily: "Poppins", fontSize: 18)),
+                    Text(message, style: TextStyle(fontSize: 18)),
                     SizedBox(height: 40,),
                     _doneButton(() {
                         Navigator.of(context).popUntil((route) {
@@ -88,6 +88,52 @@ void showStatusDialog(BuildContext context, String message, Function future) {
   );
 }
 
+void showConfirmDialog({@required BuildContext context, @required String message, @required VoidCallback onConfirm}) {
+  /**
+   * Shows a yes/no confirmation dialog.
+   * 
+   * Args:
+   *  context (BuildContext): The current [BuildContext]
+   *  message (String): The message to be displayed
+   *  onConfirm (VoidCallback): The callback to be executed when 'Yes' is pressed.
+   * 
+   * Returns:
+   *  void
+   */
+
+  showDialog(
+    context: context,
+    builder: (context) {
+      return SimpleDialog(
+        title: Text("Confirmation"),
+        children: <Widget>[
+          ListTile(
+            title: Text(message,),                  
+          ),
+          SizedBox(height: 30,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              FlatButton(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                child: Text("Yes",),
+                onPressed: onConfirm
+              ),
+              FlatButton(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                child: Text("No",),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                }
+              )
+            ],
+          )
+        ], 
+      );
+    }
+  );
+}
+
 Widget _doneButton(Function() onPressed) {
   return GestureDetector(
     child: Container(
@@ -99,7 +145,7 @@ Widget _doneButton(Function() onPressed) {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text("Done", style: TextStyle(fontFamily: "Poppins", color: Colors.black)),
+          Text("Done", style: TextStyle(color: Colors.black)),
           SizedBox(width: 10),
           Container(
             decoration: BoxDecoration(
@@ -232,4 +278,48 @@ class SlideFromDownPageRouteBuilder extends PageRouteBuilder {
         );
       }
     );
+}
+class SlideFromRightPageRouteBuilder extends PageRouteBuilder {
+  SlideFromRightPageRouteBuilder({@required Widget page}) :
+    super(
+      pageBuilder: (context, anim, secondaryAnim) => page,
+      transitionDuration: Duration(milliseconds: 500),
+      transitionsBuilder: (context, anim, secondaryAnim, child) {
+        return SlideTransition(
+          position: Tween<Offset>(
+            begin: Offset(1, 0),
+            end: Offset(0, 0),
+          ).animate(CurvedAnimation(
+            curve: Curves.easeInOutQuint,
+            parent: anim
+          )),
+          child: child,
+        );
+      }
+    );
+}
+
+class BackButtonNoBackground extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      child: Padding(
+        padding: EdgeInsets.all(5),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Icon(Icons.arrow_back_ios, size: 26,),
+            SizedBox(width: 20,),
+            Text(
+              "Back", 
+              style: TextStyle(fontWeight: FontWeight.bold)
+            )
+          ],
+        ),
+      ),
+      onTap: () {
+        Navigator.of(context).pop();
+      },
+    );
+  }
 }

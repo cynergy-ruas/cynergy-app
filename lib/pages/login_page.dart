@@ -31,73 +31,76 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: BlocBuilder<AuthEvent, AuthState>(
+        body: BlocProvider<AuthBloc>(
           bloc: authBloc,
-          builder: (BuildContext context, AuthState state){
-            if (state is AuthUninitialized) {
-              body.add(SplashScreen());
-            }
-
-            else if (state is AuthValid){
-              /// if the state is AuthValid, switch to home page
-              /// Note: You cannot use [Navigator.push] here inside a builder directly.
-              /// This is because when [Navigator.push] is called, it triggers the
-              /// [BlocBuilder] to build. Since the state remains the same when it
-              /// is rebuilding, [Navigator.push] is again called. In the end, 
-              /// [Navigator.push] is called infinite number of times and app crashes.
-              /// To use [Navigator.push], wrap this [BlocBuilder] around a [BlocListener]
-              /// and listen for [AuthValid] state there.
-              return HomePage();
-            }
-
-            else if (state is AuthInvalid) {
-              /// if state is AuthInvalid, show the login prompts
-              try {
-                body.removeAt(0); /// removing the SplashScreen widget already present in the list
+          child: BlocBuilder<AuthEvent, AuthState>(
+            bloc: authBloc,
+            builder: (BuildContext context, AuthState state){
+              if (state is AuthUninitialized) {
+                body.add(SplashScreen());
               }
-              catch (e) {}
-              body.add(LoginForm(authBloc: authBloc,));
-            }
 
-            else if (state is AuthLoading){
-              /// if state is AuthLoading, show loading thingy
-              body = new List.from(body)..addAll(loadingModalBarrier());
-            }
-            
-            else {
-              /// state is AuthError. show error prompt
-              /// best practice is to show the snackbar in a [BlocListener] which
-              /// should be wrapped around this [BlocBuilder]
-              _onWidgetDidBuild(() {
-                Scaffold.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text("Error logging in"),
-                    backgroundColor: Colors.red,
-                  )
-                );
-              });
-              
-              /// removes the loading modal barrier if present.
-              print(body);
-              print(body.length);
-              if (body.length > 1) {
+              else if (state is AuthValid){
+                /// if the state is AuthValid, switch to home page
+                /// Note: You cannot use [Navigator.push] here inside a builder directly.
+                /// This is because when [Navigator.push] is called, it triggers the
+                /// [BlocBuilder] to build. Since the state remains the same when it
+                /// is rebuilding, [Navigator.push] is again called. In the end, 
+                /// [Navigator.push] is called infinite number of times and app crashes.
+                /// To use [Navigator.push], wrap this [BlocBuilder] around a [BlocListener]
+                /// and listen for [AuthValid] state there.
+                return HomePage();
+              }
+
+              else if (state is AuthInvalid) {
+                /// if state is AuthInvalid, show the login prompts
                 try {
-                  /// removes the modal barrier and circularprogressindicator, which are the 
-                  /// second and third elements in the list
-                  body.removeAt(1);
-                  body.removeAt(1);
+                  body.removeAt(0); /// removing the SplashScreen widget already present in the list
                 }
                 catch (e) {}
+                body.add(LoginForm(authBloc: authBloc,));
               }
-              print(body);
-            }
 
-            /// returning a scaffold object with body
-            return Stack(
-              children: body,
-            );
-          },
-        ),
+              else if (state is AuthLoading){
+                /// if state is AuthLoading, show loading thingy
+                body = new List.from(body)..addAll(loadingModalBarrier());
+              }
+              
+              else {
+                /// state is AuthError. show error prompt
+                /// best practice is to show the snackbar in a [BlocListener] which
+                /// should be wrapped around this [BlocBuilder]
+                _onWidgetDidBuild(() {
+                  Scaffold.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("Error logging in"),
+                      backgroundColor: Colors.red,
+                    )
+                  );
+                });
+                
+                /// removes the loading modal barrier if present.
+                print(body);
+                print(body.length);
+                if (body.length > 1) {
+                  try {
+                    /// removes the modal barrier and circularprogressindicator, which are the 
+                    /// second and third elements in the list
+                    body.removeAt(1);
+                    body.removeAt(1);
+                  }
+                  catch (e) {}
+                }
+                print(body);
+              }
+
+              /// returning a scaffold object with body
+              return Stack(
+                children: body,
+              );
+            },
+          ),
+        )
       ),
     );
   }
@@ -106,5 +109,11 @@ class _LoginPageState extends State<LoginPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       callback();
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    authBloc.dispose();
   }
 }
