@@ -85,7 +85,15 @@ class _AddResourcesListState extends State<AddResourcesList> {
                 direction: DismissDirection.endToStart,
                 background: Container(
                   color: Colors.red,
-                  child: Icon(Icons.delete, color: Colors.white,),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(right: 15),
+                        child: Icon(Icons.delete, color: Colors.white,),
+                      )
+                    ],
+                  ),
                 ),
                 key: UniqueKey(),
                 onDismissed: (direction) {
@@ -171,6 +179,7 @@ class _AddResourcesListState extends State<AddResourcesList> {
                   TextFormField(
                     controller: _urlController, 
                     maxLines: 1,
+                    textCapitalization: TextCapitalization.none,
                     validator: (value) {
                       if (value.isEmpty) {
                         return "Url cannot be empty";
@@ -212,8 +221,11 @@ class _AddResourcesListState extends State<AddResourcesList> {
                   ),
                   onTap: () {
                     if (_formKey.currentState.validate()) {
+                      if (! _urlController.text.startsWith("https://")) {
+                        _urlController.text = "https://" + _urlController.text;
+                      }
                       dataStructure.add({"title": _titleController.text, "url": _urlController.text});
-                      setState((){});
+                      setState(() {});
                       Navigator.pop(context);
                     }
                   }
@@ -230,14 +242,13 @@ class _AddResourcesListState extends State<AddResourcesList> {
     return TextStyle(
       color: color,
       fontWeight: FontWeight.bold,
-      fontFamily: "Poppins"
     );
   }
 }
 
 class _Tile extends StatelessWidget {
 
-  final Map<String, String> data;
+  final Map data;
 
   _Tile({@required this.data});
 
@@ -253,7 +264,6 @@ class _Tile extends StatelessWidget {
   TextStyle _textStyle() {
     return TextStyle(
       fontWeight: FontWeight.bold,
-      fontFamily: "Poppins"
     );
   }
 }

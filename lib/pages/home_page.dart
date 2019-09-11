@@ -1,13 +1,13 @@
-import 'package:Cynergy/bloc/data_load_bloc.dart';
-import 'package:Cynergy/pages/events_page.dart';
-import 'package:Cynergy/services/events_handler.dart';
-import 'package:Cynergy/widgets/home_page_dots.dart';
+import 'package:cynergy_app/bloc/data_load_bloc.dart';
+import 'package:cynergy_app/pages/events_page.dart';
+import 'package:cynergy_app/pages/profile_page.dart';
+import 'package:cynergy_app/services/events_handler.dart';
+import 'package:cynergy_app/services/notifications.dart';
+import 'package:cynergy_app/widgets/home_page_dots.dart';
 import 'package:flutter/material.dart';
 
 
 class HomePage extends StatefulWidget {
-  static final routeName = "/events";
-
   @override 
   _HomePageState createState() => _HomePageState();
 }
@@ -29,6 +29,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    FirebaseNotifications().setUpFirebase();
     _handler = EventsHandler();
     _eventsBloc = DataLoadBloc(handler: _handler);
     _pageController = PageController();
@@ -46,7 +47,8 @@ class _HomePageState extends State<HomePage> {
 
     List pages = [
       buildHome(),
-      EventsPage(eventsBloc: _eventsBloc,),
+      EventsPage(eventsBloc: _eventsBloc, handler: _handler,),
+      ProfilePage()
     ];
 
     return Scaffold(
@@ -60,6 +62,10 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.location_on),
+            title: Container()
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
             title: Container()
           )
         ],
@@ -272,7 +278,6 @@ class _HomePageState extends State<HomePage> {
     
     return TextStyle(
       color: color,
-      fontFamily: "Poppins",
       fontWeight: FontWeight.bold,
       fontSize: fontSize,
       height: height

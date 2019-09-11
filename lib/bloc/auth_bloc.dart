@@ -3,10 +3,10 @@ Contains the states, events, and bloc during logging in process.
 */
 
 import 'package:bloc/bloc.dart';
-import 'package:Cynergy/services/login.dart';
+import 'package:cynergy_app/services/login.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:Cynergy/models/user_model.dart';
+import 'package:cynergy_app/models/user_model.dart';
 
 ////////////////////////////////////////////
 /// Defining the events
@@ -117,6 +117,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try{
         /// logging in
         await _auth.login(email: event.email, password: event.password);
+        User.getInstance().setClaims(await _auth.getClaims());
         print("User has logged in.");
         yield AuthValid();
       }

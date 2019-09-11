@@ -7,7 +7,6 @@ class SplashScreen extends StatelessWidget {
       child: Text(
         "Welcome",
         style: TextStyle(
-          fontFamily: "Poppins",
           fontSize: 28,
           fontWeight: FontWeight.bold
         ),

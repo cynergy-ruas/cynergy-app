@@ -32,7 +32,23 @@ class User {
       bool: true, if user is a coordinator, false otherwise.
     */
 
-    return (claims["coordinator"] != null) ? true : false;
+    if (claims["coordinator"] == null) 
+      return false;
+    return claims["coordinator"];
+  }
+
+  int getClearanceLevel() {
+    /**
+     * Gets the clearance level of the user.
+     * 
+     * Returns:
+     *  int: The clearance level of the user.
+     */
+
+    if (claims["clearance"] == null)
+      return 0;
+
+    return claims["clearance"];
   }
 
   static User getInstance() {

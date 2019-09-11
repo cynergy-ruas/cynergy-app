@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:Cynergy/theme_data.dart';
+import 'package:cynergy_app/theme_data.dart';
 
 List<Widget> loadingModalBarrier() {
   /*

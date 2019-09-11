@@ -1,8 +1,8 @@
-import 'package:Cynergy/bloc/auth_bloc.dart';
-import 'package:Cynergy/pages/login_page.dart';
-import 'package:Cynergy/theme_data.dart';
+import 'package:cynergy_app/bloc/auth_bloc.dart';
+import 'package:cynergy_app/pages/login_page.dart';
+import 'package:cynergy_app/theme_data.dart';
 import 'package:flutter/material.dart';
-import 'package:Cynergy/pages/login_page.dart';
+import 'package:cynergy_app/pages/login_page.dart';
 import 'package:gradient_text/gradient_text.dart';
 import 'misc_widgets.dart';
 
@@ -12,10 +12,9 @@ class LoginForm extends StatelessWidget {
   final _passwordController = TextEditingController();
   final textFieldRadius = 20.0;
   static bool isHidden = true;
-  Color col=Colors.white;
+  Color col = Colors.white;
 
   LoginForm({@required this.authBloc});
-
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +35,13 @@ class LoginForm extends StatelessWidget {
         child: ScrollConfiguration(
           behavior: NoGlowingOverscrollBehaviour(),
           child: ListView(children: <Widget>[
-            Row(mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              headerText1(),headerText2(),
-            ],),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                headerText1(),
+                headerText2(),
+              ],
+            ),
             // SizedBox(
             //   height: 100,
             // ),
@@ -55,14 +57,13 @@ class LoginForm extends StatelessWidget {
             SizedBox(
               height: 80,
             ),
-            Align(
-              alignment: Alignment.center,
-                child: buttons())
+            Align(alignment: Alignment.center, child: buttons())
           ]),
         ));
   }
 
-  Widget headerText1() {//make this list of widgets
+  Widget headerText1() {
+    //make this list of widgets
     /*
     Returns the header text.
 
@@ -80,11 +81,10 @@ class LoginForm extends StatelessWidget {
         fontFamily: "Calibre-Semibold",
       ),
     );
-    
-
   }
 
-Widget headerText2() {//make this list of widgets
+  Widget headerText2() {
+    //make this list of widgets
     /*
     Returns the header text.
 
@@ -102,12 +102,7 @@ Widget headerText2() {//make this list of widgets
         fontFamily: "Calibre-Semibold",
       ),
     );
-    
-
   }
-  
-
-
 
   List<Widget> textFields() {
     /*
@@ -131,7 +126,7 @@ Widget headerText2() {//make this list of widgets
         decoration: InputDecoration(
             hintText: "Password",
             suffixIcon: IconButton(
-              onPressed: (){},
+              onPressed: () {},
               icon: isHidden
                   ? Icon(Icons.visibility_off)
                   : Icon(Icons.visibility),
@@ -153,22 +148,22 @@ Widget headerText2() {//make this list of widgets
     */
 
     return Container(
-          child: ButtonTheme(
-        minWidth: 300.0,
-        height: 50,
-        child: RaisedButton(
-          child: Text(
-            "Sign In",
-          ),
-          color: col,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
-          onPressed: () {
-            authBloc.dispatch(LogIn(
-                email: _emailidController.text.trim(),
-                password: _passwordController.text));
-          },
+        child: ButtonTheme(
+      minWidth: 300.0,
+      height: 50,
+      child: RaisedButton(
+        child: Text(
+          "Sign In",
         ),
-      ));
+        color: col,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
+        onPressed: () {
+          authBloc.dispatch(LogIn(
+              email: _emailidController.text.trim(),
+              password: _passwordController.text));
+        },
+      ),
+    ));
   }
 }

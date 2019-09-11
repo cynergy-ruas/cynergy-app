@@ -1,4 +1,4 @@
-name: Cynergy
+name: cynergy_app
 description: App for Cynergy Coding Club.
 
 # The following defines the version and build number for your application.
@@ -29,12 +29,15 @@ dependencies:
       url: git://github.com/flutter/plugins.git
       path: packages/cloud_firestore
       ref: 1066bac3f503ce58a64d3bafa11e15617bff0901
+  firebase_messaging: ^4.0.0+1
+  cloud_functions: 0.2.0+1
 
   intl: ^0.15.7
   gradient_text: ^1.0.2
   shimmer: ^1.0.0
   dots_indicator: ^1.0.0
   datetime_picker_formfield: ^0.4.2
+  url_launcher: ^5.1.2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -60,3 +63,4 @@ flutter:
     - family: Poppins
       fonts:
         - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-Bold.ttf

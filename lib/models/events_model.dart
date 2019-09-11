@@ -21,8 +21,22 @@ class Event {
     @required this.topic,
     @required this.type,
     @required this.venue,
-    this.by
+    @required this.by
   });
+
+  Event.fromBareBones({
+    @required this.date,
+    @required this.duration,
+    @required this.name,
+    @required this.topic,
+    @required this.type,
+    @required this.venue,
+    @required this.by,
+    @required String description,
+    @required List links
+  }) {
+    this.info = _buildDetailsField(description: description, links: links);
+  }
 
   void addLink(String title, String url) {
     /**
@@ -47,7 +61,7 @@ class Event {
      *  List: The links.
      */
 
-    return (info["materials"]["links"] as List);
+    return info["materials"]["links"];
   }
 
   Map<String, String> getLink(int index) {
@@ -62,6 +76,27 @@ class Event {
      */
 
     return (info["materials"]["links"] as List)[index];
+  }
+
+  Map<dynamic, dynamic> _buildDetailsField({@required String description, @required List links}) {
+    /**
+     * Build the details field for the firestore document.
+     * 
+     * Args:
+     *  description (String): The description of the event
+     *  links (List): The list containing links
+     * 
+     * Returns:
+     *  Map<dynamic, dynamic> : The details field. 
+     */
+
+    return {
+      "description": description,
+      "materials": {
+        "links": links
+      }
+    };
+
   }
 
   String toString(){
@@ -114,7 +149,7 @@ class Event {
     return DateFormat.jm().format(date.toDate());
   }
 
-  String getDescription() {
+  String get description {
     /**
      * Extracts the description from the [details]
      * 

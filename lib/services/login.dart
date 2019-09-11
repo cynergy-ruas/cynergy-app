@@ -9,7 +9,8 @@ class LoginAuth {
   FirebaseUser _currentUser;
   static LoginAuth instance;
 
-  Future<String> login({@required String email, @required String password}) async {
+  Future<String> login(
+      {@required String email, @required String password}) async {
     /*
     Uses firebase to log the user in using email and password.
 
@@ -24,10 +25,10 @@ class LoginAuth {
       PlatformException: if the entered email and/or password is ""
     */
 
-    if (email == "" || password == "")
-      throw PlatformException;
+    if (email == "" || password == "") throw PlatformException;
 
-    _currentUser = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+    _currentUser = await _firebaseAuth.signInWithEmailAndPassword(
+        email: email, password: password);
     return _currentUser.uid;
   }
 
@@ -50,11 +51,10 @@ class LoginAuth {
       bool: true, if the user is logged in, false otherwise.
     */
 
-    try{
+    try {
       _currentUser = await _firebaseAuth.currentUser();
       return (_currentUser == null) ? false : true;
-    }
-    catch (e) {
+    } catch (e) {
       return false;
     }
   }

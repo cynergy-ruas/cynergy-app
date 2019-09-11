@@ -1,6 +1,6 @@
-import 'package:Cynergy/models/events_model.dart';
-import 'package:Cynergy/widgets/event_card.dart';
-import 'package:Cynergy/widgets/events_tab.dart';
+import 'package:cynergy_app/models/events_model.dart';
+import 'package:cynergy_app/widgets/event_card.dart';
+import 'package:cynergy_app/widgets/events_tab.dart';
 import 'package:flutter/material.dart';
 
 class CardView extends StatefulWidget {
