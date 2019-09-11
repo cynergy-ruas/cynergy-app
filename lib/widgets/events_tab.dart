@@ -1,7 +1,7 @@
-import 'package:cynergy_app/models/events_model.dart';
-import 'package:cynergy_app/widgets/misc_widgets.dart';
+import 'package:Cynergy/models/events_model.dart';
+import 'package:Cynergy/widgets/misc_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:cynergy_app/theme_data.dart' as theme_data;
+import 'package:Cynergy/theme_data.dart' as theme_data;
 
 typedef OnTapCallback ();
 

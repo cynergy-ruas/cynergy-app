@@ -1,5 +1,5 @@
-import 'package:cynergy_app/models/events_model.dart';
-import 'package:cynergy_app/services/database.dart';
+import 'package:Cynergy/models/events_model.dart';
+import 'package:Cynergy/services/database.dart';
 
 class EventsHandler {
   final int numOfEvents = 4;

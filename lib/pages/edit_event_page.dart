@@ -1,5 +1,5 @@
-import 'package:cynergy_app/models/events_model.dart';
-import 'package:cynergy_app/widgets/event_form.dart';
+import 'package:Cynergy/models/events_model.dart';
+import 'package:Cynergy/widgets/event_form.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

@@ -1,4 +1,4 @@
-import 'package:cynergy_app/models/events_model.dart';
+import 'package:Cynergy/models/events_model.dart';
 import 'package:flutter/material.dart';
 
 class EventsInfoPage extends StatelessWidget {

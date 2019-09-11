@@ -1,5 +1,5 @@
-import 'package:cynergy_app/models/events_model.dart';
-import 'package:cynergy_app/widgets/add_resources_list.dart';
+import 'package:Cynergy/models/events_model.dart';
+import 'package:Cynergy/widgets/add_resources_list.dart';
 import 'package:flutter/material.dart';
 
 import 'misc_widgets.dart';
@@ -40,8 +40,8 @@ class EventForm extends StatefulWidget {
   final VoidCallback onDelete;
 
   EventForm({this.event, @required this.titleController, @required this.byController, @required this.dateController, @required this.timeController, 
-             @required this.venueContoller, @required this.descriptionController, @required this.isNewEvent, @required this.onDone, 
-             this.onDelete}) :
+          @required this.venueContoller, @required this.descriptionController, @required this.isNewEvent, @required this.onDone, 
+          this.onDelete}) :
     assert((isNewEvent && onDelete == null) || (! isNewEvent && onDelete != null));
 
   @override

@@ -1,7 +1,7 @@
-import 'package:cynergy_app/bloc/data_load_bloc.dart';
-import 'package:cynergy_app/pages/events_page.dart';
-import 'package:cynergy_app/services/events_handler.dart';
-import 'package:cynergy_app/widgets/home_page_dots.dart';
+import 'package:Cynergy/bloc/data_load_bloc.dart';
+import 'package:Cynergy/pages/events_page.dart';
+import 'package:Cynergy/services/events_handler.dart';
+import 'package:Cynergy/widgets/home_page_dots.dart';
 import 'package:flutter/material.dart';
 
 

@@ -1,8 +1,8 @@
-import 'package:cynergy_app/models/events_model.dart';
-import 'package:cynergy_app/models/user_model.dart';
-import 'package:cynergy_app/pages/edit_event_page.dart';
-import 'package:cynergy_app/pages/events_info_page.dart';
-import 'package:cynergy_app/widgets/misc_widgets.dart';
+import 'package:Cynergy/models/events_model.dart';
+import 'package:Cynergy/models/user_model.dart';
+import 'package:Cynergy/pages/edit_event_page.dart';
+import 'package:Cynergy/pages/events_info_page.dart';
+import 'package:Cynergy/widgets/misc_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

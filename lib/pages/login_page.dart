@@ -1,8 +1,8 @@
-import 'package:cynergy_app/bloc/auth_bloc.dart';
-import 'package:cynergy_app/pages/home_page.dart';
-import 'package:cynergy_app/widgets/login_form.dart';
-import 'package:cynergy_app/widgets/modal_barrier.dart';
-import 'package:cynergy_app/widgets/splash_screen.dart';
+import 'package:Cynergy/bloc/auth_bloc.dart';
+import 'package:Cynergy/pages/home_page.dart';
+import 'package:Cynergy/widgets/login_form.dart';
+import 'package:Cynergy/widgets/modal_barrier.dart';
+import 'package:Cynergy/widgets/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,6 +19,12 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     authBloc.dispatch(AppStart());
     super.initState();
+  }
+
+  void toggleVisibility(){
+    setState(() {
+      LoginForm.isHidden = !LoginForm.isHidden;
+    });
   }
 
   @override

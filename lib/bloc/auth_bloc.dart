@@ -3,10 +3,10 @@ Contains the states, events, and bloc during logging in process.
 */
 
 import 'package:bloc/bloc.dart';
-import 'package:cynergy_app/services/login.dart';
+import 'package:Cynergy/services/login.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:cynergy_app/models/user_model.dart';
+import 'package:Cynergy/models/user_model.dart';
 
 ////////////////////////////////////////////
 /// Defining the events

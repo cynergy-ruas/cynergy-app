@@ -1,4 +1,4 @@
-import 'package:cynergy_app/widgets/event_form.dart';
+import 'package:Cynergy/widgets/event_form.dart';
 import 'package:flutter/material.dart';
 
 class AddEventPage extends StatelessWidget {

@@ -1,8 +1,8 @@
-import 'package:cynergy_app/bloc/data_load_bloc.dart';
-import 'package:cynergy_app/models/events_model.dart';
-import 'package:cynergy_app/models/user_model.dart';
-import 'package:cynergy_app/pages/add_event_page.dart';
-import 'package:cynergy_app/widgets/cards_view.dart';
+import 'package:Cynergy/bloc/data_load_bloc.dart';
+import 'package:Cynergy/models/events_model.dart';
+import 'package:Cynergy/models/user_model.dart';
+import 'package:Cynergy/pages/add_event_page.dart';
+import 'package:Cynergy/widgets/cards_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

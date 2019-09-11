@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:cynergy_app/models/events_model.dart';
+import 'package:Cynergy/models/events_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 

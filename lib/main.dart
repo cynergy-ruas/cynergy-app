@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:cynergy_app/bloc/bloc_delegate.dart';
-import 'package:cynergy_app/pages/login_page.dart';
-import 'package:cynergy_app/theme_data.dart';
+import 'package:Cynergy/bloc/bloc_delegate.dart';
+import 'package:Cynergy/pages/login_page.dart';
+import 'package:Cynergy/theme_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
