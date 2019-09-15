@@ -15,7 +15,8 @@ exports.newSessionNotify = functions.firestore.document("/EventsList/{eventId}")
         const payload = {
             notification: {
                 title: "New Event!",
-                body: `${name} is comming up!` 
+                body: `${name} is comming up!`,
+				click_action: "FLUTTER_NOTIFICATION_CLICK"
             }
         };
 
