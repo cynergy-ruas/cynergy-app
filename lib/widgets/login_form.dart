@@ -1,22 +1,24 @@
 import 'package:cynergy_app/bloc/auth_bloc.dart';
+import 'package:cynergy_app/pages/login_page.dart';
 import 'package:cynergy_app/theme_data.dart';
 import 'package:flutter/material.dart';
+import 'package:cynergy_app/pages/login_page.dart';
 import 'package:gradient_text/gradient_text.dart';
-
 import 'misc_widgets.dart';
 
 class LoginForm extends StatelessWidget {
-
   final AuthBloc authBloc;
-
   final _emailidController = TextEditingController();
   final _passwordController = TextEditingController();
   final textFieldRadius = 20.0;
+  static bool isHidden = true;
+  Color col = Colors.white;
 
   LoginForm({@required this.authBloc});
 
   @override
   Widget build(BuildContext context) {
+    col = Theme.of(context).accentColor;
     /*
     Returns the widget to be displayed.
 
@@ -32,42 +34,70 @@ class LoginForm extends StatelessWidget {
         // ScrollConfiguration is used to remove the glowing overscroll effect.
         child: ScrollConfiguration(
           behavior: NoGlowingOverscrollBehaviour(),
-          child: ListView(
-            children: <Widget>[
-              Align(
-                alignment: Alignment.centerLeft,
-                child: headerText()
-              ),
-              SizedBox(height: 100,),
-              Column(
+          child: ListView(children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                headerText1(),
+                headerText2(),
+              ],
+            ),
+            // SizedBox(
+            //   height: 100,
+            // ),
+            Center(
+              child: Text("Bigger, Better, Open-Source and Free for all."),
+            ),
+            SizedBox(
+              height: 100,
+            ),
+            Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: textFields()
-              ),
-              SizedBox(height: 70,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: buttons()
-              )
-            ]
-          ),
-        )
-      );
+                children: textFields()),
+            SizedBox(
+              height: 80,
+            ),
+            Align(alignment: Alignment.center, child: buttons())
+          ]),
+        ));
   }
 
-  Widget headerText() {
+  Widget headerText1() {
+    //make this list of widgets
     /*
     Returns the header text.
 
     Returns:
       GradientText: The header text.
+      
     */
-
-    return GradientText("Nice\nTo see you\nAgain",
-      gradient: LinearGradient(
-        colors: [gradientPurple, gradientLightYellow]
-      ),
+    return Text(
+      "Cy",
+      // gradient: LinearGradient(colors: [gradientPurple, gradientLightYellow]),
       style: TextStyle(
-        fontSize: 48,
+        color: Colors.white,
+        fontSize: 80,
+        fontWeight: FontWeight.w600,
+        fontFamily: "Calibre-Semibold",
+      ),
+    );
+  }
+
+  Widget headerText2() {
+    //make this list of widgets
+    /*
+    Returns the header text.
+
+    Returns:
+      GradientText: The header text.
+      
+    */
+    return Text(
+      "nergy",
+      // gradient: LinearGradient(colors: [gradientPurple, gradientLightYellow]),
+      style: TextStyle(
+        color: col,
+        fontSize: 80,
         fontWeight: FontWeight.w600,
         fontFamily: "Calibre-Semibold",
       ),
@@ -84,69 +114,56 @@ class LoginForm extends StatelessWidget {
 
     return [
       TextFormField(
-        decoration: textFieldInputDecoration(
-          textFieldRadius: textFieldRadius,
-          icon: Icon(Icons.person, color: Colors.white,),
-          hintText: "email"
-        ),
-        style: TextStyle(
-          fontFamily: "Calibre-Semibold",
-          letterSpacing: 1.25
-        ),
+        decoration: InputDecoration(hintText: "Email"),
+        style: TextStyle(fontFamily: "Calibre-Semibold", letterSpacing: 1.25),
         controller: _emailidController,
         cursorColor: Colors.white,
       ),
-
-      SizedBox(height: 15,),
-      
+      SizedBox(
+        height: 15,
+      ),
       TextFormField(
-        decoration: textFieldInputDecoration(
-          textFieldRadius: textFieldRadius,
-          icon: Icon(Icons.lock_outline, color: Colors.white),
-          hintText: "password"
-        ),
-        style: TextStyle(
-          fontFamily: "Calibre-Semibold",
-          letterSpacing: 1.25
-        ),
+        decoration: InputDecoration(
+            hintText: "Password",
+            suffixIcon: IconButton(
+              onPressed: () {},
+              icon: isHidden
+                  ? Icon(Icons.visibility_off)
+                  : Icon(Icons.visibility),
+            )),
+        style: TextStyle(fontFamily: "Calibre-Semibold", letterSpacing: 1.25),
         controller: _passwordController,
-        obscureText: true,
+        obscureText: isHidden,
         cursorColor: Colors.white,
       )
     ];
   }
 
-  List<Widget> buttons() {
+  Widget buttons() {
     /*
     Returns the login buttons.
 
     Returns:
       List<Widget>: The login button.
     */
-    
-    return [
-      Text("Sign In",
-        style: TextStyle(
-          fontSize: 22,
-          fontWeight: FontWeight.w600,
-          color: colorLightOrange,
-          fontFamily: "Calibre-Semibold",
+
+    return Container(
+        child: ButtonTheme(
+      minWidth: 300.0,
+      height: 50,
+      child: RaisedButton(
+        child: Text(
+          "Sign In",
         ),
-      ),
-
-      SizedBox(width: 30,),
-
-      IconButton(
-        icon: Icon(Icons.arrow_forward),
-        iconSize: 30,
-        color: colorLightOrange,
+        color: col,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
         onPressed: () {
           authBloc.dispatch(LogIn(
-            email: _emailidController.text.trim(),
-            password: _passwordController.text
-          ));
+              email: _emailidController.text.trim(),
+              password: _passwordController.text));
         },
-      )
-    ];
+      ),
+    ));
   }
 }

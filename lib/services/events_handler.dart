@@ -1,3 +1,5 @@
+import 'package:cynergy_app/models/events_model.dart';
+import 'package:cynergy_app/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cynergy_app/models/events_model.dart';
 import 'package:cynergy_app/services/database.dart';
