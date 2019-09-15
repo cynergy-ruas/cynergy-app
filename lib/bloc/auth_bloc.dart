@@ -4,6 +4,7 @@ Contains the states, events, and bloc during logging in process.
 
 import 'package:bloc/bloc.dart';
 import 'package:cynergy_app/services/login.dart';
+import 'package:cynergy_app/services/notifications.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:cynergy_app/models/user_model.dart';
@@ -117,7 +118,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try{
         /// logging in
         await _auth.login(email: event.email, password: event.password);
+        // setting claims
         User.getInstance().setClaims(await _auth.getClaims());
+        // subscribing device to topic for new event notifications
+        FirebaseNotifications.instance().subscribeToNewEvents();
+
         print("User has logged in.");
         yield AuthValid();
       }
@@ -129,6 +134,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     else if (event is LogOut){
       yield AuthLoading();
+      // unsubscribing device from new events notifications
+      FirebaseNotifications.instance().unsubsribeFromNewEvents();
       /// logging out
       await _auth.logout();
       yield AuthInvalid();

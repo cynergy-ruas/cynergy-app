@@ -1,3 +1,4 @@
+import 'package:cynergy_app/models/user_model.dart';
 import 'package:cynergy_app/widgets/profile_drawer.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +34,7 @@ class ProfilePage extends StatelessWidget {
             )
           ),
           Center(
-            child: Text("Profile Page"),
+            child: Text("Profile Page: Hello ${User.getInstance().getEmailID()}"),
           )
         ],
       ),

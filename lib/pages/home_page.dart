@@ -8,6 +8,11 @@ import 'package:flutter/material.dart';
 
 
 class HomePage extends StatefulWidget {
+
+  final int initialPage;
+
+  HomePage({this.initialPage = 0});
+
   @override 
   _HomePageState createState() => _HomePageState();
 }
@@ -25,11 +30,35 @@ class _HomePageState extends State<HomePage> {
 
   /// The current page to be displayed. used for the bottom 
   /// navigation bar
-  int _currentIndex = 0;
+  int _currentIndex;
 
   @override
   void initState() {
-    FirebaseNotifications().setUpFirebase();
+    _currentIndex = widget.initialPage;
+    FirebaseNotifications.instance().setUpFirebase(
+      onResume: () {
+        setState(() {
+          _currentIndex = 1;
+        });
+      },
+      onLaunch: () {
+        setState(() {
+          _currentIndex = 1;
+        });
+      },
+      onMessage: () {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return SimpleDialog(
+              children: <Widget>[
+                Text("BALSHDSA")
+              ],
+            );
+          }
+        );
+      }
+    );
     _handler = EventsHandler();
     _eventsBloc = DataLoadBloc(handler: _handler);
     _pageController = PageController();
