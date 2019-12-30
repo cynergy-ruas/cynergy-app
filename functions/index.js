@@ -9,23 +9,33 @@ admin.firestore().settings({
 // notify on new event creation
 exports.newSessionNotify = functions.firestore.document("/EventsList/{eventId}")
     .onCreate((snapshot, context) => {
+        // getting the data of the event
         const data = snapshot.data();
+
+        // getting the name of the event
         const name = data.eventName;
 
+        // constructing notification
         const payload = {
             notification: {
                 title: "New Event!",
-                body: `${name} is comming up!`,
-				click_action: "FLUTTER_NOTIFICATION_CLICK"
-            }
+                body: `${name} is coming up!`,
+            },
+            android: {
+                notification: {
+                    click_action: "FLUTTER_NOTIFICATION_CLICK"
+                }
+            },
+            topic: "new_events"
         };
 
-        return admin.messaging().sendToTopic("new_events", payload)
+        return admin.messaging().send(payload)
         .then((response) => {
             console.log(`Notification for event ${name} sent sucessfully`);
         })
         .catch((error) => {
             console.error(`Error sending notification for ${name}`);
+            console.log(error);
         });
     });
 //////////////////////////////////////////////////////////////////////////
